@@ -26,5 +26,11 @@ export default defineStore('todo', () => {
     toDoList.value = toDoList.value.filter((item) => !item.completed)
   }
 
-  return { toDoList, setTodoItem, setCompletedItem, deleteCompletedItem }
+  const deleteItem = (id: number) => {
+    const index = toDoList.value.findIndex((item) => item.id === id)
+
+    if (index > -1) toDoList.value.splice(index, 1)
+  }
+
+  return { toDoList, setTodoItem, setCompletedItem, deleteCompletedItem, deleteItem }
 })
