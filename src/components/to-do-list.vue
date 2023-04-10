@@ -26,8 +26,9 @@
           v-for="item in filterList"
           :key="item.id"
           :class="[
-            'py-1 px-3 border border-transparent hover:border-[rgba(175,47,47,0.15)] cursor-pointer',
-            { 'border-[rgba(175,47,47,0.15)]': filterValue === item.id }
+            `py-1 px-3 border  hover:border-[rgba(175,47,47,0.15)] cursor-pointer ${
+              filterValue === item.id ? 'border-[rgba(175,47,47,0.15)]' : 'border-transparent'
+            }`
           ]"
           @click="filterValue = item.id"
         >
