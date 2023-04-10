@@ -96,6 +96,8 @@ const handleClearCompleted = () => {
 
 const handleDeleteItem = (id: number) => {
   store.deleteItem(id)
+
+  setValueTodoList()
 }
 
 const setValueTodoList = () => {
