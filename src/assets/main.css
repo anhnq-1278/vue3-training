@@ -1,1 +1,106 @@
 @import './base.css';
+
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #f3f1f1;
+  position: relative;
+  z-index: -1;
+}
+h1 {
+  font-size: 100px;
+  font-weight: 100;
+  text-align: center;
+  color: rgba(175, 47, 47, 0.15);
+}
+.todo {
+  box-shadow: 0 2px 4px 0 rgb(0 0 0 / 20%), 0 25px 50px 0 rgb(0 0 0 / 10%);
+  position: relative;
+  background-color: #fff;
+  z-index: 10;
+}
+
+.todo-control {
+  display: flex;
+  padding: 16px;
+  background: rgba(0, 0, 0, 0.003);
+  box-shadow: inset 0 -2px 1px rgb(0 0 0 / 3%);
+  width: 400px;
+  border-bottom: 1px solid #ededed;
+}
+
+.left-control {
+  width: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.left-control svg {
+  display: none;
+}
+
+.input-control {
+  border: none;
+  width: 100%;
+  font-size: 24px;
+  font-family: inherit;
+  font-weight: inherit;
+  line-height: 1.4em;
+}
+
+.input-control:focus {
+  outline: none;
+}
+
+.list-todo {
+  margin: 0;
+  padding: 0;
+}
+
+.todo-item {
+  list-style: none;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  background-image: url(data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20width%3D%2240%22%20height%3D%2240%22%20viewBox%3D%22-10%20-18%20100%20135%22%3E%3Ccircle%20cx%3D%2250%22%20cy%3D%2250%22%20r%3D%2250%22%20fill%3D%22none%22%20stroke%3D%22%23ededed%22%20stroke-width%3D%223%22/%3E%3C/svg%3E);
+  background-repeat: no-repeat;
+  background-position: center left;
+  padding-left: 11px;
+  font-size: 24px;
+  border-bottom: 1px solid #ededed;
+}
+
+.todo-item input {
+  height: 24px;
+  width: 24px;
+  border: none;
+  outline: none;
+  appearance: none;
+}
+
+.todo-item span {
+  margin-left: 20px;
+  font-weight: 300;
+  color: rgb(193, 196, 194);
+}
+
+.todo-footer {
+  display: flex;
+  padding: 10px;
+  font-weight: 300;
+  color: rgb(135, 137, 135);
+  box-shadow: 0 1px 1px rgb(0 0 0 / 20%), 0 8px 0 -3px #f6f6f6, 0 9px 1px -3px rgb(0 0 0 / 20%),
+    0 16px 0 -6px #f6f6f6, 0 17px 2px -6px rgb(0 0 0 / 20%);
+}
+
+.todo-footer ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  margin-left: 50px;
+}
+.todo-footer ul li {
+  margin-right: 15px;
+}
