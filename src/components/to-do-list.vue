@@ -16,6 +16,7 @@
       >
         <checkbox :checked="item.completed" @change="onChangeComplete(item.id)" />
         <span :class="['flex-1', { 'line-through': item.completed }]">{{ item.name }}</span>
+        <delete-icon @click="handleDeleteItem(item.id)" class="cursor-pointer" />
       </div>
     </div>
 
@@ -43,6 +44,7 @@
 <script setup lang="ts">
 import { ref, onBeforeMount, reactive, watch } from 'vue'
 import checkbox from '@/components/check-box.vue'
+import deleteIcon from '@/components/delete-icon.vue'
 import ToDoStore from '@/store/Todo'
 import type { TTodoItem } from '@/model/Todo'
 
@@ -92,10 +94,24 @@ const handleClearCompleted = () => {
   filterValue.value = 1
 }
 
-const setValueTodoList = () => {
-  todoList.value = store.toDoList
+const handleDeleteItem = (id: number) => {
+  store.deleteItem(id)
+}
 
-  itemLeft.value = todoList.value.filter((item) => !item.completed).length
+const setValueTodoList = () => {
+  switch (filterValue.value) {
+    case 1:
+      todoList.value = store.toDoList
+      break
+    case 2:
+      todoList.value = store.toDoList.filter((item) => !item.completed)
+      break
+    case 3:
+      todoList.value = store.toDoList.filter((item) => item.completed)
+      break
+  }
+
+  itemLeft.value = store.toDoList.filter((item) => !item.completed).length
 }
 
 watch(filterValue, (value) => {
