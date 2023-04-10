@@ -4,50 +4,112 @@
       type="text"
       class="w-full h-[60px] p-4 border-none shadow-[inset_0_-2px_1px_rgba(0,0,0,0.03)] text-2xl font-light placeholder:text-gray-500 placeholder:font-thin placeholder:italic focus-visible:outline-none"
       placeholder="What needs to be done?"
+      v-model="todoValue"
+      @keyup.enter="onSubmit"
     />
-    <div>
+
+    <div class="to-do-list">
       <div
+        v-for="item in todoList"
+        :key="item.id"
         class="w-full min-h-[60px] flex items-center gap-4 border-b border-b-gray-200 p-4 text-xl font-light"
       >
-        <checkbox :checked="isActive" @change="isActive = !isActive" />
-        <span :class="['flex-1', { 'line-through': isActive }]">Have breakfast</span>
-      </div>
-      <div
-        class="w-full min-h-[60px] flex items-center gap-4 border-b border-b-gray-200 p-4 text-xl font-light"
-      >
-        <checkbox :checked="false" />
-        <span class="flex-1">Have breakfast</span>
+        <checkbox :checked="item.completed" @change="onChangeComplete(item.id)" />
+        <span :class="['flex-1', { 'line-through': item.completed }]">{{ item.name }}</span>
       </div>
     </div>
+
     <div class="flex items-center justify-between h-[50px] text-sm font-light p-4">
-      <span>1 item left</span>
+      <span>{{ itemLeft }} item left</span>
       <div class="flex gap-4">
-        <a
-          class="py-1 px-3 border border-transparent hover:border-[rgba(175,47,47,0.15)] cursor-pointer"
+        <div
+          v-for="item in filterList"
+          :key="item.id"
+          :class="[
+            'py-1 px-3 border border-transparent hover:border-[rgba(175,47,47,0.15)] cursor-pointer',
+            { 'border-[rgba(175,47,47,0.15)]': filterValue === item.id }
+          ]"
+          @click="filterValue = item.id"
         >
-          All
-        </a>
-        <a
-          class="py-1 px-3 border border-transparent hover:border-[rgba(175,47,47,0.15)] cursor-pointer"
-        >
-          Active
-        </a>
-        <a
-          class="py-1 px-3 border border-transparent hover:border-[rgba(175,47,47,0.15)] cursor-pointer"
-        >
-          Completed
-        </a>
+          {{ item.name }}
+        </div>
       </div>
-      <div>Clear completed</div>
+      <div @click="handleClearCompleted" class="cursor-pointer">Clear completed</div>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref, onBeforeMount, reactive, watch } from 'vue'
 import checkbox from '@/components/check-box.vue'
+import ToDoStore from '@/store/Todo'
+import type { TTodoItem } from '@/model/Todo'
 
-const isActive = ref(false)
+const store = ToDoStore()
+
+const todoValue = ref('')
+const todoList = ref<Array<TTodoItem>>([])
+const itemLeft = ref(0)
+const filterList = reactive([
+  {
+    id: 1,
+    name: 'All'
+  },
+  {
+    id: 2,
+    name: 'Active'
+  },
+  {
+    id: 3,
+    name: 'Completed'
+  }
+])
+const filterValue = ref(1)
+
+onBeforeMount(() => {
+  setValueTodoList()
+})
+
+const onSubmit = () => {
+  store.setTodoItem(todoValue.value)
+
+  todoValue.value = ''
+
+  setValueTodoList()
+}
+
+const onChangeComplete = (id: number) => {
+  store.setCompletedItem(id)
+
+  setValueTodoList()
+}
+
+const handleClearCompleted = () => {
+  store.deleteCompletedItem()
+
+  setValueTodoList()
+  filterValue.value = 1
+}
+
+const setValueTodoList = () => {
+  todoList.value = store.toDoList
+
+  itemLeft.value = todoList.value.filter((item) => !item.completed).length
+}
+
+watch(filterValue, (value) => {
+  switch (value) {
+    case 1:
+      todoList.value = store.toDoList
+      break
+    case 2:
+      todoList.value = store.toDoList.filter((item) => !item.completed)
+      break
+    case 3:
+      todoList.value = store.toDoList.filter((item) => item.completed)
+      break
+  }
+})
 </script>
 
 <style lang="scss" scoped>
