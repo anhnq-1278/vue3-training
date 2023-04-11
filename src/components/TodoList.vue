@@ -28,7 +28,9 @@
           v-if="task.isEdit"
           type="text"
           class="w-full h-[60px] border-none outline-none"
-          @keypress.enter="task.isEdit = !task.isEdit"
+          :value="task.title"
+          @keypress.enter="handleEditTask($event, task.id)"
+          @focusout="handleEditTask($event, task.id)"
         />
         <span
           v-else
@@ -43,47 +45,62 @@
       </div>
     </div>
     <div
-      v-if="taskTotal > 0"
+      v-if="props.totalTaskData.taskTotal > 0"
       class="flex items-center justify-between h-[50px] text-sm font-light p-4 leading-5 text-[14px]"
     >
-      <span>{{ taskTotal }} item left</span>
-      <div class="flex gap-4 items-center font-light">
+      <div class="w-[80px]">{{ props.totalTaskData.leftTaskTotal }} item left</div>
+      <div class="flex gap-4 flex-1 items-center font-light ml-[40px]">
         <span
           :class="[
             'py-1 px-3  border border-transparent hover:border-red-300 cursor-pointer',
-            `${props.tabName === 'all' ? 'border-red-300' : ''}`
+            `${props.tabName == 'all' ? 'border-red-400' : ''}`
           ]"
+          @click="changeTab('all')"
         >
           All
         </span>
         <span
           :class="[
             'py-1 px-3 border border-transparent hover:border-red-300 cursor-pointer',
-            `${props.tabName === 'active' ? 'border-red-300' : ''}`
+            `${props.tabName === 'active' ? 'border-red-400' : ''}`
           ]"
+          @click="changeTab('active')"
         >
           Active
         </span>
         <span
           :class="[
             'py-1 px-3 border border-transparent hover:border-red-300 cursor-pointer',
-            `${props.tabName === 'completed' ? 'border-red-300' : ''}`
+            `${props.tabName === 'completed' ? 'border-red-400' : ''}`
           ]"
+          @click="changeTab('completed')"
         >
           Completed
         </span>
       </div>
-      <div v-if="hasTaskCompleted">Clear completed</div>
+      <div
+        class="w-[140px] cursor-pointer py-1 px-3 border border-transparent hover:border-red-300 cursor-pointer"
+        v-if="props.totalTaskData.hasTaskCompleted"
+        @click="handleClearCompleted"
+      >
+        Clear completed
+      </div>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { computed, ref } from 'vue'
+import { computed, ref, type PropType } from 'vue'
 import Checkbox from '@/components/Checkbox.vue'
 import Delete from '@/components/icons/Delete.vue'
 import CaretDown from '@/components/icons/CaretDown.vue'
 import type { Task } from '@/model/todo.model'
+
+interface TTaskData {
+  taskTotal: number
+  leftTaskTotal: number
+  hasTaskCompleted: boolean
+}
 
 const isComplete = ref<boolean>(false)
 const isEdit = ref<boolean>(false)
@@ -96,21 +113,21 @@ const props = defineProps({
   },
   tabName: {
     type: String,
-    default: 'all'
+    default: 'active'
+  },
+  totalTaskData: {
+    type: Object as PropType<TTaskData>,
+    default: () => ({})
   }
 })
 
 const emit = defineEmits<{
   (e: 'addTask', value: string): void
+  (e: 'deleteTask', value: string): void
+  (e: 'editTask', value: string, id: string): void
+  (e: 'changeTab', value: string): void
+  (e: 'clearCompleted'): void
 }>()
-
-const taskTotal = computed<number>(() => {
-  return props.tasks.length
-})
-
-const hasTaskCompleted = computed<boolean>(() => {
-  return props.tasks.some((task) => task.isComplete)
-})
 
 function addTask(): void {
   emit('addTask', title.value.trim())
@@ -118,7 +135,20 @@ function addTask(): void {
 }
 
 function deleteTask(id: string): void {
-  console.log(id)
+  emit('deleteTask', id)
+}
+
+function handleEditTask(event: Event, id: string): void {
+  const newTitle = (event.target as HTMLInputElement).value.trim()
+  emit('editTask', id, newTitle)
+}
+
+function handleClearCompleted() {
+  emit('clearCompleted')
+}
+
+function changeTab(type: string): void {
+  emit('changeTab', type)
 }
 </script>
 

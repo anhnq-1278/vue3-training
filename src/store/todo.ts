@@ -15,5 +15,29 @@ export default defineStore('todo', () => {
     })
   }
 
-  return { tasks, addTask }
+  const deleteTask = (id: string) => {
+    tasks.value = tasks.value.filter((task) => task.id !== id)
+  }
+
+  const editTask = (id: string, title: string) => {
+    const task = tasks.value.find((task) => task.id === id)
+
+    if (task) {
+      if (title) {
+        task.title = title
+      }
+      task.isEdit = false
+    }
+  }
+
+  const clearAllComplete = () => {
+    tasks.value = tasks.value.map((task) => {
+      return {
+        ...task,
+        isComplete: false
+      }
+    })
+  }
+
+  return { tasks, addTask, deleteTask, editTask, clearAllComplete }
 })
