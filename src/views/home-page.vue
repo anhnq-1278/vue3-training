@@ -1,64 +1,31 @@
 <script setup lang="ts">
 import { ref, computed } from 'vue'
-interface IList {
-  title: string
-  isChecked: boolean
-  isEdit: boolean
-}
+import { useTodoStore } from '@/store/home'
+
+const store = useTodoStore()
 
 const task = ref<string>('')
-const lists = ref<IList[]>([])
 const tab = ref<string>('All')
-
-const remaining = computed(() => {
-  return lists.value.filter(({ isChecked }: { isChecked: boolean }) => !isChecked)
-})
 
 const listRender = computed(() => {
   if (tab.value === 'Active') {
-    return lists.value.filter(({ isChecked }: { isChecked: boolean }) => !isChecked)
+    return store.lists.filter(({ isChecked }: { isChecked: boolean }) => !isChecked)
   }
 
   if (tab.value === 'Completed') {
-    return lists.value.filter(({ isChecked }: { isChecked: boolean }) => isChecked)
+    return store.lists.filter(({ isChecked }: { isChecked: boolean }) => isChecked)
   }
 
-  return lists.value
+  return store.lists
 })
-
-function addTask() {
-  if (!task.value.trim()) return
-
-  lists.value.push({ title: task.value, isChecked: false, isEdit: false })
-  task.value = ''
-}
-
-function changeActive(index: number) {
-  lists.value[index].isChecked = !lists.value[index].isChecked
-}
-
-function removeTask(index: number) {
-  lists.value.splice(index, 1)
-}
-
-function editTask(index: number) {
-  lists.value[index].isEdit = !lists.value[index].isEdit
-}
-
-function onBlur(index: number) {
-  lists.value[index].isEdit = false
-
-  if (!lists.value[index].title.trim()) {
-    removeTask(index)
-  }
-}
 
 function handleChangeTabs(tabs: string) {
   tab.value = tabs
 }
 
-function clearCompleted() {
-  lists.value = lists.value.filter(({ isChecked }: { isChecked: boolean }) => !isChecked)
+function addTask() {
+  store.addTask(task.value)
+  task.value = ''
 }
 </script>
 
@@ -77,9 +44,9 @@ function clearCompleted() {
       </div>
       <div v-for="(list, index) in listRender" :key="index" class="w-full border rounded p-2">
         <div class="flex gap-2">
-          <input type="checkbox" :checked="list.isChecked" @change="changeActive(index)" />
+          <input type="checkbox" :checked="list.isChecked" @change="store.changeActive(index)" />
           <p
-            @dblclick="editTask(index)"
+            @dblclick="store.editTask(index)"
             v-if="!list.isEdit"
             :class="[' flex-1 p-1', { 'line-through text-[#dbdbdb]': list.isChecked }]"
           >
@@ -90,15 +57,15 @@ function clearCompleted() {
             type="text"
             v-model="list.title"
             class="border flex-1 p-1"
-            @blur="onBlur(index)"
+            @blur="store.onBlur(index)"
           />
-          <p @click.prevent.stop="removeTask(index)" class="text-[#b51f14] cursor-pointer">
+          <p @click.prevent.stop="store.removeTask(index)" class="text-[#b51f14] cursor-pointer">
             Delete Task
           </p>
         </div>
       </div>
-      <div class="flex justify-between w-full" v-if="lists.length">
-        <p>{{ remaining.length }} items left</p>
+      <div class="flex justify-between w-full" v-if="store.lists.length">
+        <p>{{ store.remaining.length }} items left</p>
         <div class="flex gap-2">
           <div
             v-for="item in ['All', 'Active', 'Completed']"
@@ -110,9 +77,9 @@ function clearCompleted() {
           </div>
         </div>
         <p
-          v-if="lists.length > remaining.length"
+          v-if="store.lists.length > store.remaining.length"
           class="cursor-pointer text-[#b51f14]"
-          @click="clearCompleted"
+          @click="store.clearCompleted"
         >
           Clear Completed
         </p>
