@@ -1,25 +1,19 @@
 import type { Task } from '@/model/todo.model'
 import { generateID } from '@/utils'
 import { defineStore } from 'pinia'
+import { ref } from 'vue'
 
-interface TodoState {
-  tasks: Task[]
-}
+export default defineStore('todo', () => {
+  const tasks = ref<Array<Task>>([])
 
-export const useTodoStore = defineStore({
-  id: 'todo',
-  state: (): TodoState => ({
-    tasks: []
-  }),
-  getters: {},
-  actions: {
-    addTask(title: string) {
-      this.tasks.push({
-        id: generateID(),
-        title: title,
-        isComplete: false,
-        isEdit: false
-      })
-    }
+  const addTask = (title: string) => {
+    tasks.value.push({
+      id: generateID(),
+      title: title,
+      isComplete: false,
+      isEdit: false
+    })
   }
+
+  return { tasks, addTask }
 })

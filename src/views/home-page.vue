@@ -6,9 +6,9 @@
 </template>
 <script setup lang="ts">
 import TodoList from '@/components/TodoList.vue'
-import { useTodoStore } from '@/store/todo'
+import TodoStore  from '@/store/todo'
 
-const todoStore = useTodoStore()
+const todoStore = TodoStore()
 
 function handleAddTask(title: string): void {
   if (!title) return
