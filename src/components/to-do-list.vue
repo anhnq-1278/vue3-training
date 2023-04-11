@@ -5,7 +5,7 @@
       class="w-full h-[60px] p-4 border-none shadow-[inset_0_-2px_1px_rgba(0,0,0,0.03)] text-2xl font-light placeholder:text-gray-500 placeholder:font-thin placeholder:italic focus-visible:outline-none"
       placeholder="What needs to be done?"
       v-model="todoValue"
-      @keyup.enter="onSubmit"
+      @keypress.enter="onSubmit"
     />
 
     <div class="to-do-list">
@@ -15,8 +15,27 @@
         class="w-full min-h-[60px] flex items-center gap-4 border-b border-b-gray-200 p-4 text-xl font-light"
       >
         <checkbox :checked="item.completed" @change="onChangeComplete(item.id)" />
-        <span :class="['flex-1', { 'line-through': item.completed }]">{{ item.name }}</span>
-        <delete-icon @click="handleDeleteItem(item.id)" class="cursor-pointer" />
+
+        <span
+          :class="['flex-1', { 'line-through': item.completed }]"
+          @dblclick="store.setEditTrueItem(item.id)"
+          v-if="!item.isEdit"
+          >{{ item.name }}</span
+        >
+        <input
+          v-else
+          autofocus
+          class="flex-1 focus-visible:outline-none border border-gray-200 p-1"
+          @keypress.enter="handleEditItem(item.id, item.name)"
+          @blur="handleEditItem(item.id, item.name)"
+          v-model="item.name"
+        />
+
+        <delete-icon
+          v-if="!item.isEdit"
+          @click="handleDeleteItem(item.id)"
+          class="cursor-pointer"
+        />
       </div>
     </div>
 
@@ -96,6 +115,12 @@ const handleClearCompleted = () => {
 
 const handleDeleteItem = (id: number) => {
   store.deleteItem(id)
+
+  setValueTodoList()
+}
+
+const handleEditItem = (id: number, name: string) => {
+  store.editItem(id, name)
 
   setValueTodoList()
 }
