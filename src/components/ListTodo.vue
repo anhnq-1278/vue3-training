@@ -1,16 +1,13 @@
 <template>
   <ul class="list-todo">
-    <TodoItem />
-    <TodoItem />
+    <TodoItem v-for="(todo, index) in todos" :key="todo.id" :todo="todo" :index="index" />
   </ul>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
 import TodoItem from '@/components/TodoItem.vue'
-export default {
-  name: 'ListTodo',
-  components: {
-    TodoItem
-  }
-}
+import type { TodoDTO } from '@/interface/todo.dto'
+defineProps<{
+  todos: Array<TodoDTO>
+}>()
 </script>
