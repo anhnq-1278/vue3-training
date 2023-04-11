@@ -10,7 +10,8 @@ export default defineStore('todo', () => {
     toDoList.value.unshift({
       id: incrementId.value,
       name,
-      completed: false
+      completed: false,
+      isEdit: false
     })
 
     incrementId.value += 1
@@ -32,5 +33,26 @@ export default defineStore('todo', () => {
     if (index > -1) toDoList.value.splice(index, 1)
   }
 
-  return { toDoList, setTodoItem, setCompletedItem, deleteCompletedItem, deleteItem }
+  const setEditTrueItem = (id: number) => {
+    const index = toDoList.value.findIndex((item) => item.id === id)
+
+    toDoList.value[index].isEdit = true
+  }
+
+  const editItem = (id: number, name: string) => {
+    const index = toDoList.value.findIndex((item) => item.id === id)
+
+    toDoList.value[index].name = name
+    toDoList.value[index].isEdit = false
+  }
+
+  return {
+    toDoList,
+    setTodoItem,
+    setCompletedItem,
+    deleteCompletedItem,
+    deleteItem,
+    setEditTrueItem,
+    editItem
+  }
 })
