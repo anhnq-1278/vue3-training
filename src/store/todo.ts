@@ -39,5 +39,16 @@ export default defineStore('todo', () => {
     })
   }
 
-  return { tasks, addTask, deleteTask, editTask, clearAllComplete }
+  const toggleStatus = () => {
+    const hasCompletedAllTask = tasks.value.every((tasks) => tasks.isComplete)
+
+    tasks.value = tasks.value.map((task) => {
+      return {
+        ...task,
+        isComplete: !hasCompletedAllTask
+      }
+    })
+  }
+
+  return { tasks, addTask, deleteTask, editTask, clearAllComplete, toggleStatus }
 })

@@ -1,5 +1,5 @@
 <template>
-  <div class="w-[550px] mx-auto my-0">
+  <div class="w-[550px] mx-auto my-0 py-10">
     <h1 class="text-[100px] text-red-default font-thin text-center leading-[80px]">todos</h1>
     <TodoList
       :tasks="tasks"
@@ -14,6 +14,7 @@
       @edit-task="handleEditTask"
       @change-tab="handleChangeTab"
       @clear-completed="handleClearCompleted"
+      @toggle-status="handleToggleStatus"
     />
   </div>
 </template>
@@ -25,13 +26,12 @@ import { computed, reactive, ref, watch } from 'vue'
 
 const todoStore = TodoStore()
 const tabName = ref<string>('active')
-const tasks = ref<Array<Task>>([])
 
 const taskTotal = computed<number>(() => {
   return todoStore.tasks.length
 })
 
-const hasTaskCompleted = computed<number>(() => {
+const hasTaskCompleted = computed<boolean>(() => {
   return todoStore.tasks.some((task) => task.isComplete)
 })
 
@@ -39,20 +39,29 @@ const leftTaskTotal = computed<number>(() => {
   return todoStore.tasks.filter((task) => !task.isComplete).length
 })
 
+const tasks = computed(() => {
+  if (tabName.value === 'active') {
+    return todoStore.tasks.filter((task) => !task.isComplete)
+  }
+
+  if (tabName.value === 'completed') {
+    return todoStore.tasks.filter((task) => task.isComplete)
+  }
+
+  return todoStore.tasks
+})
+
 function handleAddTask(title: string): void {
   if (!title) return
   todoStore.addTask(title)
-  filterTaskByTab(tabName.value)
 }
 
 function handleDeleteTask(id: string): void {
   todoStore.deleteTask(id)
-  filterTaskByTab(tabName.value)
 }
 
 function handleEditTask(id: string, newTitle: string): void {
   todoStore.editTask(id, newTitle)
-  filterTaskByTab(tabName.value)
 }
 
 function handleChangeTab(tab: string): void {
@@ -61,34 +70,11 @@ function handleChangeTab(tab: string): void {
 
 function handleClearCompleted(): void {
   todoStore.clearAllComplete()
-  filterTaskByTab(tabName.value)
 }
 
-function filterTaskByTab(tabName: string) {
-  switch (tabName) {
-    case 'all':
-      tasks.value = todoStore.tasks
-      break
-    case 'completed':
-      tasks.value = todoStore.tasks.filter((task) => task.isComplete)
-      break
-    case 'active':
-      tasks.value = todoStore.tasks.filter((task) => !task.isComplete)
-      break
-  }
+function handleToggleStatus() {
+  todoStore.toggleStatus()
 }
-
-watch(
-  tabName,
-  (tabName) => {
-    if (tabName) {
-      filterTaskByTab(tabName)
-    }
-  },
-  {
-    immediate: true
-  }
-)
 </script>
 <style lang="scss" scoped>
 @import '@/assets/styles/index';
