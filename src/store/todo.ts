@@ -10,15 +10,18 @@ export const useTodoStore = defineStore('todo', () => {
     todos.value.push({ id: new Date().toISOString(), title, completed: false })
   }
 
-  const removeTodo = (index: number) => {
+  const removeTodo = (id: string) => {
+    const index = todos.value.findIndex(todo => todo.id === id);
     todos.value.splice(index, 1);
   }
 
-  const editTodo = (newTitle: string, index: number) => {
+  const editTodo = (newTitle: string, id: string) => {
+    const index = todos.value.findIndex(todo => todo.id === id);
     todos.value[index].title = newTitle
   }
 
-  const activeTodo = (index: number) => {
+  const activeTodo = (id: string) => {
+    const index = todos.value.findIndex(todo => todo.id === id);
     todos.value[index].completed = !todos.value[index].completed;
   }
 
@@ -29,6 +32,10 @@ export const useTodoStore = defineStore('todo', () => {
     })
   }
 
+  const clearCompleteTodos = () => {
+    todos.value = todos.value.filter(todo => !todo.completed)
+  }
+
 
   return {
     todos,
@@ -37,5 +44,6 @@ export const useTodoStore = defineStore('todo', () => {
     activeTodo,
     toggleActive,
     editTodo,
+    clearCompleteTodos,
   }
 })
