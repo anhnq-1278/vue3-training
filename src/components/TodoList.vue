@@ -31,8 +31,8 @@
           type="text"
           class="w-full h-[60px] border-none outline-none"
           :value="task.title"
-          @keypress.enter="handleEditTask($event, task.id)"
-          @focusout="handleEditTask($event, task.id)"
+          @keypress.enter="handleEditTask($event, task.id || '')"
+          @focusout="handleEditTask($event, task.id || '')"
         />
         <span
           v-else
@@ -42,7 +42,7 @@
           ]"
         >
           {{ task.title }}
-          <Delete class="mr-4 ml-1 min-w-[20px] h-auto" @click="deleteTask(task.id)" />
+          <Delete class="mr-4 ml-1 min-w-[20px] h-auto" @click="deleteTask(task.id || '')" />
         </span>
       </div>
     </div>
