@@ -46,6 +46,24 @@ export default defineStore('todo', () => {
     toDoList.value[index].isEdit = false
   }
 
+  const setCompleteAllItem = () => {
+    if (toDoList.value.some((item) => item.completed === false)) {
+      toDoList.value = toDoList.value.map((item) => {
+        return { ...item, completed: true }
+      })
+
+      return
+    }
+
+    if (toDoList.value.every((item) => item.completed === true)) {
+      toDoList.value = toDoList.value.map((item) => {
+        return { ...item, completed: false }
+      })
+
+      return
+    }
+  }
+
   return {
     toDoList,
     setTodoItem,
@@ -53,6 +71,7 @@ export default defineStore('todo', () => {
     deleteCompletedItem,
     deleteItem,
     setEditTrueItem,
-    editItem
+    editItem,
+    setCompleteAllItem
   }
 })

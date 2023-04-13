@@ -1,24 +1,33 @@
 <template>
   <div class="w-full bg-white mt-7 relative todoapp">
-    <input
-      type="text"
-      class="w-full h-[60px] p-4 border-none shadow-[inset_0_-2px_1px_rgba(0,0,0,0.03)] text-2xl font-light placeholder:text-gray-500 placeholder:font-thin placeholder:italic focus-visible:outline-none"
-      placeholder="What needs to be done?"
-      v-model="todoValue"
-      @keypress.enter="onSubmit"
-    />
+    <div class="flex items-center w-full h-[60px] px-4">
+      <div class="h-full w-[25px] flex items-center justify-center">
+        <chevron-down
+          v-if="listItem.length !== 0"
+          class="cursor-pointer"
+          @click="emit('set-complete-all-item')"
+        />
+      </div>
+      <input
+        type="text"
+        class="w-full h-[60px] py-4 pl-4 border-none shadow-[inset_0_-2px_1px_rgba(0,0,0,0.03)] text-2xl font-light placeholder:text-gray-500 placeholder:font-thin placeholder:italic focus-visible:outline-none"
+        placeholder="What needs to be done?"
+        v-model="todoValue"
+        @keypress.enter="handleSubmit"
+      />
+    </div>
 
     <div class="to-do-list">
       <div
-        v-for="item in todoList"
+        v-for="item in listItem"
         :key="item.id"
         class="w-full min-h-[60px] flex items-center gap-4 border-b border-b-gray-200 p-4 text-xl font-light"
       >
-        <checkbox :checked="item.completed" @change="onChangeComplete(item.id)" />
+        <checkbox :checked="item.completed" @change="emit('change-complete', item.id)" />
 
         <span
-          :class="['flex-1', { 'line-through': item.completed }]"
-          @dblclick="store.setEditTrueItem(item.id)"
+          :class="['flex-1', { 'line-through text-gray-300': item.completed }]"
+          @dblclick="emit('set-edit-true-item', item.id)"
           v-if="!item.isEdit"
           >{{ item.name }}</span
         >
@@ -26,14 +35,14 @@
           v-else
           autofocus
           class="flex-1 focus-visible:outline-none border border-gray-200 p-1"
-          @keypress.enter="handleEditItem(item.id, item.name)"
-          @blur="handleEditItem(item.id, item.name)"
+          @keypress.enter="emit('edit-item', item.id, item.name)"
+          @blur="emit('edit-item', item.id, item.name)"
           v-model="item.name"
         />
 
         <delete-icon
           v-if="!item.isEdit"
-          @click="handleDeleteItem(item.id)"
+          @click="emit('delete-item', item.id)"
           class="cursor-pointer"
         />
       </div>
@@ -50,110 +59,77 @@
               filterValue === item.id ? 'border-[rgba(175,47,47,0.15)]' : 'border-transparent'
             }`
           ]"
-          @click="filterValue = item.id"
+          @click="emit('change-filter-value', item.id)"
         >
           {{ item.name }}
         </div>
       </div>
-      <div @click="handleClearCompleted" class="cursor-pointer">Clear completed</div>
+      <div
+        :class="['w-[110px] flex justify-end', { invisible: !hasCompletedItem }]"
+        @click="emit('clear-completed')"
+        class="cursor-pointer"
+      >
+        Clear completed
+      </div>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref, onBeforeMount, reactive, watch } from 'vue'
+import { defineProps, ref, computed } from 'vue'
 import checkbox from '@/components/check-box.vue'
 import deleteIcon from '@/components/delete-icon.vue'
-import ToDoStore from '@/store/Todo'
+import chevronDown from '@/components/chevron-down.vue'
 import type { TTodoItem } from '@/model/Todo'
 
-const store = ToDoStore()
+const props = defineProps({
+  filterList: {
+    type: Array<{ id: number; name: string }>,
+    default: () => []
+  },
+
+  listItem: {
+    type: Array<TTodoItem>,
+    default: () => []
+  },
+
+  itemLeft: {
+    type: Number,
+    default: 0
+  },
+
+  filterValue: {
+    type: Number,
+    default: 1
+  }
+})
+
+const emit = defineEmits<{
+  (e: 'on-submit', value: string): void
+  (e: 'change-filter-value', id: number): void
+  (e: 'change-complete', id: number): void
+  (e: 'edit-item', id: number, name: string): void
+  (e: 'delete-item', id: number): void
+  (e: 'clear-completed'): void
+  (e: 'set-edit-true-item', id: number): void
+  (e: 'set-complete-all-item'): void
+}>()
 
 const todoValue = ref('')
-const todoList = ref<Array<TTodoItem>>([])
-const itemLeft = ref(0)
-const filterList = reactive([
-  {
-    id: 1,
-    name: 'All'
-  },
-  {
-    id: 2,
-    name: 'Active'
-  },
-  {
-    id: 3,
-    name: 'Completed'
-  }
-])
-const filterValue = ref(1)
 
-onBeforeMount(() => {
-  setValueTodoList()
+const hasCompletedItem = computed(() => {
+  if (props.listItem.length === 0) return false
+
+  return props.listItem.some((item) => item.completed === true)
 })
 
-const onSubmit = () => {
-  store.setTodoItem(todoValue.value)
+console.log(props.listItem.length)
+
+const handleSubmit = () => {
+  emit('on-submit', todoValue.value)
 
   todoValue.value = ''
-
-  setValueTodoList()
 }
-
-const onChangeComplete = (id: number) => {
-  store.setCompletedItem(id)
-
-  setValueTodoList()
-}
-
-const handleClearCompleted = () => {
-  store.deleteCompletedItem()
-
-  setValueTodoList()
-  filterValue.value = 1
-}
-
-const handleDeleteItem = (id: number) => {
-  store.deleteItem(id)
-
-  setValueTodoList()
-}
-
-const handleEditItem = (id: number, name: string) => {
-  store.editItem(id, name)
-
-  setValueTodoList()
-}
-
-const setValueTodoList = () => {
-  switch (filterValue.value) {
-    case 1:
-      todoList.value = store.toDoList
-      break
-    case 2:
-      todoList.value = store.toDoList.filter((item) => !item.completed)
-      break
-    case 3:
-      todoList.value = store.toDoList.filter((item) => item.completed)
-      break
-  }
-
-  itemLeft.value = store.toDoList.filter((item) => !item.completed).length
-}
-
-watch(filterValue, (value) => {
-  switch (value) {
-    case 1:
-      todoList.value = store.toDoList
-      break
-    case 2:
-      todoList.value = store.toDoList.filter((item) => !item.completed)
-      break
-    case 3:
-      todoList.value = store.toDoList.filter((item) => item.completed)
-      break
-  }
-})
 </script>
 
 <style lang="scss" scoped>
