@@ -1,7 +1,13 @@
 <template>
   <RouterView />
+  <Loading v-if="store.isLoading" />
 </template>
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import Loading from '@/components/common/Loading/Loading.vue'
+import CommonStore from '@/store/Common'
+
+const store = CommonStore()
+</script>
 <style lang="scss">
 @import '@/assets/styles/index';
 </style>

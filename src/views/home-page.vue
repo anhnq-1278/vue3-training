@@ -4,6 +4,7 @@
     <TodoList
       :tasks="tasks"
       :tab-name="tabName"
+      :is-per-loading="isPerLoading"
       :total-task-data="{
         taskTotal,
         leftTaskTotal,
@@ -22,10 +23,14 @@
 import TodoList from '@/components/TodoList.vue'
 import type { Task } from '@/model/todo.model'
 import TodoStore from '@/store/todo'
+import CommonStore from '@/store/Common'
+
 import { computed, reactive, ref, watch } from 'vue'
 
 const todoStore = TodoStore()
+const store = CommonStore()
 const tabName = ref<string>('active')
+const isPerLoading = ref<boolean>(false)
 
 const taskTotal = computed<number>(() => {
   return todoStore.tasks.length
@@ -51,9 +56,21 @@ const tasks = computed(() => {
   return todoStore.tasks
 })
 
-function handleAddTask(title: string): void {
-  if (!title) return
-  todoStore.addTask(title)
+async function handleAddTask(title: string): Promise<void> {
+  if (isPerLoading.value) return
+
+  try {
+    store.setLoading(true)
+    isPerLoading.value = true
+
+    if (!title) return
+    await todoStore.addTask(title)
+  } catch (error: any) {
+  } finally {
+    isPerLoading.value = false
+
+    store.setLoading(false)
+  }
 }
 
 function handleDeleteTask(id: string): void {

@@ -9,6 +9,7 @@
         class="w-full h-[60px] p-4 border-none shadow-[inset_0_-2px_2px_rgba(0,0,0,0.04)] text-2xl font-light placeholder:text-gray-500 placeholder:font-thin placeholder:italic focus-visible:outline-none"
         placeholder="What needs to be done?"
         @keypress.enter="addTask"
+        :disabled="props.isPerLoading"
         v-model="title"
       />
     </div>
@@ -120,6 +121,10 @@ const props = defineProps({
   totalTaskData: {
     type: Object as PropType<TTaskData>,
     default: () => ({})
+  },
+  isPerLoading: {
+    type: Boolean,
+    default: false
   }
 })
 
