@@ -1,18 +1,20 @@
 import type { Task } from '@/model/todo.model'
-import { generateID } from '@/utils'
+import { generateID, sleep } from '@/utils'
 import { defineStore } from 'pinia'
 import { ref } from 'vue'
 
 export default defineStore('todo', () => {
   const tasks = ref<Array<Task>>([])
 
-  const addTask = (title: string) => {
+  const addTask = async (title: string): Promise<void> => {
     tasks.value.push({
       id: generateID(),
       title: title,
       isComplete: false,
       isEdit: false
     })
+
+    await sleep(2000)
   }
 
   const deleteTask = (id: string) => {
