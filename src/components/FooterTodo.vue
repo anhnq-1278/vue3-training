@@ -1,17 +1,25 @@
 <template>
-  <div class="todo-footer">
-    <span>{{ todos.length }} items left</span>
-    <ul class="todo-filter">
+  <div class="shadow-todo-footer flex justify-between p-[10px] font-light text-gray">
+    <span class="self-center">{{ todos.length }} items left</span>
+    <ul class="todo-filter flex ml-[50px]">
       <li
         v-for="tab in tabsRender"
         :key="tab.text"
-        :class="{ selected: tab.selected }"
+        :class="[
+          { 'border-rose-300': tab.selected },
+          `px-[3px] py-[3px] cursor-pointer
+          border border-transparent mr-[3px]
+          capitalize rounded-[5px] hover:rounded-[5px] 
+          hover:border-rose-300`
+        ]"
         @click="changeTab(tab.text)"
       >
         {{ tab.text }}
       </li>
     </ul>
-    <span @click="todoStore.clearCompleteTodos">clear completed</span>
+    <span class="cursor-pointer self-center" @click="todoStore.clearCompleteTodos"
+      >clear completed</span
+    >
   </div>
 </template>
 <script setup lang="ts">

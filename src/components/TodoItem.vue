@@ -1,25 +1,35 @@
 <template>
-  <li class="todo-item" :class="{ completed: todo.completed }">
-    <input type="checkbox" @click="activeTodo(todo.id)" />
+  <li
+    :class="[
+      { 'bg-completed': todo.completed },
+      `group list-none h-[50px]
+      flex items-center pl-[11px]
+      text-[24px] border-b border-solid
+      border-[#ededed]
+      relative bg-no-repeat bg-left bg-check`
+    ]"
+  >
+    <input class="h-6 w-6 appearance-none" type="checkbox" @click="activeTodo(todo.id)" />
     <span
-      :style="{
-        'text-decoration': todo.completed ? 'line-through' : 'initial',
-        display: isEdit ? 'none' : 'block'
-      }"
+      v-if="!isEdit"
+      class="ml-5 font-light text-gray text-[18px]"
+      :class="[todo.completed ? 'line-through' : 'no-underline']"
       @dblclick="isEdit = true"
       >{{ todo.title }}</span
     >
     <input
       v-model="newTitle"
-      :style="{
-        display: isEdit ? 'block' : 'none'
-      }"
-      class="input-edit"
+      v-else
+      class="input-edit w-full ml-5 h-11 text-2xl"
       type="text"
       autofocus
       @keydown.enter="editTodo(todo.id)"
     />
-    <span @click="removeTodo(todo.id)" :class="[isEdit ? 'display-none' : 'icon-remove']">
+    <span
+      class="pt-2 absolute right-5 cursor-pointer hidden group-hover:block"
+      @click="removeTodo(todo.id)"
+      v-show="!isEdit"
+    >
       <IconRemove />
     </span>
   </li>

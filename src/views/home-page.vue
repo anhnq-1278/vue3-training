@@ -1,9 +1,9 @@
 <template>
   <div>
-    <h1>todos</h1>
-    <div class="todo">
+    <h1 class="text-[100px] font-thin text-center m-5 text-brown-red">todos</h1>
+    <div class="todo relative bg-white shadow-todo">
       <TodoControl @add-todo="addTodo" />
-      <div :class="[todos.length ? 'display' : 'display-none']">
+      <div v-show="todos.length">
         <ListTodo :todos="todosRender" />
         <FooterTodo @change-tab="changeTab" />
       </div>
