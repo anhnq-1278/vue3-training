@@ -14,7 +14,7 @@ export default defineStore('todo', () => {
       isEdit: false
     })
 
-    await sleep(2000)
+    await sleep(500)
   }
 
   const deleteTask = (id: string) => {
@@ -33,12 +33,7 @@ export default defineStore('todo', () => {
   }
 
   const clearAllComplete = () => {
-    tasks.value = tasks.value.map((task) => {
-      return {
-        ...task,
-        isComplete: false
-      }
-    })
+    tasks.value = tasks.value.filter((task) => !task.isComplete)
   }
 
   const toggleStatus = () => {
