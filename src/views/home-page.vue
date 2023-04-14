@@ -3,21 +3,26 @@ import { onMounted } from 'vue';
 // @ts-ignore
 import  { NFCPortLib } from '@/sdk/NFCPortLib.js';
 
-onMounted(async () => {
-  const lib = new NFCPortLib()
+const lib = new NFCPortLib()
+
+onMounted(() => {
+  lib.init()
+})
+
+async function handleDetect () {
   try {
-    await lib.init()
-    await lib.open()
-  } catch (error) {
+    const data = await lib.open()
+    console.log(data)
+  } catch(error) {
     console.log(error)
   }
   
-})
+}
 
 </script>
 
 <template>
   <div>
-    OK
+    <button @click="handleDetect">detect device</button>
   </div>
 </template>
