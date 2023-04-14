@@ -1,6 +1,6 @@
 <template>
-  <div class="w-full bg-white mt-7 relative todoapp">
-    <div class="flex items-center w-full h-[60px] px-4">
+  <div :class="['w-full bg-white mt-7 relative todoapp', { 'todoapp-before': listItem.length }]">
+    <div class="flex items-center w-full h-[60px] px-4 border-b border-b-gray-200">
       <div class="h-full w-[25px] flex items-center justify-center">
         <chevron-down
           v-if="listItem.length !== 0"
@@ -10,14 +10,14 @@
       </div>
       <input
         type="text"
-        class="w-full h-[60px] py-4 pl-4 border-none shadow-[inset_0_-2px_1px_rgba(0,0,0,0.03)] text-2xl font-light placeholder:text-gray-500 placeholder:font-thin placeholder:italic focus-visible:outline-none"
+        class="w-full h-full py-4 pl-4 border-none text-2xl font-light placeholder:text-gray-500 placeholder:font-thin placeholder:italic focus-visible:outline-none"
         placeholder="What needs to be done?"
         v-model="todoValue"
         @keypress.enter="handleSubmit"
       />
     </div>
 
-    <div class="to-do-list">
+    <div class="to-do-list" v-if="listItem.length">
       <div
         v-for="item in listItem"
         :key="item.id"
@@ -26,7 +26,10 @@
         <checkbox :checked="item.completed" @change="emit('change-complete', item.id)" />
 
         <span
-          :class="['flex-1', { 'line-through text-gray-300': item.completed }]"
+          :class="[
+            'flex-1 whitespace-breakword ',
+            { 'line-through text-gray-300': item.completed }
+          ]"
           @dblclick="emit('set-edit-true-item', item.id)"
           v-if="!item.isEdit"
           >{{ item.name }}</span
@@ -48,7 +51,10 @@
       </div>
     </div>
 
-    <div class="flex items-center justify-between h-[50px] text-sm font-light p-4">
+    <div
+      class="flex items-center justify-between h-[50px] text-sm font-light p-4"
+      v-if="listItem.length"
+    >
       <span>{{ itemLeft }} item left</span>
       <div class="flex gap-4">
         <div
@@ -123,9 +129,9 @@ const hasCompletedItem = computed(() => {
   return props.listItem.some((item) => item.completed === true)
 })
 
-console.log(props.listItem.length)
-
 const handleSubmit = () => {
+  if (todoValue.value === '') return
+
   emit('on-submit', todoValue.value)
 
   todoValue.value = ''
@@ -136,16 +142,18 @@ const handleSubmit = () => {
 .todoapp {
   box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2), 0 25px 50px 0 rgba(0, 0, 0, 0.1);
 
-  &:before {
-    content: '';
-    position: absolute;
-    right: 0;
-    bottom: 0;
-    left: 0;
-    height: 50px;
-    overflow: hidden;
-    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.2), 0 8px 0 -3px #f6f6f6,
-      0 9px 1px -3px rgba(0, 0, 0, 0.2), 0 16px 0 -6px #f6f6f6, 0 17px 2px -6px rgba(0, 0, 0, 0.2);
+  &-before {
+    &:before {
+      content: '';
+      position: absolute;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      height: 50px;
+      overflow: hidden;
+      box-shadow: 0 1px 1px rgba(0, 0, 0, 0.2), 0 8px 0 -3px #f6f6f6,
+        0 9px 1px -3px rgba(0, 0, 0, 0.2), 0 16px 0 -6px #f6f6f6, 0 17px 2px -6px rgba(0, 0, 0, 0.2);
+    }
   }
 }
 </style>
