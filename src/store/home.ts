@@ -39,5 +39,29 @@ export const useTodoStore = defineStore('todo', () => {
     lists.value = lists.value.filter(({ isChecked }: { isChecked: boolean }) => !isChecked)
   }
 
-  return { lists, addTask, editTask, clearCompleted, onBlur, remaining, changeActive, removeTask }
+  function checkAll(isCheckAll: boolean) {
+    if (isCheckAll) {
+      lists.value.forEach((_, i) => {
+        lists.value[i].isChecked = false
+      })
+
+      return
+    }
+
+    lists.value.forEach((_, i) => {
+      lists.value[i].isChecked = true
+    })
+  }
+
+  return {
+    lists,
+    addTask,
+    editTask,
+    clearCompleted,
+    onBlur,
+    remaining,
+    changeActive,
+    removeTask,
+    checkAll
+  }
 })
