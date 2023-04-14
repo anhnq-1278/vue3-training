@@ -1,5 +1,5 @@
 <template>
-  <div :class="['w-full bg-white mt-7 relative todoapp', { 'todoapp-before': listItem.length }]">
+  <div :class="['w-full bg-white mt-7 relative todoapp', { 'todoapp-before': !onHiddenFooter }]">
     <div class="flex items-center w-full h-[60px] px-4 border-b border-b-gray-200">
       <div class="h-full w-[25px] flex items-center justify-center">
         <chevron-down
@@ -17,7 +17,7 @@
       />
     </div>
 
-    <div class="to-do-list" v-if="listItem.length">
+    <div class="to-do-list" v-if="!onHiddenFooter">
       <div
         v-for="item in listItem"
         :key="item.id"
@@ -53,7 +53,7 @@
 
     <div
       class="flex items-center justify-between h-[50px] text-sm font-light p-4"
-      v-if="listItem.length"
+      v-if="!onHiddenFooter"
     >
       <span>{{ itemLeft }} item left</span>
       <div class="flex gap-4">
@@ -127,6 +127,10 @@ const hasCompletedItem = computed(() => {
   if (props.listItem.length === 0) return false
 
   return props.listItem.some((item) => item.completed === true)
+})
+
+const onHiddenFooter = computed(() => {
+  return props.listItem.length === 0 && props.filterValue === 1
 })
 
 const handleSubmit = () => {
