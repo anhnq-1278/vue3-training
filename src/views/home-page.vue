@@ -49,7 +49,7 @@ function checkAll() {
       <div class="content mt-10 w-full bg-white">
         <div class="content-header relative">
           <div
-            v-if="listRender.length"
+            v-if="store.lists.length"
             @click="checkAll"
             :class="[
               'check-all absolute top-2 left-[-8px] w-[65px] h-[50px] z-10 cursor-pointer',
