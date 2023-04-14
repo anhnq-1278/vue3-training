@@ -2,7 +2,7 @@
   <div
     :class="`
       flex p-4 pl-0 bg-black/[0.003] w-[500px]
-     text-black/[.5] border-b border-solid
+      border-b border-solid
       border-[#ededed]
       shadow-[0_-2px_1px_rgba(0,0,0,0.03)]
     `"
@@ -17,7 +17,7 @@
       type="text"
       v-model="title"
       autofocus
-      class="border-none w-full text-[24px] leading-[1.4em] focus:outline-none"
+      class="border-none w-full text-[24px] leading-[1.4em] focus:outline-none font-thin placeholder:italic placeholder:text-gray/[0.3]"
       placeholder="what needs to be done?"
       @keydown.enter="addTodo(title)"
     />

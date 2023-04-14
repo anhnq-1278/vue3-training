@@ -1,15 +1,21 @@
 <template>
   <li
     :class="[
-      { 'bg-completed': todo.completed },
       `group list-none h-[50px]
       flex items-center pl-[11px]
       text-[24px] border-b border-solid
       border-[#ededed]
-      relative bg-no-repeat bg-left bg-check`
+      relative bg-no-repeat bg-left bg-check`,
+      { 'bg-completed': todo.completed },
+      { 'bg-none': isEdit }
     ]"
   >
-    <input class="h-6 w-6 appearance-none" type="checkbox" @click="activeTodo(todo.id)" />
+    <input
+      v-if="!isEdit"
+      class="h-6 w-6 appearance-none"
+      type="checkbox"
+      @click="activeTodo(todo.id)"
+    />
     <span
       v-if="!isEdit"
       class="ml-5 font-light text-gray text-[18px]"
@@ -18,12 +24,13 @@
       >{{ todo.title }}</span
     >
     <input
-      v-model="newTitle"
       v-else
-      class="input-edit w-full ml-5 h-11 text-2xl"
+      v-model="newTitle"
+      v-click-outside="editTodo"
+      class="input-edit h-12 border border-black text-lg text-gray focus:outline-none w-full ml-10 shadow-todo-edit"
       type="text"
       autofocus
-      @keydown.enter="editTodo(todo.id)"
+      @keydown.enter="editTodo"
     />
     <span
       class="pt-2 absolute right-5 cursor-pointer hidden group-hover:block"
@@ -58,8 +65,8 @@ const activeTodo = (id: string) => {
   todoStore.activeTodo(id)
 }
 
-const editTodo = (id: string) => {
-  todoStore.editTodo(newTitle.value, id)
+const editTodo = () => {
+  todoStore.editTodo(newTitle.value, props.todo.id)
   isEdit.value = false
 }
 </script>

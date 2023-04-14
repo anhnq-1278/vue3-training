@@ -1,14 +1,14 @@
 <template>
-  <div class="shadow-todo-footer flex justify-between p-[10px] font-light text-gray">
+  <div class="shadow-todo-footer flex justify-between p-[10px] font-thin text-gray text-[14px]">
     <span class="self-center">{{ todos.length }} items left</span>
     <ul class="todo-filter flex ml-[50px]">
       <li
         v-for="tab in tabsRender"
         :key="tab.text"
         :class="[
-          { 'border-rose-300': tab.selected },
-          `px-[3px] py-[3px] cursor-pointer
-          border border-transparent mr-[3px]
+          tab.selected ? 'border-rose-300' : 'border-transparent',
+          `px-[8px] py-[3px] cursor-pointer
+          border mr-[3px]
           capitalize rounded-[5px] hover:rounded-[5px] 
           hover:border-rose-300`
         ]"
