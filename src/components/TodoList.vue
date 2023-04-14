@@ -30,7 +30,7 @@
         <input
           v-if="task.isEdit"
           type="text"
-          class="w-full h-[60px] border-none outline-none"
+          class="w-full h-[60px] border-none outline-none text-[24px]"
           :value="task.title"
           @keypress.enter="handleEditTask($event, task.id || '')"
           @focusout="handleEditTask($event, task.id || '')"
@@ -82,7 +82,7 @@
         </span>
       </div>
       <div
-        class="w-[140px] cursor-pointer py-1 px-3 border border-transparent hover:border-red-300 cursor-pointer"
+        class="w-[140px] cursor-pointer py-1 px-3 border border-transparent hover:border-red-300"
         v-if="props.totalTaskData.hasTaskCompleted"
         @click="handleClearCompleted"
       >

@@ -29,7 +29,7 @@ import { computed, reactive, ref, watch } from 'vue'
 
 const todoStore = TodoStore()
 const store = CommonStore()
-const tabName = ref<string>('active')
+const tabName = ref<string>('all')
 const isPerLoading = ref<boolean>(false)
 
 const taskTotal = computed<number>(() => {
