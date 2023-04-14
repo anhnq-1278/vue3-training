@@ -21,6 +21,10 @@ const listRender = computed(() => {
   return store.lists
 })
 
+const isCheckAll = computed(() => {
+  return store.lists.every(({ isChecked }) => isChecked)
+})
+
 function handleChangeTabs(tabs: string) {
   tab.value = tabs
 }
@@ -28,6 +32,10 @@ function handleChangeTabs(tabs: string) {
 function addTask() {
   store.addTask(task.value)
   task.value = ''
+}
+
+function checkAll() {
+  store.checkAll(isCheckAll.value)
 }
 </script>
 
@@ -39,7 +47,15 @@ function addTask() {
       </div>
       <div class="text-center mt-2">Double-click to edit a task</div>
       <div class="content mt-10 w-full bg-white">
-        <div>
+        <div class="content-header relative">
+          <div
+            v-if="listRender.length"
+            @click="checkAll"
+            :class="[
+              'check-all absolute top-2 left-[-8px] w-[65px] h-[50px] z-10 cursor-pointer',
+              { 'is-active': isCheckAll }
+            ]"
+          />
           <input
             v-model="task"
             type="text"
@@ -104,6 +120,26 @@ function addTask() {
 .list {
   .content {
     box-shadow: 0 2px 4px #0003, 0 25px 50px #0000001a;
+
+    &-header {
+      .check-all {
+        transform: rotate(90deg);
+
+        &::after {
+          content: '❯';
+          position: absolute;
+          font-size: 22px;
+          color: #e6e6e6;
+          padding: 10px 27px 10px 27px;
+        }
+
+        &.is-active {
+          &::after {
+            color: #38bdf8;
+          }
+        }
+      }
+    }
   }
 
   .footer {
