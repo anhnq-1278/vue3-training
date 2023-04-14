@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { onMounted } from 'vue';
-import  { NFCPortLib} from '@/sdk/NFCPortLib.js';
+// @ts-ignore
+import  { NFCPortLib } from '@/sdk/NFCPortLib.js';
 
 onMounted(async () => {
   const lib = new NFCPortLib()
