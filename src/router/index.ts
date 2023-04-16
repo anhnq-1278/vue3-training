@@ -1,10 +1,16 @@
 import { createRouter, createWebHistory } from 'vue-router'
+import {RouterName} from './constant'
 const routes = [
   {
     path: '/',
     name: 'Layout',
     component: () => import('@/layout/index.vue'),
     children: [{ path: '/', name: 'home', component: () => import('@/views/home-page.vue') }]
+  },
+  {
+    path: '/component-test',
+    name: RouterName.ComponentTest,
+    component: () => import('@/views/ComponentTest.vue')
   }
 ]
 
