@@ -1,4 +1,5 @@
 <template>
+  <div class="text-right pr-5 pt-5">Hello, {{ myAccount.username }}</div>
   <div class="container pb-[30px]">
     <h1 class="text-[100px] text-pink-8 font-thin text-center leading-[100px]">todos</h1>
     <to-do-list
@@ -20,8 +21,11 @@
 
 <script setup lang="ts">
 import { reactive, ref, onBeforeMount, watch } from 'vue'
+import { storeToRefs } from 'pinia'
 
 import ToDoStore from '@/store/Todo'
+import CommonStore from '@/store/Common'
+
 import type { TTodoItem } from '@/model/Todo'
 import toDoList from '@/components/to-do-list.vue'
 
@@ -41,6 +45,7 @@ const filterList = reactive([
 ])
 
 const store = ToDoStore()
+const { myAccount } = storeToRefs(CommonStore())
 
 const listItem = ref<Array<TTodoItem>>([])
 const itemLeft = ref(0)
