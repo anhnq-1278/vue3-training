@@ -1,13 +1,18 @@
-import type { TFormRequestRegister, TFormRequestLogin } from '@/model/Auth'
-import http from './api'
+import type { TFormRequestRegister, TFormRequestLogin, TDataAccount } from '@/model/Auth'
+import APIService from './api'
 
-const AuthApi = {
+class AuthService extends APIService {
+  constructor() {
+    super()
+  }
+
   register(data: TFormRequestRegister) {
-    return http.post('register', data)
-  },
+    return this.axios.post<TDataAccount>('register', data)
+  }
+
   login(data: TFormRequestLogin) {
-    return http.post('login', data)
+    return this.axios.post<TDataAccount>('login', data)
   }
 }
 
-export default AuthApi
+export default AuthService
