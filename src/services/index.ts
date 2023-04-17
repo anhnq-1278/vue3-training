@@ -1,3 +1,5 @@
-import AuthService from './auth'
+import Auth from './auth'
+
+const AuthService = new Auth()
 
 export { AuthService }
