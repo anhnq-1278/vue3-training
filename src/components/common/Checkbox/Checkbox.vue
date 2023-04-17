@@ -7,7 +7,6 @@
         :type="props.type"
         :checked="props.isChecked"
         :value="props.modelValue"
-        :id="props.id"
         @input="handleChangeInput"
       />
     </label>
@@ -15,7 +14,6 @@
 </template>
 <script setup lang="ts">
 const emit = defineEmits<{
-  (e: 'removeSelectedFilter', id: string): void
   (e: 'changeInput', id: string): void
 }>()
 const props = defineProps({
@@ -32,8 +30,8 @@ const props = defineProps({
     default: false
   },
   id: {
-    type: String,
-    default: ''
+    type:[String, Number],
+    default: 0
   },
   modelValue: {
     type: String,

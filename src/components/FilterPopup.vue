@@ -11,10 +11,10 @@
         <div class="flex flex-col w-full overflow-y-auto h-[500px] ct-scrollbar">
           <CheckBox
             v-for="(item, index) in data"
-            :key="item.id"
+            :key="index"
             :label="item.name"
             :modelValue="item.name"
-            :id="item.id"
+            :id="index"
             :is-checked="isChecked(index)"
             @remove-selected-filter="removeSelectedFilter"
             @change-input="handleChangeInput($event, index)"
@@ -98,7 +98,7 @@ const filterCollection = ref<any>({
 function isChecked(index: any) {
   return !!filterCollection.value.filter[index]
 }
-function handleChangeInput(value: string, index: any) {
+function handleChangeInput(value: string, index: number) {
   if (filterCollection.value.filter[index]) {
     removeSelectedFilter(index)
   } else {
@@ -106,7 +106,7 @@ function handleChangeInput(value: string, index: any) {
   }
 }
 
-function removeSelectedFilter(index: string) {
+function removeSelectedFilter(index: number) {
   delete filterCollection.value.filter[index]
 }
 </script>
