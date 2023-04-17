@@ -1,8 +1,15 @@
-<script setup lang="ts"></script>
-
 <template>
   <RouterView />
+  <notifications />
+  <loading-app v-if="store.isLoading" />
 </template>
+
+<script setup lang="ts">
+import LoadingApp from '@/components/loading-app.vue'
+import CommonStore from '@/store/Common'
+
+const store = CommonStore()
+</script>
 
 <style lang="scss">
 @import '@/assets/main.css';
