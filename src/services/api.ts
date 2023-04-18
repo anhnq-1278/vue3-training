@@ -15,7 +15,7 @@ class APIService {
     this.axios.interceptors.response.use(this.handleResponseSuccess, this.handleResponseFail)
     this.axios.interceptors.request.use(
       (config) => {
-        const accessToken = localStorage.getItem(LocalStorage.ACCESS_TOKEN)
+        const accessToken = 'Bearer ' + localStorage.getItem(LocalStorage.ACCESS_TOKEN)
         if (accessToken) {
           config.headers.authorization = accessToken
         }
