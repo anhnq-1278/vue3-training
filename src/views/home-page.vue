@@ -12,15 +12,16 @@ onMounted(() => {
 })
 
 
-async function handleDetectCard (type: string) {
+async function handleDetectCard (type: string = '') {
   try {
+    console.log(type)
     await lib.init()
     console.log('init successfully')
     await lib.open()
     console.log('open successfully')
     const data = await lib.detectCard(type)
-    cardInfo.value = data
     console.log(data)
+    cardInfo.value = data
   } catch(error) {
     console.log(error)
   }
@@ -30,10 +31,9 @@ async function handleDetectCard (type: string) {
 
 <template>
   <div>
-    <!-- <button @click="handleDetectOpen">detect open</button> -->
-    <button @click="handleDetectCard('iso14443-3A')">detect card iso14443-3A</button>
-    <button @click="handleDetectCard('iso14443-4A')">detect card iso14443-4A</button>
-    <button @click="handleDetectCard('iso15693')">detect card iso15693</button>
+    <button @click="handleDetectCard()">detect card non params</button>
+    <button @click="handleDetectCard('FeliCa')">detect card FeliCa protocol</button>
+    <button @click="handleDetectCard('iso18092')">detect card iso18092 protocol</button>
     <table v-if="Object.keys(cardInfo).length">
       <tr>
         <td>uid</td>
