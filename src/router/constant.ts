@@ -1,3 +1,5 @@
 export const RouterName = {
-    ComponentTest: 'ComponentTest'
+    ComponentTest: 'ComponentTest',
+    Login: 'Login',
+    Register: 'Register',
 }
