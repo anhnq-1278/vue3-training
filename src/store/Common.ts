@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia'
 import { ref } from 'vue'
-import type { TLogin } from '@/model/Auth'
+import type { TLogin, TRegister } from '@/model/Auth'
 import { authService } from '@/services';
 
 export default defineStore('common', () => {
@@ -10,10 +10,13 @@ export default defineStore('common', () => {
     isLoading.value = status
   }
 
-
   async function login(payload: TLogin) {
     return await authService.login(payload);
   }
 
-  return { isLoading, setLoading, login }
+  async function register(payload: TRegister) {
+    return await authService.register(payload)
+  }
+
+  return { isLoading, setLoading, login, register }
 })

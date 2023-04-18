@@ -114,16 +114,20 @@ async function handleLogin() {
   loginInfo.errorMessage = ''
 
   const loginParams: TLogin = {
-    email: loginInfo.email,
-    password: loginInfo.password
+    email: loginInfo.email.trim(),
+    password: loginInfo.password.trim(),
   }
   try {
+    commonStore.setLoading(true)
+
     const { data } = await commonStore.login(loginParams)
     localStorage.setItem('access_token', data.token)
 
     router.push('/')
   } catch (error: any) {
     loginInfo.errorMessage = error.data.message
+  } finally {
+    commonStore.setLoading(false)
   }
 }
 </script>
