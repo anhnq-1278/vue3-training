@@ -3,8 +3,6 @@ export type TLogin = {
     password: string;
 };
 
-export type TRegister = {
-    email: string;
+export type TRegister = TLogin & {
     username: string;
-    password: string;
 };

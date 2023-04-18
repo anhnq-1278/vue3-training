@@ -141,7 +141,6 @@ async function handleRegister() {
   }
   try {
     commonStore.setLoading(true)
-    console.log(registerPayload)
 
     const { data } = await commonStore.register(registerPayload)
     localStorage.setItem('access_token', data.token)
@@ -159,9 +158,7 @@ async function handleRegister() {
         registerInfo.errorUsernameMessage = error.data.message
 
         break
-      case 'password':
-        console.log(3);
-        
+      case 'password':        
         registerInfo.errorPasswordMessage = error.data.message
 
         break
