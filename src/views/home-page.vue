@@ -1,44 +1,3 @@
-<script setup lang="ts">
-import { ref, computed } from 'vue'
-import { useTodoStore } from '@/store/home'
-import closeIcon from '@/components/icons/close-icon.vue'
-import checkBox from '@/components/check-box.vue'
-
-const store = useTodoStore()
-
-const task = ref<string>('')
-const tab = ref<string>('All')
-
-const listRender = computed(() => {
-  if (tab.value === 'Active') {
-    return store.lists.filter(({ isChecked }: { isChecked: boolean }) => !isChecked)
-  }
-
-  if (tab.value === 'Completed') {
-    return store.lists.filter(({ isChecked }: { isChecked: boolean }) => isChecked)
-  }
-
-  return store.lists
-})
-
-const isCheckAll = computed(() => {
-  return store.lists.every(({ isChecked }) => isChecked)
-})
-
-function handleChangeTabs(tabs: string) {
-  tab.value = tabs
-}
-
-function addTask() {
-  store.addTask(task.value)
-  task.value = ''
-}
-
-function checkAll() {
-  store.checkAll(isCheckAll.value)
-}
-</script>
-
 <template>
   <div class="list mx-[400px] p-10">
     <div class="flex justify-center items-center flex-col">
@@ -116,6 +75,48 @@ function checkAll() {
     </div>
   </div>
 </template>
+
+<script setup lang="ts">
+import { ref, computed } from 'vue'
+import { useTodoStore } from '@/store/home'
+import closeIcon from '@/components/icons/close-icon.vue'
+import checkBox from '@/components/check-box.vue'
+
+const store = useTodoStore()
+
+const task = ref<string>('')
+const tab = ref<string>('All')
+
+const listRender = computed(() => {
+  if (tab.value === 'Active') {
+    return store.lists.filter(({ isChecked }: { isChecked: boolean }) => !isChecked)
+  }
+
+  if (tab.value === 'Completed') {
+    return store.lists.filter(({ isChecked }: { isChecked: boolean }) => isChecked)
+  }
+
+  return store.lists
+})
+
+const isCheckAll = computed(() => {
+  return store.lists.every(({ isChecked }) => isChecked)
+})
+
+function handleChangeTabs(tabs: string) {
+  tab.value = tabs
+}
+
+function addTask() {
+  store.addTask(task.value)
+  task.value = ''
+}
+
+function checkAll() {
+  store.checkAll(isCheckAll.value)
+}
+</script>
+
 <style lang="scss">
 .list {
   .content {
