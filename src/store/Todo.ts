@@ -1,77 +1,47 @@
 import { defineStore } from 'pinia'
-import { ref } from 'vue'
-import type { TTodoItem } from '@/model/Todo'
+import { TodoService } from '@/services'
 
 export default defineStore('todo', () => {
-  const toDoList = ref<Array<TTodoItem>>([])
-  const incrementId = ref<number>(0)
-
-  const setTodoItem = (name: string) => {
-    toDoList.value.unshift({
-      id: incrementId.value,
-      name,
-      completed: false,
-      isEdit: false
-    })
-
-    incrementId.value += 1
+  const getTodoList = async (filter?: string) => {
+    return await TodoService.getListTodo(filter)
   }
 
-  const setCompletedItem = (id: number) => {
-    const index = toDoList.value.findIndex((item) => item.id === id)
-
-    toDoList.value[index].completed = !toDoList.value[index].completed
+  const createTodoItem = async (payload: { title: string }) => {
+    return await TodoService.createTodoItem(payload)
   }
 
-  const deleteCompletedItem = () => {
-    toDoList.value = toDoList.value.filter((item) => !item.completed)
+  const setCompletedItem = async (id: string) => {
+    return await TodoService.updateCompleteTodoItem(id)
   }
 
-  const deleteItem = (id: number) => {
-    const index = toDoList.value.findIndex((item) => item.id === id)
-
-    if (index > -1) toDoList.value.splice(index, 1)
+  const deleteCompletedItem = async () => {
+    return await TodoService.deleteCompletedItem()
   }
 
-  const setEditTrueItem = (id: number) => {
-    const index = toDoList.value.findIndex((item) => item.id === id)
-
-    toDoList.value[index].isEdit = true
+  const deleteItem = async (id: string) => {
+    return await TodoService.deleteTodoItem(id)
   }
 
-  const editItem = (id: number, name: string) => {
-    const index = toDoList.value.findIndex((item) => item.id === id)
-
-    toDoList.value[index].name = name
-    toDoList.value[index].isEdit = false
+  const editItem = async (payload: { id: string; title: string }) => {
+    return await TodoService.updateTitleTodoItem(payload)
   }
 
-  const setCompleteAllItem = () => {
-    if (toDoList.value.some((item) => item.completed === false)) {
-      toDoList.value = toDoList.value.map((item) => {
-        return { ...item, completed: true }
-      })
+  const setCompleteAllItem = async () => {
+    return await TodoService.setCompleteAllItem()
+  }
 
-      return
-    }
-
-    if (toDoList.value.every((item) => item.completed === true)) {
-      toDoList.value = toDoList.value.map((item) => {
-        return { ...item, completed: false }
-      })
-
-      return
-    }
+  const getItemLeft = async () => {
+    return await TodoService.getItemLeft()
   }
 
   return {
-    toDoList,
-    setTodoItem,
+    getTodoList,
+    createTodoItem,
     setCompletedItem,
     deleteCompletedItem,
     deleteItem,
-    setEditTrueItem,
     editItem,
-    setCompleteAllItem
+    setCompleteAllItem,
+    getItemLeft
   }
 })
