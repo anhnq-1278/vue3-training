@@ -1,39 +1,50 @@
 import { defineStore } from 'pinia'
 import { ref } from 'vue'
 import type { TodoDTO } from '@/interface/todo.dto'
+import todoApi from '../api/todoApi'
 
 
 export const useTodoStore = defineStore('todo', () => {
   const todos = ref<Array<TodoDTO>>([])
 
-  const addTodo = (title: string) => {
-    todos.value.push({ id: new Date().toISOString(), title, completed: false })
+  const getTodos = async () => {
+    const { data } = await todoApi.getTodos();
+    todos.value = data.data
   }
 
-  const removeTodo = (id: string) => {
-    const index = todos.value.findIndex(todo => todo.id === id);
+  const addTodo = async (title: string) => {
+    const { data } = await todoApi.createTodo(title);
+    const newTodo: TodoDTO = data.data
+    todos.value.push(newTodo)
+  }
+
+  const removeTodo = async (id: string) => {
+    await todoApi.deleteTodo(id);
+    const index = todos.value.findIndex(todo => todo._id === id);
     todos.value.splice(index, 1);
   }
 
-  const editTodo = (newTitle: string, id: string) => {
-    const index = todos.value.findIndex(todo => todo.id === id);
+  const editTodo = async (newTitle: string, id: string) => {
+    await todoApi.updateTodoTitle({ id, title: newTitle });
+    const index = todos.value.findIndex(todo => todo._id === id);
     todos.value[index].title = newTitle
   }
 
-  const activeTodo = (id: string) => {
-    const index = todos.value.findIndex(todo => todo.id === id);
-    todos.value[index].completed = !todos.value[index].completed;
+  const activeTodo = async (id: string) => {
+    const index = todos.value.findIndex(todo => todo._id === id);
+    await todoApi.updateTodoComplete({ id, isCompleted: !todos.value[index].isCompleted });
+    todos.value[index].isCompleted = !todos.value[index].isCompleted;
   }
 
   const toggleActive = () => {
-    const isActive = todos.value.some(todo => todo.completed === false)
+    const isActive = todos.value.some(todo => todo.isCompleted === false)
     todos.value.forEach(todo => {
-      todo.completed = isActive;
+      todo.isCompleted = isActive;
     })
   }
 
   const clearCompleteTodos = () => {
-    todos.value = todos.value.filter(todo => !todo.completed)
+    todos.value = todos.value.filter(todo => !todo.isCompleted)
   }
 
 
@@ -45,5 +56,6 @@ export const useTodoStore = defineStore('todo', () => {
     toggleActive,
     editTodo,
     clearCompleteTodos,
+    getTodos
   }
 })

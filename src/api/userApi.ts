@@ -1,14 +1,14 @@
 import axiosClient from './apiClient'
-
+import type { UserRegister, UserLogin } from '../interface/auth.dto'
 const userApi = {
-  signUp({ email, password }: { email: string; password: string }) {
+  async signUp({ email, password }: UserLogin) {
     const url = '/login'
     return axiosClient.post(url, {
       email,
       password
     })
   },
-  register({ username, email, password }: { username: string; email: string; password: string }) {
+  register({ username, email, password }: UserRegister) {
     const url = '/register'
 
     return axiosClient.post(url, {

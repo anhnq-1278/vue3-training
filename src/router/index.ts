@@ -7,6 +7,9 @@ const router = createRouter({
       path: '/',
       name: 'home',
       component: () => import('../views/HomePage.vue'),
+      meta: {
+        requiresAuth: true
+      }
     },
     {
       path: '/login',
@@ -23,9 +26,14 @@ const router = createRouter({
 
 router.beforeEach((to, from, next) => {
   const isLogined = localStorage.getItem('token')
-  console.log(to.meta);
-  if (to.name !== 'login' && !isLogined) next({ name: 'login' })
-  else next()
+  if (to.meta?.requiresAuth) {
+    console.log('isrequiresAuth');
+    if (!isLogined) next({ name: 'login' })
+    else next()
+  } else {
+    if (!isLogined) next()
+    else next({ name: 'home' })
+  }
 })
 
 export default router

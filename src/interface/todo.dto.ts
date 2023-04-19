@@ -1,5 +1,13 @@
 export interface TodoDTO {
-  id: string;
+  createdAt: string;
+  _id: string;
   title: string;
-  completed: boolean;
+  isCompleted: boolean;
+  userId: string;
+  updatedAt: string;
+}
+export interface UpdateTodoDTO {
+  id: string;
+  title?: string;
+  isCompleted?: boolean;
 }

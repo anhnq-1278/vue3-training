@@ -35,6 +35,7 @@
   </section>
 </template>
 <script setup lang="ts">
+import type { AxiosResponse } from 'axios'
 import { Field, Form, ErrorMessage } from 'vee-validate'
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
@@ -49,8 +50,12 @@ const password = ref<string>('')
 
 const submit = async () => {
   try {
-    const { data } = await userApi.signUp({ email: email.value, password: password.value })
-    localStorage.setItem('token', data.data.token)
+    const data: AxiosResponse = await userApi.signUp({
+      email: email.value,
+      password: password.value
+    })
+    const { token }: { token: string } = data.data.data
+    localStorage.setItem('token', token)
     router.push('/')
   } catch (error) {
     console.log(error)

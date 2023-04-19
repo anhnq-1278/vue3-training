@@ -1,13 +1,14 @@
-import axios from "axios"
+import axios, { type AxiosInstance } from "axios"
 
-const axiosClient = axios.create({
+const axiosClient: AxiosInstance = axios.create({
   baseURL: 'https://api.congvinh.cloud',
 });
 
 axiosClient.interceptors.request.use(function (config) {
-  const token = localStorage.getItem('token');
+  const token: string = localStorage.getItem('token') || '';
+
   if (token) {
-    config.headers.Authorization = token
+    config.headers.Authorization = `Bearer ${token}`
   }
   return config;
 }, function (error) {

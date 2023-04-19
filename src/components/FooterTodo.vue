@@ -1,6 +1,6 @@
 <template>
   <div class="shadow-todo-footer flex justify-between p-[10px] font-thin text-gray text-[14px]">
-    <span class="self-center">{{ todos.length }} items left</span>
+    <span class="self-center">{{ lengthTodos }} items left</span>
     <ul class="todo-filter flex ml-[50px]">
       <li
         v-for="tab in tabsRender"
@@ -28,6 +28,9 @@ import { storeToRefs } from 'pinia'
 import { useTodoStore } from '@/store/todo'
 
 const emit = defineEmits(['changeTab'])
+const props = defineProps<{
+  lengthTodos: number
+}>()
 
 const tabsRender = ref<
   Array<{
