@@ -21,8 +21,9 @@ async function handleDetectCard (type: string = '') {
     console.log('open successfully')
     const data = await lib.detectCard(type)
     console.log(data?.idm)
-    const idmData = new Uint8Array(data?.idm)
-    console.log(idmData)
+    // const idmData = new Uint8Array([1, 46,85, 34, 215, 20, 102, 168])
+ 
+    // getIdmFromUint8Array(idmData)
     getIdmFromUint8Array(data?.idm)
   } catch(error) {
     console.log(error)
@@ -30,7 +31,11 @@ async function handleDetectCard (type: string = '') {
 }
 
 function getIdmFromUint8Array(idmData: any) {
-  idm.value = idmData.map((item: any) => item.toString(16)).join('');
+  let idmToHex:any = []
+  idmData.forEach((item: any) => {
+    idmToHex.push(item.toString(16))
+  });
+  idm.value = idmToHex.join('')
 }
 
 </script>
