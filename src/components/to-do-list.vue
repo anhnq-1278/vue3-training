@@ -18,37 +18,14 @@
     </div>
 
     <div class="to-do-list" v-if="!onHiddenFooter">
-      <div
+      <todo-item
         v-for="item in listItem"
-        :key="item.id"
-        class="w-full min-h-[60px] flex items-center gap-4 border-b border-b-gray-200 p-4 text-xl font-light"
-      >
-        <checkbox :checked="item.completed" @change="emit('change-complete', item.id)" />
-
-        <span
-          :class="[
-            'flex-1 whitespace-breakword ',
-            { 'line-through text-gray-300': item.completed }
-          ]"
-          @dblclick="emit('set-edit-true-item', item.id)"
-          v-if="!item.isEdit"
-          >{{ item.name }}</span
-        >
-        <input
-          v-else
-          autofocus
-          class="flex-1 focus-visible:outline-none border border-gray-200 p-1"
-          @keypress.enter="emit('edit-item', item.id, item.name)"
-          @blur="emit('edit-item', item.id, item.name)"
-          v-model="item.name"
-        />
-
-        <delete-icon
-          v-if="!item.isEdit"
-          @click="emit('delete-item', item.id)"
-          class="cursor-pointer"
-        />
-      </div>
+        :key="item._id"
+        :item-todo="item"
+        @change-complete="emit('change-complete', $event)"
+        @edit-item="emit('edit-item', $event)"
+        @delete-item="emit('delete-item', $event)"
+      />
     </div>
 
     <div
@@ -83,9 +60,8 @@
 
 <script setup lang="ts">
 import { defineProps, ref, computed } from 'vue'
-import checkbox from '@/components/check-box.vue'
-import deleteIcon from '@/components/delete-icon.vue'
 import chevronDown from '@/components/chevron-down.vue'
+import todoItem from '@/components/todo-item.vue'
 import type { TTodoItem } from '@/model/Todo'
 
 const props = defineProps({
@@ -113,11 +89,11 @@ const props = defineProps({
 const emit = defineEmits<{
   (e: 'on-submit', value: string): void
   (e: 'change-filter-value', id: number): void
-  (e: 'change-complete', id: number): void
-  (e: 'edit-item', id: number, name: string): void
-  (e: 'delete-item', id: number): void
+  (e: 'change-complete', id: string): void
+  (e: 'edit-item', value: { id: string; title: string }): void
+  (e: 'delete-item', id: string): void
   (e: 'clear-completed'): void
-  (e: 'set-edit-true-item', id: number): void
+  (e: 'set-edit-true-item', id: string): void
   (e: 'set-complete-all-item'): void
 }>()
 
@@ -126,7 +102,7 @@ const todoValue = ref('')
 const hasCompletedItem = computed(() => {
   if (props.listItem.length === 0) return false
 
-  return props.listItem.some((item) => item.completed === true)
+  return props.listItem.some((item) => item.isCompleted === true)
 })
 
 const onHiddenFooter = computed(() => {
