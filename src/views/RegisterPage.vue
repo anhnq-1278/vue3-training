@@ -9,7 +9,7 @@
             <img src="../assets/images/bg1.webp" class="w-full" alt="image" />
           </div>
           <div class="mb-12 md:mb-0 md:w-8/12 lg:w-5/12 xl:w-5/12">
-            <form @submit.enter.prevent>
+            <Form @submit="handleRegister" :validation-schema="schema">
               <div class="flex flex-col mb-3">
                 <div class="relative mb-3 mr-6 flex flex-col">
                   <span class="mb-2">Email address </span>
@@ -18,11 +18,9 @@
                     placeholder="Enter your email"
                     @input="handleChangeInput($event, 'email')"
                     :value="registerInfo.email"
-                    :has-error="!!registerInfo.errorEmailMessage"
+                    :error="registerInfo.errorEmailMessage"
+                    name="email"
                   />
-                  <div v-if="registerInfo.errorEmailMessage" class="text-red-500 truncate mt-1">
-                    {{ registerInfo.errorEmailMessage }}
-                  </div>
                 </div>
                 <div class="relative mb-3 mr-6 flex flex-col">
                   <span class="mb-2">Username </span>
@@ -31,11 +29,9 @@
                     placeholder="Enter your username"
                     @input="handleChangeInput($event, 'username')"
                     :value="registerInfo.username"
-                    :has-error="!!registerInfo.errorUsernameMessage"
+                    :error="registerInfo.errorUsernameMessage"
+                    name="username"
                   />
-                  <div v-if="registerInfo.errorUsernameMessage" class="text-red-500 truncate mt-1">
-                    {{ registerInfo.errorUsernameMessage }}
-                  </div>
                 </div>
 
                 <div class="relative mr-6">
@@ -45,17 +41,15 @@
                     placeholder="Enter your password"
                     @input="handleChangeInput($event, 'password')"
                     :value="registerInfo.password"
-                    :has-error="!!registerInfo.errorPasswordMessage"
+                    :error="registerInfo.errorPasswordMessage"
                     type="password"
+                    name="password"
                   />
-                </div>
-                <div v-if="registerInfo.errorPasswordMessage" class="text-red-500 truncate mt-1">
-                  {{ registerInfo.errorPasswordMessage }}
                 </div>
               </div>
               <div class="text-center lg:text-left">
                 <button
-                  type="button"
+                  type="submit"
                   :disabled="isDisabled"
                   :class="[
                     'inline-block rounded bg-[#3B71CA] px-7 pb-2.5 pt-3 text-sm font-medium uppercase leading-normal text-white-fb shadow-[0_4px_9px_-4px_#3b71ca] transition duration-150 ease-in-out',
@@ -65,7 +59,6 @@
                         : 'cursor-pointer  hover:bg-blue-3b hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)]'
                     }`
                   ]"
-                  @click="handleRegister"
                 >
                   Register
                 </button>
@@ -78,7 +71,7 @@
                   >
                 </p>
               </div>
-            </form>
+            </Form>
           </div>
         </div>
       </div>
@@ -89,13 +82,21 @@
 import { useRouter } from 'vue-router'
 import { RouterName } from '@/router/constant'
 
-import type { TLogin, TRegister } from '@/model/Auth'
+import type { TRegister } from '@/model/Auth'
 import InputText from '@/components/common/InputText/InputText.vue'
+import { Form } from 'vee-validate'
+import '@/validators/AuthValidator.ts'
 import CommonStore from '@/store/Common'
 import { computed, reactive } from 'vue'
 
 interface IObjectKeys {
   [key: string]: string | number
+}
+
+const schema = {
+  email: 'required|email',
+  username: 'required',
+  password: 'required|password'
 }
 
 interface TRegisterInfo extends IObjectKeys {
@@ -147,8 +148,6 @@ async function handleRegister() {
 
     router.push('/')
   } catch (error: any) {
-      console.log(error.data.key);
-      
     switch (error.data.key) {
       case 'email':
         registerInfo.errorEmailMessage = error.data.message
@@ -158,7 +157,7 @@ async function handleRegister() {
         registerInfo.errorUsernameMessage = error.data.message
 
         break
-      case 'password':        
+      case 'password':
         registerInfo.errorPasswordMessage = error.data.message
 
         break
