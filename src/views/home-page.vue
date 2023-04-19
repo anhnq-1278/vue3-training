@@ -20,7 +20,9 @@ async function handleDetectCard (type: string = '') {
     await lib.open()
     console.log('open successfully')
     const data = await lib.detectCard(type)
-    console.log(data)
+    console.log(data?.idm)
+    const idmData = new Uint8Array(data?.idm)
+    console.log(idmData)
     getIdmFromUint8Array(data?.idm)
   } catch(error) {
     console.log(error)
