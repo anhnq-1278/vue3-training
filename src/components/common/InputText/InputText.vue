@@ -3,7 +3,7 @@
     :class="[
       'focus:outline-none',
       `${
-        props.hasError || !!errorMessage
+        !!props.error || !!errorMessage
           ? 'border border-red-500 bg-red-fd'
           : 'border border-grey-dc bg-blue-e8'
       }`
@@ -15,8 +15,8 @@
     v-bind="$attrs"
     @input="handleChange"
   />
-  <p class="text-red-500 break-words mt-1" v-if="errorMessage">
-    {{ errorMessage }}
+  <p class="text-red-500 break-words mt-1" v-if="!!errorMessage || !!error">
+    {{ errorMessage || error }}
   </p>
 </template>
 
@@ -25,7 +25,7 @@ import { toRef } from 'vue'
 import { useField } from 'vee-validate'
 
 const props = defineProps({
-  hasError: { type: Boolean, default: false },
+  error: { type: String, default: '' },
   inputType: { type: String, default: 'text' },
   placeholder: { type: String, default: '' },
   name: { type: String, required: true },

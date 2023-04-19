@@ -18,12 +18,9 @@
                     placeholder="Enter your email"
                     @input="handleChangeInput($event, 'email')"
                     :value="registerInfo.email"
-                    :has-error="!!registerInfo.errorEmailMessage"
+                    :error="registerInfo.errorEmailMessage"
                     name="email"
                   />
-                  <div v-if="registerInfo.errorEmailMessage" class="text-red-500 break-words mt-1">
-                    {{ registerInfo.errorEmailMessage }}
-                  </div>
                 </div>
                 <div class="relative mb-3 mr-6 flex flex-col">
                   <span class="mb-2">Username </span>
@@ -32,12 +29,9 @@
                     placeholder="Enter your username"
                     @input="handleChangeInput($event, 'username')"
                     :value="registerInfo.username"
-                    :has-error="!!registerInfo.errorUsernameMessage"
+                    :error="registerInfo.errorUsernameMessage"
                     name="username"
                   />
-                  <div v-if="registerInfo.errorUsernameMessage" class="text-red-500 break-words mt-1">
-                    {{ registerInfo.errorUsernameMessage }}
-                  </div>
                 </div>
 
                 <div class="relative mr-6">
@@ -47,13 +41,10 @@
                     placeholder="Enter your password"
                     @input="handleChangeInput($event, 'password')"
                     :value="registerInfo.password"
-                    :has-error="!!registerInfo.errorPasswordMessage"
+                    :error="registerInfo.errorPasswordMessage"
                     type="password"
                     name="password"
                   />
-                </div>
-                <div v-if="registerInfo.errorPasswordMessage" class="text-red-500 break-words mt-1">
-                  {{ registerInfo.errorPasswordMessage }}
                 </div>
               </div>
               <div class="text-center lg:text-left">
@@ -105,8 +96,8 @@ interface IObjectKeys {
 const schema = {
   email: 'required|email',
   username: 'required',
-  password: 'required|password',
-};
+  password: 'required|password'
+}
 
 interface TRegisterInfo extends IObjectKeys {
   email: string
