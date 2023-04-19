@@ -8,7 +8,8 @@ module.exports = {
         },
         red: {
           default: 'rgba(175, 47, 47, 0.15)',
-          b8: '#b83f45'
+          b8: '#b83f45',
+          fd: '#fddfe2'
         },
         white: {
           fb: '#fbfbfb',
@@ -19,7 +20,8 @@ module.exports = {
           ed: '#9eddd2'
         },
         blue: {
-          '3b': '#3B5998'
+          '3b': '#3B5998',
+          e8: '#e8f0fe'
         }
       }
     },
