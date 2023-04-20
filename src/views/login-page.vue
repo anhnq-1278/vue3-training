@@ -2,115 +2,94 @@
   <div class="flex justify-center items-center h-screen bg-[#23242a]">
     <div class="container relative w-[380px] h-[420px] rounded-lg overflow-hidden">
       <div class="form absolute rounded-lg bg-[#23242a] z-10 p-10">
-        <div class="flex-col flex">
-          <p class="text-center text-[#45f3ff] font-medium tracking-widest">LOGIN</p>
-          <div class="input-box mt-9 relative">
-            <input
-              :class="[
-                'relative w-full z-10 border-none bg-transparent text-[#23242a] tracking-wider p-2.5',
-                { 'has-value': email }
-              ]"
-              type="email"
-              required
-              autocomplete="off"
-              v-model="email"
+        <form @submit="onSubmit">
+          <div class="flex-col flex">
+            <p class="text-center text-[#45f3ff] font-medium tracking-widest">LOGIN</p>
+            <TextInput
+              v-for="({ name, label, type, placeholder }, i) in inputs"
+              :key="i"
+              v-bind="{
+                name,
+                label,
+                type,
+                placeholder
+              }"
             />
-            <span
-              class="absolute left-0 top-[-10px] pt-5 pb-2.5 px-0 text-[#8f8f8f] pointer-events-none"
-              >Email</span
-            >
-            <i
+
+            <div class="flex justify-between mt-2.5">
+              <span
+                class="hover:text-[#45f3ff] transition cursor-pointer duration-300 text-[#8f8f8f]"
+                >Forgot Password</span
+              >
+              <router-link to="/register" class="text-[#45f3ff]"> Signup </router-link>
+            </div>
+
+            <button
               :class="[
-                'absolute left-0 bottom-0 z-[9] w-full h-0.5 bg-[#45f3ff] rounded pointer-events-none',
-                { 'border-red-900 border-2': errorMessage.email }
+                'bg-[#45f3ff] text-[#23242a] font-semibold w-[100px] mt-6 cursor-pointer h-10 flex items-center justify-center rounded',
+                { 'bg-[#dbdbdb] !cursor-not-allowed text-white border-none': !formValid }
               ]"
-            ></i>
-          </div>
-          <p class="text-[#ed1822] text-sm mt-0.5" v-if="errorMessage.email">
-            {{ errorMessage.email }}
-          </p>
-          <div class="input-box mt-9 relative">
-            <input
-              :class="[
-                'relative w-full z-10 border-none bg-transparent text-[#23242a] tracking-wider p-2.5',
-                { 'has-value': password }
-              ]"
-              type="password"
-              required
-              autocomplete="off"
-              v-model="password"
-            />
-            <span
-              class="absolute left-0 top-[-10px] pt-5 pb-2.5 px-0 text-[#8f8f8f] pointer-events-none"
-              >Password</span
+              type="submit"
+              :disabled="!formValid"
             >
-            <i
-              :class="[
-                'absolute left-0 bottom-0 z-[9] w-full h-0.5 bg-[#45f3ff] rounded pointer-events-none',
-                { 'border-red-900 border-2': errorMessage.password }
-              ]"
-            ></i>
+              Submit
+            </button>
           </div>
-          <p class="text-[#ed1822] text-sm mt-0.5" v-if="errorMessage.password">
-            {{ errorMessage.password }}
-          </p>
-          <div class="flex justify-between mt-2.5">
-            <span class="hover:text-[#45f3ff] transition cursor-pointer duration-300 text-[#8f8f8f]"
-              >Forgot Password</span
-            >
-            <router-link to="/register" class="text-[#45f3ff]"> Signup </router-link>
-          </div>
-          <div
-            :class="[
-              'bg-[#45f3ff] text-[#23242a] font-semibold w-[100px] mt-6 cursor-pointer h-10 flex items-center justify-center rounded',
-              { 'bg-[#dbdbdb] !cursor-not-allowed text-white border-none': !buttonActive }
-            ]"
-            @click="onSubmit"
-          >
-            Login
-          </div>
-        </div>
+        </form>
       </div>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { computed, onBeforeMount, ref } from 'vue'
+import { computed } from 'vue'
 import { useRouter } from 'vue-router'
+import { useForm } from 'vee-validate'
+import type { TRequestAuth } from '@/type/Common'
+
 import CommonStore from '@/store/common'
-import { notify } from '@kyvg/vue3-notification'
+import TextInput from '@/components/common/text-input.vue'
 
 const commonStore = CommonStore()
 const router = useRouter()
 
-const email = ref('')
-const password = ref('')
-const errorMessage = ref({} as any)
+const schema = {
+  email: 'required|email',
+  password: 'required|password'
+}
 
-const buttonActive = computed(() => {
-  return !!email.value && !!password.value
+const inputs = [
+  {
+    name: 'email',
+    type: 'text',
+    placeholder: 'Enter your email',
+    label: 'Email'
+  },
+  {
+    name: 'password',
+    type: 'password',
+    placeholder: 'Enter your password',
+    label: 'Password'
+  }
+]
+
+const { handleSubmit, values } = useForm({
+  validationSchema: schema
 })
 
-onBeforeMount(() => {
-  commonStore.getMyAccount()
+const formValid = computed(() => {
+  return !!values.email && !!values.password
 })
 
-const onSubmit = async () => {
-  if (!buttonActive.value) {
+const onSubmit = handleSubmit(async (value) => {
+  if (!formValid.value) {
     return
   }
 
-  errorMessage.value = {}
-
-  const body = {
-    email: email.value,
-    password: password.value
-  }
   try {
     commonStore.setLoading(true)
 
-    await commonStore.login(body)
+    await commonStore.login(value as TRequestAuth)
 
     router.push({ path: '/' })
   } catch (error) {
@@ -118,7 +97,7 @@ const onSubmit = async () => {
   } finally {
     commonStore.setLoading(false)
   }
-}
+})
 </script>
 <style lang="scss" scoped>
 .container {
@@ -163,26 +142,10 @@ const onSubmit = async () => {
       input {
         box-shadow: none;
         outline: none;
-
-        &.has-value ~ span,
-        &:focus ~ span {
-          color: #45f3ff;
-          transform: translateX(0) translateY(-34px);
-        }
-
-        &.has-value ~ i,
-        &:focus ~ i {
-          height: 44px;
-        }
       }
 
       input:-webkit-autofill {
         -webkit-box-shadow: 0 0 0 30px #45f3ff inset !important;
-      }
-
-      span,
-      i {
-        transition: 0.5s all;
       }
     }
   }
