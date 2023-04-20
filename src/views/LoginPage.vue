@@ -13,10 +13,23 @@
           <div>
             <h2 class="text-2xl uppercase mb-3">Hello fen</h2>
             <Form @submit="submit" :validation-schema="schema" class="flex flex-col">
-              <Field v-model="email" name="email" type="text" placeholder="address email" />
+              <Field
+                v-model="email"
+                name="email"
+                type="text"
+                placeholder="address email"
+                @input="isWrong = false"
+              />
               <ErrorMessage name="email" class="text-red-600" />
-              <Field v-model="password" name="password" type="password" placeholder="password" />
+              <Field
+                v-model="password"
+                name="password"
+                type="password"
+                placeholder="password"
+                @input="isWrong = false"
+              />
               <ErrorMessage name="password" class="text-red-600" />
+              <span v-if="isWrong" class="text-red-600"> email or password is wrong</span>
               <button
                 type="submit"
                 class="w-[120px] bg-[#677eff] py-1 mt-2 text-white cursor-pointer"
@@ -35,12 +48,14 @@
   </section>
 </template>
 <script setup lang="ts">
-import type { AxiosResponse } from 'axios'
 import { Field, Form, ErrorMessage } from 'vee-validate'
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
-import userApi from '../api/userApi'
+import { useUserStore } from '@/store/user'
+
 const router = useRouter()
+const userStore = useUserStore()
+
 const schema = {
   email: 'required|email',
   password: 'required|password'
@@ -48,17 +63,13 @@ const schema = {
 const email = ref<string>('')
 const password = ref<string>('')
 
+const isWrong = ref<boolean>(false)
 const submit = async () => {
   try {
-    const data: AxiosResponse = await userApi.signUp({
-      email: email.value,
-      password: password.value
-    })
-    const { token }: { token: string } = data.data.data
-    localStorage.setItem('token', token)
+    await userStore.login(email.value, password.value)
     router.push('/')
   } catch (error) {
-    console.log(error)
+    isWrong.value = true
   }
 }
 </script>

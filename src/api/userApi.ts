@@ -1,7 +1,7 @@
 import axiosClient from './apiClient'
 import type { UserRegister, UserLogin } from '../interface/auth.dto'
 const userApi = {
-  async signUp({ email, password }: UserLogin) {
+  async login({ email, password }: UserLogin) {
     const url = '/login'
     return axiosClient.post(url, {
       email,
