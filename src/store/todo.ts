@@ -17,7 +17,7 @@ export default defineStore('todo', () => {
     await todoService.deleteTodo(id)
   }
 
-  const updateCompletedTodo = async (id: string| null) => {
+  const updateCompletedTodo = async (id: string) => {
     return todoService.updateCompletedTodo(id)
   }
 

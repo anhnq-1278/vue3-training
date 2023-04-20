@@ -32,8 +32,8 @@
           type="text"
           class="w-full h-[60px] border-none outline-none text-[24px]"
           :value="todo.title"
-          @keypress.enter="handleEditTask($event, todo._id || '')"
-          @focusout="handleEditTask($event, todo._id || '')"
+          @keypress.enter="handleEditTask($event, todo._id)"
+          @focusout="handleEditTask($event, todo._id)"
         />
         <span
           v-else
@@ -43,7 +43,7 @@
           ]"
         >
           {{ todo.title }}
-          <Delete class="mr-4 ml-1 min-w-[20px] h-auto" @click="deleteTodo(todo._id || '')" />
+          <Delete class="mr-4 ml-1 min-w-[20px] h-auto" @click="deleteTodo(todo._id)" />
         </span>
       </div>
     </div>
@@ -97,7 +97,7 @@ import { computed, ref, type PropType } from 'vue'
 import Checkbox from '@/components/Checkbox.vue'
 import Delete from '@/components/icons/Delete.vue'
 import CaretDown from '@/components/icons/CaretDown.vue'
-import type { TTodoList } from '@/model/todo.model'
+import type { TTodoItem } from '@/model/todo.model'
 
 interface TTaskData {
   taskTotal: number
@@ -110,7 +110,7 @@ const title = ref<string>('')
 
 const props = defineProps({
   todos: {
-    type: Array<TTodoList>,
+    type: Array<TTodoItem>,
     default: () => []
   },
   tabName: {

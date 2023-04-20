@@ -3,7 +3,7 @@ export type TTodo = {
   title: string
 }
 
-export type TTodoList = {
+export type TTodoItem = {
   _id: string
   title: string
   isCompleted: boolean

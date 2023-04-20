@@ -21,7 +21,7 @@
 </template>
 <script setup lang="ts">
 import TodoList from '@/components/TodoList.vue'
-import type { TTodoList } from '@/model/todo.model'
+import type { TTodoItem } from '@/model/todo.model'
 import TodoStore from '@/store/todo'
 import CommonStore from '@/store/Common'
 
@@ -36,10 +36,10 @@ const todoListParams = computed(() => {
     filter: tabName.value
   }
 })
-let leftTaskTotal = ref<number>(0 as number) 
-let taskTotal = ref<number>(0 as number)
+let leftTaskTotal = ref<number>(0) 
+let taskTotal = ref<number>(0)
 
-const todos = ref<Array<TTodoList>>([])
+const todos = ref<Array<TTodoItem>>([])
 
 onBeforeMount(async () => {
   isPerLoading.value = true
