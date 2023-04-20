@@ -7,6 +7,7 @@
         :filter-list="filterList"
         :list-item="listItem"
         :item-left="itemLeft"
+        :total-item="totalItem"
         :filter-value="filterValue"
         @on-submit="onSubmit"
         @change-filter-value="onChangeFilterValue"
@@ -32,15 +33,15 @@ import toDoList from '@/components/to-do-list.vue'
 
 const filterList = reactive([
   {
-    id: 1,
+    value: '',
     name: 'All'
   },
   {
-    id: 2,
+    value: 'active',
     name: 'Active'
   },
   {
-    id: 3,
+    value: 'completed',
     name: 'Completed'
   }
 ])
@@ -52,7 +53,8 @@ const { myAccount } = storeToRefs(CommonStore())
 
 const listItem = ref<Array<TTodoItem>>([])
 const itemLeft = ref(0)
-const filterValue = ref(1)
+const totalItem = ref(0)
+const filterValue = ref('')
 const isLoading = ref(false)
 
 onBeforeMount(() => {
@@ -77,7 +79,7 @@ const onSubmit = async (value: string) => {
   }
 }
 
-const onChangeFilterValue = (value: number) => {
+const onChangeFilterValue = (value: string) => {
   filterValue.value = value
 }
 
@@ -100,7 +102,6 @@ const handleClearCompleted = async () => {
     await store.deleteCompletedItem()
 
     setValueTodoList()
-    filterValue.value = 1
   } finally {
     commonStore.setLoading(false)
   }
@@ -143,91 +144,35 @@ const handleSetIsCompleteAllItem = async () => {
 }
 
 const setValueTodoList = async () => {
-  getItemLeft()
-
-  switch (filterValue.value) {
-    case 1: {
-      try {
-        commonStore.setLoading(true)
-
-        const { data } = await store.getTodoList()
-        listItem.value = data
-      } finally {
-        commonStore.setLoading(false)
-      }
-      break
-    }
-    case 2: {
-      try {
-        commonStore.setLoading(true)
-
-        const { data } = await store.getTodoList('active')
-        listItem.value = data
-      } finally {
-        commonStore.setLoading(false)
-      }
-      break
-    }
-    case 3: {
-      try {
-        commonStore.setLoading(true)
-
-        const { data } = await store.getTodoList('completed')
-        listItem.value = data
-      } finally {
-        commonStore.setLoading(false)
-      }
-      break
-    }
-  }
-}
-
-const getItemLeft = async () => {
   try {
     commonStore.setLoading(true)
 
-    const dataItemLeft = await store.getItemLeft()
-    itemLeft.value = dataItemLeft.data
+    if (filterValue.value) {
+      const [{ data }, { data: countLeftItem }, { data: totalList }] = await Promise.all([
+        store.getTodoList(filterValue.value),
+        store.getItemLeft(),
+        store.getTodoList()
+      ])
+
+      listItem.value = data
+      itemLeft.value = countLeftItem
+      totalItem.value = totalList.length
+    } else {
+      const [{ data }, { data: countLeftItem }] = await Promise.all([
+        store.getTodoList(),
+        store.getItemLeft()
+      ])
+
+      listItem.value = data
+      itemLeft.value = countLeftItem
+      totalItem.value = data.length
+    }
   } finally {
     commonStore.setLoading(false)
   }
 }
 
-watch(filterValue, async () => {
-  switch (filterValue.value) {
-    case 1: {
-      try {
-        commonStore.setLoading(true)
-
-        const { data } = await store.getTodoList()
-        listItem.value = data
-      } finally {
-        commonStore.setLoading(false)
-      }
-      break
-    }
-    case 2: {
-      try {
-        commonStore.setLoading(true)
-
-        const { data } = await store.getTodoList('active')
-        listItem.value = data
-      } finally {
-        commonStore.setLoading(false)
-      }
-      break
-    }
-    case 3: {
-      try {
-        commonStore.setLoading(true)
-
-        const { data } = await store.getTodoList('completed')
-        listItem.value = data
-      } finally {
-        commonStore.setLoading(false)
-      }
-      break
-    }
-  }
+watch(filterValue, () => {
+  setValueTodoList()
 })
 </script>

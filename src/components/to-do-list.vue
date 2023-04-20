@@ -3,7 +3,7 @@
     <div class="flex items-center w-full h-[60px] px-4 border-b border-b-gray-200">
       <div class="h-full w-[25px] flex items-center justify-center">
         <chevron-down
-          v-if="listItem.length !== 0"
+          v-if="totalItem"
           class="cursor-pointer"
           @click="emit('set-complete-all-item')"
         />
@@ -36,13 +36,13 @@
       <div class="flex gap-4">
         <div
           v-for="item in filterList"
-          :key="item.id"
+          :key="item.value"
           :class="[
             `py-1 px-3 border  hover:border-[rgba(175,47,47,0.15)] cursor-pointer ${
-              filterValue === item.id ? 'border-[rgba(175,47,47,0.15)]' : 'border-transparent'
+              filterValue === item.value ? 'border-[rgba(175,47,47,0.15)]' : 'border-transparent'
             }`
           ]"
-          @click="emit('change-filter-value', item.id)"
+          @click="emit('change-filter-value', item.value)"
         >
           {{ item.name }}
         </div>
@@ -66,7 +66,7 @@ import type { TTodoItem } from '@/model/Todo'
 
 const props = defineProps({
   filterList: {
-    type: Array<{ id: number; name: string }>,
+    type: Array<{ value: string; name: string }>,
     default: () => []
   },
 
@@ -80,15 +80,20 @@ const props = defineProps({
     default: 0
   },
 
-  filterValue: {
+  totalItem: {
     type: Number,
-    default: 1
+    default: 0
+  },
+
+  filterValue: {
+    type: String,
+    default: ''
   }
 })
 
 const emit = defineEmits<{
   (e: 'on-submit', value: string): void
-  (e: 'change-filter-value', id: number): void
+  (e: 'change-filter-value', value: string): void
   (e: 'change-complete', id: string): void
   (e: 'edit-item', value: { id: string; title: string }): void
   (e: 'delete-item', id: string): void
@@ -100,13 +105,11 @@ const emit = defineEmits<{
 const todoValue = ref('')
 
 const hasCompletedItem = computed(() => {
-  if (props.listItem.length === 0) return false
-
-  return props.listItem.some((item) => item.isCompleted === true)
+  return props.totalItem > props.itemLeft
 })
 
 const onHiddenFooter = computed(() => {
-  return props.listItem.length === 0 && props.filterValue === 1
+  return props.totalItem === 0
 })
 
 const handleSubmit = () => {
