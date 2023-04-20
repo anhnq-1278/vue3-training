@@ -8,7 +8,7 @@
         type="text"
         class="w-full h-[60px] p-4 border-none shadow-[inset_0_-2px_2px_rgba(0,0,0,0.04)] text-2xl font-light placeholder:text-gray-500 placeholder:font-thin placeholder:italic focus-visible:outline-none"
         placeholder="What needs to be done?"
-        @keypress.enter="addTask"
+        @keypress.enter="addTodo"
         :disabled="props.isPerLoading"
         v-model="title"
       />
@@ -18,32 +18,32 @@
         :class="[
           'w-full min-h-[60px] flex items-center gap-4 border-b border-b-gray-150 pl-4 text-xl font-light'
         ]"
-        v-for="task in tasks"
-        :key="task.id"
-        @dblclick="task.isEdit = !task.isEdit"
+        v-for="todo in todos"
+        :key="todo._id"
+        @dblclick="isEdit = !isEdit"
       >
         <Checkbox
-          :checked="task.isComplete"
-          @change="task.isComplete = !task.isComplete"
+          :checked="todo.isCompleted"
+          @change="updateCompletedTodo(todo._id)"
           class="cursor-pointer"
         />
         <input
-          v-if="task.isEdit"
+          v-if="isEdit"
           type="text"
           class="w-full h-[60px] border-none outline-none text-[24px]"
-          :value="task.title"
-          @keypress.enter="handleEditTask($event, task.id || '')"
-          @focusout="handleEditTask($event, task.id || '')"
+          :value="todo.title"
+          @keypress.enter="handleEditTask($event, todo._id || '')"
+          @focusout="handleEditTask($event, todo._id || '')"
         />
         <span
           v-else
           :class="[
             'flex justify-between flex-1 text-[24px] cursor-pointer truncate-1-line',
-            { 'line-through': task.isComplete }
+            { 'line-through': todo.isCompleted }
           ]"
         >
-          {{ task.title }}
-          <Delete class="mr-4 ml-1 min-w-[20px] h-auto" @click="deleteTask(task.id || '')" />
+          {{ todo.title }}
+          <Delete class="mr-4 ml-1 min-w-[20px] h-auto" @click="deleteTodo(todo._id || '')" />
         </span>
       </div>
     </div>
@@ -56,9 +56,9 @@
         <span
           :class="[
             'py-1 px-3  border  hover:border-red-300 cursor-pointer',
-            `${props.tabName === 'all' ? 'border-red-300' : 'border-transparent'}`
+            `${props.tabName === '' ? 'border-red-300' : 'border-transparent'}`
           ]"
-          @click="changeTab('all')"
+          @click="changeTab('')"
         >
           All
         </span>
@@ -83,7 +83,7 @@
       </div>
       <div
         class="w-[140px] cursor-pointer py-1 px-3 border border-transparent hover:border-red-300"
-        v-if="props.totalTaskData.hasTaskCompleted"
+        v-if="props.totalTaskData.taskTotal > props.totalTaskData.leftTaskTotal"
         @click="handleClearCompleted"
       >
         Clear completed
@@ -97,12 +97,11 @@ import { computed, ref, type PropType } from 'vue'
 import Checkbox from '@/components/Checkbox.vue'
 import Delete from '@/components/icons/Delete.vue'
 import CaretDown from '@/components/icons/CaretDown.vue'
-import type { Task } from '@/model/todo.model'
+import type { TTodoList } from '@/model/todo.model'
 
 interface TTaskData {
   taskTotal: number
   leftTaskTotal: number
-  hasTaskCompleted: boolean
 }
 
 const isComplete = ref<boolean>(false)
@@ -110,13 +109,13 @@ const isEdit = ref<boolean>(false)
 const title = ref<string>('')
 
 const props = defineProps({
-  tasks: {
-    type: Array<Task>,
+  todos: {
+    type: Array<TTodoList>,
     default: () => []
   },
   tabName: {
     type: String,
-    default: 'active'
+    default: ''
   },
   totalTaskData: {
     type: Object as PropType<TTaskData>,
@@ -129,26 +128,32 @@ const props = defineProps({
 })
 
 const emit = defineEmits<{
-  (e: 'addTask', value: string): void
-  (e: 'deleteTask', value: string): void
-  (e: 'editTask', value: string, id: string): void
+  (e: 'addTodo', value: string): void
+  (e: 'deleteTodo', value: string): void
+  (e: 'editTodo', value: string, id: string): void
   (e: 'changeTab', value: string): void
+  (e: 'updateCompletedTodo', value: string): void
   (e: 'clearCompleted'): void
   (e: 'toggleStatus'): void
 }>()
 
-function addTask(): void {
-  emit('addTask', title.value.trim())
+function addTodo(): void {
+  emit('addTodo', title.value.trim())
   title.value = ''
 }
 
-function deleteTask(id: string): void {
-  emit('deleteTask', id)
+function deleteTodo(id: string): void {
+  emit('deleteTodo', id)
+}
+
+function updateCompletedTodo(id: string): void {
+  emit('updateCompletedTodo', id)
 }
 
 function handleEditTask(event: Event, id: string): void {
   const newTitle = (event.target as HTMLInputElement).value.trim()
-  emit('editTask', id, newTitle)
+  emit('editTodo', id, newTitle)
+  isEdit.value = false
 }
 
 function handleClearCompleted() {

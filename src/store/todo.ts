@@ -1,51 +1,55 @@
-import type { Task } from '@/model/todo.model'
-import { generateID, sleep } from '@/utils'
+import type { TTodo } from '@/model/todo.model'
 import { defineStore } from 'pinia'
 import { ref } from 'vue'
+import { todoService } from '@/services'
+import type { TTodoListParams } from '@/model/todo.model'
 
 export default defineStore('todo', () => {
-  const tasks = ref<Array<Task>>([])
-
-  const addTask = async (title: string): Promise<void> => {
-    tasks.value.push({
-      id: generateID(),
-      title: title,
-      isComplete: false,
-      isEdit: false
-    })
-
-    await sleep(500)
+  const getTodoList = async (params: TTodoListParams) => {
+    return await todoService.getTodoList(params)
   }
 
-  const deleteTask = (id: string) => {
-    tasks.value = tasks.value.filter((task) => task.id !== id)
+  const addTodo = async (params: TTodo): Promise<void> => {
+    await todoService.addTodo(params)
   }
 
-  const editTask = (id: string, title: string) => {
-    const task = tasks.value.find((task) => task.id === id)
-
-    if (task) {
-      if (title) {
-        task.title = title
-      }
-      task.isEdit = false
-    }
+  const deleteTodo = async (id: string) => {
+    await todoService.deleteTodo(id)
   }
 
-  const clearAllComplete = () => {
-    tasks.value = tasks.value.filter((task) => !task.isComplete)
+  const updateCompletedTodo = async (id: string| null) => {
+    return todoService.updateCompletedTodo(id)
   }
 
-  const toggleStatus = () => {
-    const hasCompletedAllTask = tasks.value.every((tasks) => tasks.isComplete)
-
-    tasks.value = tasks.value.map((task) => {
-      return {
-        ...task,
-        isComplete: !hasCompletedAllTask
-      }
-    })
+  const editTodo = async (params: TTodo) => {
+      await todoService.editTodo(params)
   }
 
-  return { tasks, addTask, deleteTask, editTask, clearAllComplete, toggleStatus }
+  const clearAllComplete = async () => {
+    await todoService.deleteAllCompletedTodo()
+  }
+
+  const toggleStatus = async () => {
+    await todoService.toggleAllTodo()
+  }
+
+  const getItemLeft = async () => {
+    return await todoService.getItemLeft()
+  }
+
+  const getAllTodoList = async () => {
+    return await todoService.getAllTodoList()
+  }
+
+  return {
+    addTodo,
+    deleteTodo,
+    editTodo,
+    clearAllComplete,
+    toggleStatus,
+    getTodoList,
+    updateCompletedTodo,
+    getItemLeft,
+    getAllTodoList
+  }
 })
