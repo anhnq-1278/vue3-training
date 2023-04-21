@@ -43,7 +43,7 @@
           ]"
         >
           {{ todo.title }}
-          <Delete class="mr-4 ml-1 min-w-[20px] h-auto" @click="deleteTodo(todo._id)" />
+          <Delete class="mr-4 ml-1 min-w-[20px] h-auto" @click="openDeleteTodoModal(todo._id)" />
         </span>
       </div>
     </div>
@@ -89,6 +89,12 @@
         Clear completed
       </div>
     </div>
+    <DeleteTodoModal
+      :show-modal="showModal"
+      @close-modal="handleCloseModal"
+      @on-submit="handleOnSubmit"
+      width="400px"
+    />
   </div>
 </template>
 
@@ -97,6 +103,7 @@ import { computed, ref, type PropType } from 'vue'
 import Checkbox from '@/components/Checkbox.vue'
 import Delete from '@/components/icons/Delete.vue'
 import CaretDown from '@/components/icons/CaretDown.vue'
+import DeleteTodoModal from '@/components/Todo/DeleteTodoModal.vue'
 import type { TTodoItem } from '@/model/todo.model'
 
 interface TTaskData {
@@ -104,9 +111,25 @@ interface TTaskData {
   leftTaskTotal: number
 }
 
-const isComplete = ref<boolean>(false)
 const isEdit = ref<boolean>(false)
 const title = ref<string>('')
+const showModal = ref<boolean>(false)
+
+function handleCloseModal() {
+  closeDeleteTodoModal()
+}
+
+const idDeleteTodo = ref<string | null>(null)
+
+function openDeleteTodoModal(id: string) {
+  showModal.value = true
+  idDeleteTodo.value = id
+}
+
+function closeDeleteTodoModal() {
+  showModal.value = false
+  idDeleteTodo.value = null
+}
 
 const props = defineProps({
   todos: {
@@ -142,8 +165,10 @@ function addTodo(): void {
   title.value = ''
 }
 
-function deleteTodo(id: string): void {
-  emit('deleteTodo', id)
+function handleOnSubmit() {
+  if (!idDeleteTodo.value) return
+  emit('deleteTodo', idDeleteTodo.value)
+  closeDeleteTodoModal()
 }
 
 function updateCompletedTodo(id: string): void {
