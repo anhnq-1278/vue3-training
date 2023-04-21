@@ -7,7 +7,12 @@ class TodoService extends APIService {
   }
 
   async getTodoList(params: TTodoListParams) {
-    return await this.axios.get<Array<TTodoItem>>('/todo', { params })
+    const { filter} = params
+    if (filter) {
+      return await this.axios.get<Array<TTodoItem>>('/todo', { params })
+    }
+    return await this.axios.get<Array<TTodoItem>>('/todo')
+
   }
 
   async addTodo(params: TTodo) {

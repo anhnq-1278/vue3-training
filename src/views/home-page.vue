@@ -25,7 +25,7 @@ import type { TTodoItem } from '@/model/todo.model'
 import TodoStore from '@/store/todo'
 import CommonStore from '@/store/Common'
 
-import { computed, onBeforeMount, reactive, ref, watch } from 'vue'
+import { computed, onBeforeMount, ref, watch } from 'vue'
 
 const todoStore = TodoStore()
 const store = CommonStore()
@@ -36,8 +36,8 @@ const todoListParams = computed(() => {
     filter: tabName.value
   }
 })
-let leftTaskTotal = ref<number>(0) 
-let taskTotal = ref<number>(0)
+const leftTaskTotal = ref<number>(0)
+const taskTotal = ref<number>(0)
 
 const todos = ref<Array<TTodoItem>>([])
 
@@ -55,7 +55,7 @@ async function getTodoList() {
       todoStore.getTodoList(todoListParams.value),
       todoStore.getItemLeft(),
       todoStore.getAllTodoList()
-    ])    
+    ])
 
     todos.value = data
     leftTaskTotal.value = leftItem
