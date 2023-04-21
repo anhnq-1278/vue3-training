@@ -1,26 +1,57 @@
 import { createRouter, createWebHistory } from 'vue-router'
+import LayoutView from '@/layout/base-layout.vue'
 import HomeView from '@/views/home-page.vue'
 import RegisterView from '@/views/register-page.vue'
 import LoginView from '@/views/login-page.vue'
+import SettingLayout from '@/layout/setting-layout.vue'
+import ProfileView from '@/views/profile-page.vue'
+import PasswordView from '@/views/password-page.vue'
+
 import CommonStore from '@/store/Common'
+import { RouteName } from '@/constants'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
     {
       path: '/',
-      name: 'home',
-      component: HomeView,
-      meta: { auth: true }
+      name: RouteName.LAYOUT,
+      component: LayoutView,
+      meta: { auth: true },
+      children: [
+        {
+          path: '',
+          name: RouteName.HOME,
+          component: HomeView
+        },
+        {
+          path: '/setting',
+          name: RouteName.SETTING,
+          redirect: { name: RouteName.PROFILE },
+          component: SettingLayout,
+          children: [
+            {
+              path: 'profile',
+              name: RouteName.PROFILE,
+              component: ProfileView
+            },
+            {
+              path: 'password',
+              name: RouteName.PASSWORD,
+              component: PasswordView
+            }
+          ]
+        }
+      ]
     },
     {
       path: '/register',
-      name: 'register',
+      name: RouteName.REGISTER,
       component: RegisterView
     },
     {
       path: '/login',
-      name: 'login',
+      name: RouteName.LOGIN,
       component: LoginView
     }
   ]

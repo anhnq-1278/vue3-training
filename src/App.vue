@@ -1,6 +1,6 @@
 <template>
   <RouterView />
-  <notifications />
+  <notifications position="bottom right" />
   <loading-app v-if="store.isLoading" />
 </template>
 

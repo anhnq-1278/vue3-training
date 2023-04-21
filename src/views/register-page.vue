@@ -49,6 +49,7 @@ import { useNotification } from '@kyvg/vue3-notification'
 
 import InputField from '@/components/input-field.vue'
 import CommonStore from '@/store/Common'
+import { RouteName } from '@/constants'
 
 const commonStore = CommonStore()
 const router = useRouter()
@@ -69,7 +70,7 @@ const handleSubmit = async (value: any) => {
 
     await commonStore.register(value)
 
-    router.push({ name: 'home' })
+    router.push({ name: RouteName.HOME })
 
     notify({
       type: 'success',

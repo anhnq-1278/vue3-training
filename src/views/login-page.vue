@@ -42,6 +42,7 @@ import { Form } from 'vee-validate'
 
 import InputField from '@/components/input-field.vue'
 import CommonStore from '@/store/Common'
+import { RouteName } from '@/constants'
 
 const commonStore = CommonStore()
 const router = useRouter()
@@ -61,7 +62,7 @@ const handleSubmit = async (value: any) => {
 
     await commonStore.login(value)
 
-    router.push({ name: 'home' })
+    router.push({ name: RouteName.HOME })
 
     notify({
       type: 'success',
