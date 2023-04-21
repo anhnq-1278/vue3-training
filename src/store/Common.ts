@@ -2,7 +2,7 @@ import { defineStore } from 'pinia'
 import { ref } from 'vue'
 import type { TDataAccount, TFormRequestLogin, TFormRequestRegister } from '@/model/Auth'
 import { AccountService, AuthService } from '@/services'
-import LocalStorage from '@/constants/LocalStorage'
+import { LocalStorage } from '@/constants'
 
 export default defineStore('common', () => {
   const isLoading = ref(false)
@@ -33,6 +33,13 @@ export default defineStore('common', () => {
     localStorage.setItem(LocalStorage.ACCESS_TOKEN, data.token)
   }
 
+  const logout = () => {
+    isLoggedIn.value = false
+
+    localStorage.removeItem(LocalStorage.IS_LOGGED_IN)
+    localStorage.removeItem(LocalStorage.ACCESS_TOKEN)
+  }
+
   const getMyAccount = async () => {
     try {
       isLoading.value = true
@@ -45,5 +52,5 @@ export default defineStore('common', () => {
     }
   }
 
-  return { isLoading, isLoggedIn, myAccount, setLoading, register, login, getMyAccount }
+  return { isLoading, isLoggedIn, myAccount, setLoading, register, login, logout, getMyAccount }
 })
