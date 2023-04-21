@@ -1,6 +1,14 @@
-export interface Task {
-  id?: string
+export type TTodo = {
+  _id?: string
   title: string
-  isComplete: boolean
-  isEdit: boolean
+}
+
+export type TTodoItem = {
+  _id: string
+  title: string
+  isCompleted: boolean
+}
+
+export type TTodoListParams = {
+  filter?: string
 }
