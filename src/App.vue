@@ -1,5 +1,6 @@
 <template>
   <RouterView />
+  <notifications />
   <Loading v-if="store.isLoading" />
 </template>
 <script setup lang="ts">
