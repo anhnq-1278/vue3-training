@@ -1,6 +1,5 @@
 <template>
   <RouterView />
-  <div id="modals" class="relative z-20"></div>
   <notifications />
   <Loading v-if="store.isLoading" />
 </template>
