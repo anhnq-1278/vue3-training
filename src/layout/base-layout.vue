@@ -1,4 +1,3 @@
-<!-- eslint-disable vue/multi-word-component-names -->
 <template>
   <div class="base-layout">
     <header-fixed @logout="handleLogout" @setting="handleSetting" />
