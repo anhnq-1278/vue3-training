@@ -9,9 +9,14 @@ const { notify } = useNotification()
 export default defineStore('auth', () => {
   const isLoading = ref(false)
   const myAccount = ref<TResAccount>({} as TResAccount)
+  const loadingStartTime = ref<number>(0)
 
   function setLoading(status: boolean) {
     isLoading.value = status
+
+    if (status) {
+      loadingStartTime.value = Date.now() // save loading start time
+    }
   }
 
   async function login(payload: TRequestAuth) {
@@ -40,5 +45,5 @@ export default defineStore('auth', () => {
     return data
   }
 
-  return { setLoading, login, isLoading, myAccount, register, getMyAccount }
+  return { setLoading, login, isLoading, myAccount, register, getMyAccount, loadingStartTime }
 })
