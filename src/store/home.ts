@@ -1,67 +1,55 @@
-import type { IList } from '@/type/Todo'
 import { defineStore } from 'pinia'
-import { computed, ref } from 'vue'
+import { todoService } from '@/services'
+import type { ITask, IToDoListParams } from '@/type/Todo'
 
-export const useTodoStore = defineStore('todo', () => {
-  const lists = ref<IList[]>([])
-
-  const remaining = computed(() => {
-    return lists.value.filter(({ isChecked }: { isChecked: boolean }) => !isChecked)
-  })
-
-  function addTask(task: string) {
-    if (!task.trim()) return
-
-    lists.value.push({ title: task, isChecked: false, isEdit: false })
+export default defineStore('todo', () => {
+  async function getTodoList(params?: IToDoListParams) {
+    return await todoService.getTodoList(params)
   }
 
-  function changeActive(index: number) {
-    lists.value[index].isChecked = !lists.value[index].isChecked
+  async function addTask(params: string) {
+    await todoService.addTodo(params)
   }
 
-  function removeTask(index: number) {
-    lists.value.splice(index, 1)
+  async function changeActive() {
+    await todoService.toggleAllTodo()
   }
 
-  function editTask(index: number) {
-    lists.value[index].isEdit = !lists.value[index].isEdit
+  async function removeTask(id: string) {
+    await todoService.deleteTodo(id)
   }
 
-  function onBlur(index: number) {
-    lists.value[index].isEdit = false
-
-    if (!lists.value[index].title.trim()) {
-      removeTask(index)
-    }
+  async function editTask(params: ITask) {
+    await todoService.editTodo(params)
   }
 
-  function clearCompleted() {
-    lists.value = lists.value.filter(({ isChecked }: { isChecked: boolean }) => !isChecked)
+  async function clearCompleted() {
+    await todoService.deleteAllCompletedTodo()
   }
 
-  function checkAll(isCheckAll: boolean) {
-    if (isCheckAll) {
-      lists.value.forEach((_, i) => {
-        lists.value[i].isChecked = false
-      })
+  async function checkAll() {
+    await todoService.toggleAllTodo()
+  }
 
-      return
-    }
+  async function updateCompletedTodo(params: string) {
+    await todoService.updateCompletedTodo(params)
+  }
 
-    lists.value.forEach((_, i) => {
-      lists.value[i].isChecked = true
-    })
+  async function getItemLeft() {
+    const { data } = await todoService.getItemLeft()
+
+    return data
   }
 
   return {
-    lists,
     addTask,
     editTask,
     clearCompleted,
-    onBlur,
-    remaining,
     changeActive,
     removeTask,
-    checkAll
+    checkAll,
+    getTodoList,
+    updateCompletedTodo,
+    getItemLeft
   }
 })
