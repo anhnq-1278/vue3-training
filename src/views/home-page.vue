@@ -61,7 +61,7 @@ async function getTodoList() {
   }
 }
 
-async function handleChangeTab(tabValue: string) {
+function handleChangeTab(tabValue: string) {
   tab.value = tabValue
   getTodoList()
 }
@@ -146,8 +146,8 @@ async function editTask({ title, id }: { title: string; id: string }) {
   }
 }
 
-async function handleEditTask({ title, id }: { title: string; id: string }) {
-  title ? await editTask({ title, id }) : await handleDeleteTask(id)
+function handleEditTask({ title, id }: { title: string; id: string }) {
+  title ? editTask({ title, id }) : handleDeleteTask(id)
 }
 
 async function handleChangeComplete(value: string) {
