@@ -1,8 +1,11 @@
 <template>
   <FilterPopup />
+  <RefTest />
 </template>
 <script setup lang="ts">
 import FilterPopup from '@/components/FilterPopup.vue'
+import RefTest from '@/components/RefTest.vue'
+
 </script>
 
 <style lang="scss" scoped>
