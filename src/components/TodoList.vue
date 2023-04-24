@@ -91,7 +91,7 @@
     </div>
     <DeleteTodoModal
       :show-modal="showModal"
-      @close-modal="handleCloseModal"
+      @close-modal="closeDeleteTodoModal"
       @on-submit="handleOnSubmit"
       width="400px"
     />
@@ -114,10 +114,6 @@ interface TTaskData {
 const isEdit = ref<boolean>(false)
 const title = ref<string>('')
 const showModal = ref<boolean>(false)
-
-function handleCloseModal() {
-  closeDeleteTodoModal()
-}
 
 const idDeleteTodo = ref<string | null>(null)
 
