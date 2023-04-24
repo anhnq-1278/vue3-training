@@ -1,16 +1,17 @@
 <template>
-  <div>
-    <h1 class="text-[100px] font-thin text-center m-5 text-brown-red">todos</h1>
-    <div class="todo relative bg-white shadow-todo max-w-[500px]">
-      <TodoControl @add-todo="addTodo" />
-      <div v-show="todos.length">
-        <ListTodo :todos="todosRender" />
-        <FooterTodo @change-tab="changeTab" :length-todos="todosRender.length" />
+  <BaseLayout>
+    <div>
+      <h1 class="text-[100px] font-thin text-center m-5 text-brown-red">todos</h1>
+      <div class="todo relative bg-white shadow-todo max-w-[500px] m-auto">
+        <TodoControl @add-todo="addTodo" />
+        <div v-show="todos.length">
+          <ListTodo :todos="todosRender" />
+          <FooterTodo @change-tab="changeTab" :length-todos="todosRender.length" />
+        </div>
       </div>
     </div>
-  </div>
+  </BaseLayout>
 </template>
-
 <script setup lang="ts">
 import { computed, onMounted, ref } from 'vue'
 import { storeToRefs } from 'pinia'
@@ -18,6 +19,7 @@ import { useTodoStore } from '@/store/todo'
 import TodoControl from '@/components/TodoControl.vue'
 import ListTodo from '@/components/ListTodo.vue'
 import FooterTodo from '@/components/FooterTodo.vue'
+import BaseLayout from '@/layout/BaseLayout.vue'
 
 const todoStore = useTodoStore()
 
