@@ -1,4 +1,4 @@
-import type { TRequestAuth, TResAccount } from '@/type/Common'
+import type { IChangePW, TRequestAuth, TResAccount } from '@/type/Common'
 import APIService from './api'
 
 class Auth extends APIService {
@@ -25,6 +25,10 @@ class Auth extends APIService {
     const { data } = await this.axios.get<{ data: TResAccount }>('my-account')
 
     return data
+  }
+
+  async changePassword(params: IChangePW) {
+    await this.axios.put('my-account/change-password', params)
   }
 }
 

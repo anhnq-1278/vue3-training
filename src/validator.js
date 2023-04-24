@@ -17,3 +17,9 @@ defineRule('password', (value) => {
     'Password must be between 6 and 16 characters and include at least one uppercase letter, one lowercase letter, and one special character (!@#$%)'
   )
 })
+
+defineRule('confirmed', (value, _, target) => {
+  const valueConfirm = target.rule.params[0]
+
+  return value === target.form[valueConfirm] || 'This password not matches';
+});

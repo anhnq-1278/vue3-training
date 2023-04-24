@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia'
 import { ref } from 'vue'
 import { commonService } from '@/services'
-import type { TRequestAuth, TResAccount } from '@/type/Common'
+import type { IChangePW, TRequestAuth, TResAccount } from '@/type/Common'
 import { useNotification } from '@kyvg/vue3-notification'
 
 const { notify } = useNotification()
@@ -42,8 +42,21 @@ export default defineStore('auth', () => {
   async function getMyAccount() {
     const { data } = await commonService.getMyAccount()
 
-    return data
+    myAccount.value = data
   }
 
-  return { setLoading, login, isLoading, myAccount, register, getMyAccount, loadingStartTime }
+  async function changePassword(payload: IChangePW) {
+    await commonService.changePassword(payload)
+  }
+
+  return {
+    setLoading,
+    login,
+    isLoading,
+    myAccount,
+    register,
+    getMyAccount,
+    loadingStartTime,
+    changePassword
+  }
 })

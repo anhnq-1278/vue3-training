@@ -7,17 +7,25 @@ const router = createRouter({
       path: '/',
       name: 'home',
       component: () => import('@/views/home-page.vue'),
-      meta: { auth: true }
+      meta: { auth: true, layout: 'default' }
     },
     {
       path: '/login',
       name: 'login',
-      component: () => import('@/views/login-page.vue')
+      component: () => import('@/views/login-page.vue'),
+      meta: { layout: 'auth' }
     },
     {
       path: '/register',
       name: 'register',
-      component: () => import('@/views/register-page.vue')
+      component: () => import('@/views/register-page.vue'),
+      meta: { layout: 'auth' }
+    },
+    {
+      path: '/change-password',
+      name: 'change-password',
+      component: () => import('@/views/change-password.vue'),
+      meta: { auth: true, layout: 'auth' }
     }
   ]
 })
