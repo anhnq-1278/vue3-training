@@ -1,6 +1,5 @@
 import { defineStore } from 'pinia'
 import userApi from '../api/userApi'
-import type { AxiosResponse } from 'axios'
 
 interface UserResponse {
   data: {

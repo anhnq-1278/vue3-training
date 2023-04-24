@@ -13,23 +13,11 @@
           <div>
             <h2 class="text-2xl uppercase mb-3">Hello fen</h2>
             <Form @submit="submit" :validation-schema="schema" class="flex flex-col">
-              <Field
-                v-model="email"
-                name="email"
-                type="text"
-                placeholder="address email"
-                @input="isWrong = false"
-              />
+              <Field v-model="email" name="email" type="text" placeholder="address email" />
               <ErrorMessage name="email" class="text-red-600" />
-              <Field
-                v-model="password"
-                name="password"
-                type="password"
-                placeholder="password"
-                @input="isWrong = false"
-              />
+              <Field v-model="password" name="password" type="password" placeholder="password" />
               <ErrorMessage name="password" class="text-red-600" />
-              <span v-if="isWrong" class="text-red-600"> email or password is wrong</span>
+              <ErrorMessage name="loginError" class="text-red-600" />
               <button
                 type="submit"
                 class="w-[120px] bg-[#677eff] py-1 mt-2 text-white cursor-pointer"
@@ -63,13 +51,12 @@ const schema = {
 const email = ref<string>('')
 const password = ref<string>('')
 
-const isWrong = ref<boolean>(false)
-const submit = async () => {
+const submit = async (_values: any, actions: any) => {
   try {
     await userStore.login(email.value, password.value)
     router.push('/')
   } catch (error) {
-    isWrong.value = true
+    actions.setErrors({ loginError: ['email or password is wrong'] })
   }
 }
 </script>

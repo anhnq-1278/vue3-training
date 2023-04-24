@@ -12,7 +12,8 @@ module.exports = {
         'todo-footer': `0 1px 1px rgb(0 0 0 / 20%), 0 8px 0 -3px #f6f6f6, 0 9px 1px -3px rgb(0 0 0 / 20%),
         0 16px 0 -6px #f6f6f6, 0 17px 2px -6px rgb(0 0 0 / 20%)`,
         'todo-edit': 'inset 0 -1px 5px 0 rgb(0 0 0 / 20%)',
-        form: '0 15px 50px rgba(0, 0, 0, 0.1)'
+        form: '0 15px 50px rgba(0, 0, 0, 0.1)',
+        info: '0 0 100px -5px rgb(0 0 0 / 25%)'
       },
       backgroundImage: {
         completed:
