@@ -26,8 +26,27 @@ export const useAccountStore = defineStore('account', () => {
     account.value = data.data
   }
 
+  const login = async (email: string, password: string) => {
+    const data: AccountResponse = await accountApi.login({
+      email,
+      password
+    })
+    const { token }: { token: string } = data.data.data
+    localStorage.setItem('token', token)
+  }
+
+  const register = async (username: string, email: string, password: string) => {
+    await accountApi.register({
+      username,
+      email,
+      password
+    })
+  }
+
   return {
     getAccount,
-    account
+    account,
+    login,
+    register
   }
 })

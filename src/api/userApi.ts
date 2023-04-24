@@ -1,22 +1,14 @@
 import axiosClient from './apiClient'
-import type { UserRegister, UserLogin } from '../interface/auth.dto'
 const userApi = {
-  async login({ email, password }: UserLogin) {
-    const url = '/login'
-    return axiosClient.post(url, {
-      email,
-      password
-    })
+  getUsers(page: number, limit: number) {
+    const url = '/users'
+    return axiosClient.get(url, { params: { page, limit } })
   },
-  register({ username, email, password }: UserRegister) {
-    const url = '/register'
-
-    return axiosClient.post(url, {
-      email,
-      username,
-      password
-    })
+  searchUser(query: string) {
+    const url = '/users/search'
+    return axiosClient.get(url, { params: { q: query } })
   }
+
 }
 
 export default userApi
