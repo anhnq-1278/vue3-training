@@ -12,4 +12,6 @@ export const formatDate = (date: Date | undefined) => {
 
     if (mm < 10) return yyyy + '-' + month + '-' + day
   }
+
+  return ''
 }
