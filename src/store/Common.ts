@@ -3,7 +3,7 @@ import { ref } from 'vue'
 import type { TDataAccount, TFormRequestLogin, TFormRequestRegister } from '@/model/Auth'
 import { AccountService, AuthService } from '@/services'
 import { LocalStorage } from '@/constants'
-import type { TUpdateAccount } from '@/model/Account'
+import type { TFormChangePW, TUpdateAccount } from '@/model/Account'
 
 export default defineStore('common', () => {
   const isLoading = ref(false)
@@ -54,13 +54,11 @@ export default defineStore('common', () => {
   }
 
   const updateMyAccount = async (payload: TUpdateAccount) => {
-    try {
-      isLoading.value = true
+    return await AccountService.updateMyAccount(payload)
+  }
 
-      return await AccountService.updateMyAccount(payload)
-    } finally {
-      isLoading.value = false
-    }
+  const changePassword = async (payload: TFormChangePW) => {
+    return await AccountService.changePassword(payload)
   }
 
   return {
@@ -72,6 +70,7 @@ export default defineStore('common', () => {
     login,
     logout,
     getMyAccount,
-    updateMyAccount
+    updateMyAccount,
+    changePassword
   }
 })

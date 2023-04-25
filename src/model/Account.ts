@@ -5,3 +5,9 @@ export type TUpdateAccount = {
   phone?: string
   avatar?: File | null
 }
+
+export type TFormChangePW = {
+  currentPassword: string
+  newPassword: string
+  confirmPassword: string
+}
