@@ -13,4 +13,11 @@ export interface TResAccount {
   token: string
   refreshToken: string
   isActive: boolean
+  avatar: string
+}
+
+export interface IChangePW {
+  currentPassword: string
+  newPassword: string
+  confirmPassword: string
 }
