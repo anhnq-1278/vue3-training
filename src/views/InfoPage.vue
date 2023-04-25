@@ -21,20 +21,32 @@
           information
         </button>
       </div>
-      <div class="p-10 flex-1">
+      <div class="p-10 flex-1 relative">
         <div
           class="w-[400px] flex justify-between items-center h-[50px] border border-gray border-solid px-5 rounded-full mb-5"
         >
           <input
             type="text"
-            class="bg border border-transparent border-solid w-full outline-none"
+            class="bg border border-transparent border-solid w-full outline-none peer"
             placeholder="Search ...."
             v-model.trim="query"
           />
           <IconSearch />
+          <ul
+            class="w-[400px] absolute top-[95px] left-[40px] h-[300px] bg-white shadow-todo overflow-y-auto"
+            :class="[isSearch ? 'block' : 'hidden']"
+          >
+            <li
+              v-for="user in listSearchUser"
+              :key="user._id"
+              class="p-4 hover:bg-[#1abc9c] cursor-pointer"
+              @click="showDetailUser"
+            >
+              {{ user.name }}
+            </li>
+          </ul>
         </div>
-        <ListSearchUser v-if="isSearch" :q="query" />
-        <ListUser v-else :query="query" />
+        <ListUser />
       </div>
     </div>
   </BaseLayout>
@@ -47,9 +59,12 @@ import { useAccountStore } from '@/store/account'
 import IconSearch from '@/assets/icons/IconSearch.vue'
 import IconTrash from '@/assets/icons/IconTrash.vue'
 import ListUser from '@/components/users/ListUser.vue'
-import ListSearchUser from '@/components/users/ListSearchUser.vue'
+import { useUserStore } from '@/store/user'
+import { storeToRefs } from 'pinia'
 
 const accountStore = useAccountStore()
+const userStore = useUserStore()
+const { listSearchUser } = storeToRefs(userStore)
 const isLoading = ref<boolean>(false)
 const query = ref<string>('')
 const isSearch = ref<boolean>(false)
@@ -65,14 +80,19 @@ onMounted(async () => {
   }
 })
 
+const showDetailUser = () => {
+  query.value = ''
+}
+
 watch(query, () => {
   const DELAY_TIME = query.value.trim() ? 1000 : 0
   clearTimeout(timeout.value)
-  timeout.value = setTimeout(() => {
-    if (!query.value) {
-      isSearch.value = false
-    } else {
+  timeout.value = setTimeout(async () => {
+    if (query.value) {
+      await userStore.searchUsers(query.value)
       isSearch.value = true
+    } else {
+      isSearch.value = false
     }
   }, DELAY_TIME)
 })
