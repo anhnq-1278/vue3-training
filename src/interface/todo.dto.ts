@@ -11,3 +11,9 @@ export interface UpdateTodoDTO {
   title?: string;
   isCompleted?: boolean;
 }
+
+export interface TodoResponse {
+  data: {
+    data: TodoDTO[]
+  }
+}

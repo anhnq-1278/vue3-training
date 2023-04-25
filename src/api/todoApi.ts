@@ -1,12 +1,13 @@
 import axiosClient from './apiClient'
-import type { UpdateTodoDTO } from '../interface/todo.dto'
+import type { UpdateTodoDTO, TodoResponse } from '../interface/todo.dto'
 
 const todoApi = {
-  createTodo(title: string) {
+  async createTodo(title: string) {
     const url = '/todo'
-    return axiosClient.post(url, {
+    const { data } = await axiosClient.post(url, {
       title,
     })
+    return data
   },
   updateTodoTitle({ id, title }: UpdateTodoDTO) {
     const url = '/todo/title'
@@ -24,9 +25,10 @@ const todoApi = {
       isCompleted
     })
   },
-  getTodos() {
+  async getTodos() {
     const url = '/todo'
-    return axiosClient.get(url)
+    const { data }: TodoResponse = await axiosClient.get(url)
+    return data
   },
 
   deleteTodo(id: string) {
