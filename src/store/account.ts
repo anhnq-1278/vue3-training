@@ -1,31 +1,18 @@
 import { defineStore } from 'pinia'
 import { ref } from 'vue'
 import accountApi from '../api/accountApi'
+import  type { Account } from '@/interface/auth.dto'
 
-interface Account {
-  _id: string;
-  email: string;
-  username: string;
-  isActive: boolean;
-  createAt: string;
-  updateAt: string;
-  token: string;
-  refreshToken: string
-}
-
-interface AccountResponse {
-  data: Account
-}
 
 export const useAccountStore = defineStore('account', () => {
   const account = ref<Account>()
   const getAccount = async () => {
-    const { data }: AccountResponse = await accountApi.getAccount();
+    const {data} : {data: Account} = await accountApi.getAccount();
     account.value = data
   }
 
   const login = async (email: string, password: string) => {
-    const { data }: AccountResponse = await accountApi.login({
+    const { data }: { data: Account } = await accountApi.login({
       email,
       password
     })

@@ -21,27 +21,27 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from "vue";
-import UserItem from "./UserItem.vue";
-import LoadingPage from "@/components/loadingPage.vue";
-import { useUserStore } from "@/store/user";
-import { onMounted } from "vue";
-import { storeToRefs } from "pinia";
+import { ref } from 'vue'
+import UserItem from './UserItem.vue'
+import LoadingPage from '@/components/LoadingPage.vue'
+import { useUserStore } from '@/store/user'
+import { onMounted } from 'vue'
+import { storeToRefs } from 'pinia'
 
-const userStore = useUserStore();
-const { listUser } = storeToRefs(userStore);
+const userStore = useUserStore()
+const { listUser } = storeToRefs(userStore)
 
-const page = ref<number>(1);
-const limit = ref<number>(10);
-const isLoading = ref<boolean>(false);
+const page = ref<number>(1)
+const limit = ref<number>(10)
+const isLoading = ref<boolean>(false)
 onMounted(async () => {
   try {
-    isLoading.value = true;
-    await userStore.getUsers(page.value, limit.value);
+    isLoading.value = true
+    await userStore.getUsers(page.value, limit.value)
   } catch (error) {
-    console.log(error);
+    console.log(error)
   } finally {
-    isLoading.value = false;
+    isLoading.value = false
   }
-});
+})
 </script>

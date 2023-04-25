@@ -11,10 +11,10 @@
           <img src="https://lmpixels.com/demo/breezycv/light/1/img/main_photo.jpg" alt="" />
         </div>
         <h3 class="text-white mx-0 mt--[5px] mb-[7px] text-5xl capitalize mt-5 font-semibold">
-          {{ accountStore.account?.username }}
+          {{ account?.username }}
         </h3>
         <p class="text-white my-[5px] mx-0 font-normal text">web developer</p>
-        <span class="text-white text-1xl">{{ accountStore.account?.email }}</span>
+        <span class="text-white text-1xl">{{ account?.email }}</span>
         <button
           class="block border border-white py-2 px-6 rounded-full text-white mt-[150px] m-auto capitalize hover:bg-white hover:text-[#1abc9c]"
         >
@@ -52,24 +52,26 @@
     </div>
   </BaseLayout>
 </template>
+
 <script setup lang="ts">
-import { onMounted, ref, watch } from 'vue'
+import { onMounted, ref } from 'vue'
 import BaseLayout from '@/layout/BaseLayout.vue'
-import LoadingPage from '@/components/loadingPage.vue'
+import LoadingPage from '@/components/LoadingPage.vue'
 import { useAccountStore } from '@/store/account'
 import IconSearch from '@/assets/icons/IconSearch.vue'
 import IconTrash from '@/assets/icons/IconTrash.vue'
 import ListUser from '@/components/users/ListUser.vue'
 import { useUserStore } from '@/store/user'
 import { storeToRefs } from 'pinia'
+import { debounce } from '@/utils/debounce'
 
 const accountStore = useAccountStore()
 const userStore = useUserStore()
 const { listSearchUser } = storeToRefs(userStore)
+const { account } = storeToRefs(accountStore)
 const isLoading = ref<boolean>(false)
 const query = ref<string>('')
 const isSearch = ref<boolean>(false)
-const timeout = ref<any>()
 
 onMounted(async () => {
   try {
@@ -88,15 +90,13 @@ const showDetailUser = () => {
 }
 
 const debounceSearch = () => {
-  clearTimeout(timeout.value)
-  const DELAY_TIME = query.value.trim() ? 1000 : 0
-  timeout.value = setTimeout(async () => {
+  debounce(async () => {
     if (query.value) {
       await userStore.searchUsers(query.value)
       isSearch.value = true
     } else {
       isSearch.value = false
     }
-  }, DELAY_TIME)
+  })
 }
 </script>

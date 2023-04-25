@@ -1,14 +1,15 @@
 import axiosClient from './apiClient'
-import type { UserRegister, UserLogin } from '../interface/auth.dto'
+import type { UserRegister, UserLogin , AccountResponse, Account } from '@/interface/auth.dto'
 
 const accountApi = {
   async getAccount() {
     const url = '/my-account'
-    return axiosClient.get(url)
+    const { data }: AccountResponse = await axiosClient.get(url)
+    return data
   },
-  async login({ email, password }: UserLogin) {
+  async login({ email, password }: UserLogin)  {
     const url = '/login'
-    const { data } = await axiosClient.post(url, {
+    const { data }: AccountResponse = await axiosClient.post(url, {
       email,
       password
     })
@@ -22,7 +23,7 @@ const accountApi = {
       username,
       password
     })
-  },
+  }
 }
 
 export default accountApi
