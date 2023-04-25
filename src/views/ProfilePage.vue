@@ -104,7 +104,6 @@ import Avatar from '@/components/Profile/AvatarImage.vue'
 import { reactive, ref } from 'vue'
 import type { TProfile } from '@/model/Profile'
 import { Form } from 'vee-validate'
-import '@/validators/ProfileValidator.ts'
 
 const isDisabled = ref<boolean>(true)
 const formData = reactive<TProfile>({

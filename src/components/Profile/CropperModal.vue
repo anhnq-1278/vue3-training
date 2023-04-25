@@ -105,11 +105,8 @@ function getUploadedImage(e: Event) {
 function validateFileUpload(fileData: any) {
   const maxFileSize = 10 * 1024 * 1024
   let hasError = false
-  console.log(fileData[0])
-
   const file = fileData[0]
   const fileType = fileData[0].name.toLowerCase().split('.').pop()
-
   const fileSize = parseInt(fileData[0].size)
 
   if (!file) return false

@@ -2,34 +2,18 @@
   <div class="h-full w-[290px] mt-[50px]">
     <div class="px-2.5 py-2.5 text-base">
       <h3 class="leading-[29px] text-xl font-medium text-[24px] py-2.5">Menu</h3>
-      <router-link :to="{ name: RouterName.Profile }">
-        <SidebarItem>
-          <template #logo>
-            <Profile />
-          </template>
-          <template #name>
-            <span>Profile</span>
-          </template>
-        </SidebarItem>
-      </router-link>
-      <router-link :to="{ name: 'home' }">
-        <SidebarItem>
-          <template #logo>
-            <YourTodo />
-          </template>
-          <template #name>
-            <span>Your Todo</span>
-          </template>
-        </SidebarItem>
-      </router-link>
-      <SidebarItem>
-        <template #logo>
-          <ChangePasswordIcon />
-        </template>
-        <template #name>
-          <span>Change Password</span>
-        </template>
-      </SidebarItem>
+      <template v-for="(menu, index) in menus" :key="index">
+        <router-link :to="{ name: `${menu.routerName}` }">
+          <SidebarItem>
+            <template #logo>
+              <component :is="components[menu.logo]" />
+            </template>
+            <template #name>
+              <span>{{ menu.sidebarName }}</span>
+            </template>
+          </SidebarItem>
+        </router-link>
+      </template>
       <SidebarItem @click="handleLogout">
         <template #logo>
           <Logout />
@@ -51,6 +35,31 @@ import SidebarItem from '@/components/common/SidebarItem/SidebarItem.vue'
 import CommonStore from '@/store/Common'
 import { useRouter } from 'vue-router'
 import { RouterName } from '@/router/constant'
+import { defineComponent } from 'vue'
+
+const menus = [
+  {
+    routerName: RouterName.Profile,
+    logo: 'Profile',
+    sidebarName: 'Profile'
+  },
+  {
+    routerName: RouterName.Home,
+    logo: 'YourTodo',
+    sidebarName: 'Your todo'
+  },
+  {
+    routerName: RouterName.ChangePassword,
+    logo: 'ChangePasswordIcon',
+    sidebarName: 'Change Password'
+  }
+]
+
+const components = defineComponent({
+  Profile,
+  YourTodo,
+  ChangePasswordIcon
+})
 
 const commonStore = CommonStore()
 const router = useRouter()

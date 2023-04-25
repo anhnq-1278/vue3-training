@@ -81,7 +81,6 @@ import InputText from '@/components/common/InputText/InputText.vue'
 import CommonStore from '@/store/Common'
 import { computed, reactive } from 'vue'
 import { Form } from 'vee-validate'
-import '@/validators/AuthValidator.ts'
 
 const schema = {
   email: 'required|email',
