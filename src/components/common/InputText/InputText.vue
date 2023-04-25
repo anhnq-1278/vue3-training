@@ -2,6 +2,7 @@
   <input
     :class="[
       'focus:outline-none',
+      'w-full',
       `${
         !!props.error || !!errorMessage
           ? 'border border-red-500 bg-red-fd'
@@ -33,10 +34,7 @@ const props = defineProps({
 })
 const name = toRef(props, 'name')
 
-const {
-  handleChange,
-  errorMessage
-} = useField(name, undefined, {
+const { handleChange, errorMessage = '' } = useField(name, undefined, {
   initialValue: props.value
 })
 </script>

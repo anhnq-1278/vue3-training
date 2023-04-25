@@ -6,7 +6,19 @@ const routes = [
     name: 'Layout',
     component: () => import('@/layout/index.vue'),
     meta: { auth: true },
-    children: [{ path: '/', name: 'home', component: () => import('@/views/home-page.vue') }]
+    children: [
+      { path: '/', name: RouterName.Home, component: () => import('@/views/home-page.vue') },
+      {
+        path: '/profile',
+        name: RouterName.Profile,
+        component: () => import('@/views/ProfilePage.vue')
+      },
+      {
+        path: '/change-password',
+        name: RouterName.ChangePassword,
+        component: () => import('@/views/ChangePasswordPage.vue')
+      }
+    ]
   },
   {
     path: '/component-test',

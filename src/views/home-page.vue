@@ -1,5 +1,5 @@
 <template>
-  <div class="w-[550px] mx-auto my-0 py-10">
+  <div class="w-[550px] mx-auto my-0 py-10 mt-[50px]">
     <h1 class="text-[100px] text-red-default font-thin text-center leading-[80px]">todos</h1>
     <TodoList
       :todos="todos"
