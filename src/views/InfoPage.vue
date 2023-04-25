@@ -27,9 +27,10 @@
         >
           <input
             type="text"
-            class="bg border border-transparent border-solid w-full outline-none peer"
+            class="bg border border-transparent border-solid w-full outline-none"
             placeholder="Search ...."
-            v-model.trim="query"
+            v-model="query"
+            @input="debounceSearch"
           />
           <IconSearch />
           <ul
@@ -74,19 +75,21 @@ onMounted(async () => {
   try {
     isLoading.value = true
     await accountStore.getAccount()
-    isLoading.value = false
   } catch (error) {
+    console.log(error)
+  } finally {
     isLoading.value = false
   }
 })
 
 const showDetailUser = () => {
   query.value = ''
+  isSearch.value = false
 }
 
-watch(query, () => {
-  const DELAY_TIME = query.value.trim() ? 1000 : 0
+const debounceSearch = () => {
   clearTimeout(timeout.value)
+  const DELAY_TIME = query.value.trim() ? 1000 : 0
   timeout.value = setTimeout(async () => {
     if (query.value) {
       await userStore.searchUsers(query.value)
@@ -95,5 +98,5 @@ watch(query, () => {
       isSearch.value = false
     }
   }, DELAY_TIME)
-})
+}
 </script>
