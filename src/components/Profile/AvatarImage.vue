@@ -1,7 +1,7 @@
 <template>
   <div class="flex items-center gap-x-2">
     <div v-if="hasShowImage" class="flex items-center gap-4">
-      <img :src="files.url" alt="image" class="w-32 h-32 rounded-full object-cover" />
+      <img :src="avatar" alt="image" class="w-32 h-32 rounded-full object-cover" />
     </div>
     <div v-else class="w-32 h-32 rounded-full bg-blue-e8 flex items-center justify-center">
       No image
@@ -52,7 +52,7 @@ function closeCropperModal() {
 }
 
 const hasShowImage = computed(() => {
-  return !!props.files.url
+  return !!props.avatar
 })
 
 const props = defineProps({
@@ -60,9 +60,9 @@ const props = defineProps({
     type: Array,
     default: () => []
   },
-  files: {
-    type: Object as PropType<IFile>,
-    default: () => ({})
+  avatar: {
+    type: String,
+    default: ''
   }
 })
 </script>

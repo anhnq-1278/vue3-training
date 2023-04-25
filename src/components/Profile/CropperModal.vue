@@ -103,7 +103,7 @@ function getUploadedImage(e: Event) {
 }
 
 function validateFileUpload(fileData: any) {
-  const maxFileSize = 10 * 1024 * 1024
+  const maxFileSize = 1 * 1024 * 1024
   let hasError = false
   const file = fileData[0]
   const fileType = fileData[0].name.toLowerCase().split('.').pop()
@@ -118,7 +118,7 @@ function validateFileUpload(fileData: any) {
   }
 
   if (fileSize >= maxFileSize) {
-    errorLocalValidate.value = 'Please select files smaller than 10MB'
+    errorLocalValidate.value = 'Please select files smaller than 1MB'
 
     hasError = true
   }
@@ -141,9 +141,18 @@ function closeModal() {
 }
 function crop() {
   const { canvas } = cropper.value.getResult()
+  const urlData = canvas.toDataURL()
+  croppedImageData.imageUrl = urlData
 
-  croppedImageData.file = fileInput.value.files[0]
-  croppedImageData.imageUrl = canvas.toDataURL()
+  // create a new file image cropper
+  const binaryData = atob(urlData.split(',')[1])
+  const uint8Array = new Uint8Array(binaryData.length)
+  for (let i = 0; i < binaryData.length; i++) {
+    uint8Array[i] = binaryData.charCodeAt(i)
+  }
+  const blob = new Blob([uint8Array], { type: 'image/jpeg' })
+  const newFile = new File([blob], 'newImageCrop.jpg', { type: 'image/jpeg' })
+  croppedImageData.file = newFile
 
   resetErrorMessage()
   emit('cropped-image-data', croppedImageData)
