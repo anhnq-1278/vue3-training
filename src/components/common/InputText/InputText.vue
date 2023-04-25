@@ -41,11 +41,10 @@ const name = toRef(props, 'name')
 const { handleChange, errorMessage = '' } = useField(name, undefined, {
   initialValue: props.value
 })
-  
-watch(
-  () => errorMessage.value,
-  (newErrorMessage) => {
 
+watch(
+  () => (<Ref<string | undefined>>errorMessage)?.value,
+  (newErrorMessage) => {
     if (newErrorMessage) {
       emit('hasErrorValidate', true)
     } else {

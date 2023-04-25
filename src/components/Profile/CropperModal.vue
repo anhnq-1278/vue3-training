@@ -139,18 +139,15 @@ function closeModal() {
   resetErrorMessage()
   emit('close-modal')
 }
-function crop() {
+async function crop() {
   const { canvas } = cropper.value.getResult()
-  const urlData = canvas.toDataURL()
-  croppedImageData.imageUrl = urlData
 
-  // create a new file image cropper
-  const binaryData = atob(urlData.split(',')[1])
-  const uint8Array = new Uint8Array(binaryData.length)
-  for (let i = 0; i < binaryData.length; i++) {
-    uint8Array[i] = binaryData.charCodeAt(i)
-  }
-  const blob = new Blob([uint8Array], { type: 'image/jpeg' })
+  croppedImageData.imageUrl = canvas.toDataURL()
+
+  const blobPromise = new Promise<Blob>((resolve) => {
+    canvas.toBlob((blob: any) => resolve(blob))
+  })
+  const blob = await blobPromise
   const newFile = new File([blob], 'newImageCrop.jpg', { type: 'image/jpeg' })
   croppedImageData.file = newFile
 

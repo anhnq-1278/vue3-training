@@ -14,8 +14,8 @@
   <CropperModal
     :acceptFileType="acceptFileType"
     :showModal="showModal"
-    :minAspectRatioProp="{ width: 16, height: 9 }"
-    :maxAspectRatioProp="{ width: 16, height: 9 }"
+    :minAspectRatioProp="{ width: 8, height: 8 }"
+    :maxAspectRatioProp="{ width: 8, height: 8 }"
     @close-modal="closeCropperModal"
     @cropped-image-data="handleGetCropperImage"
     width="640px"
