@@ -3,6 +3,7 @@ import { ref } from 'vue'
 import type { TDataAccount, TFormRequestLogin, TFormRequestRegister } from '@/model/Auth'
 import { AccountService, AuthService } from '@/services'
 import { LocalStorage } from '@/constants'
+import type { TUpdateAccount } from '@/model/Account'
 
 export default defineStore('common', () => {
   const isLoading = ref(false)
@@ -52,5 +53,25 @@ export default defineStore('common', () => {
     }
   }
 
-  return { isLoading, isLoggedIn, myAccount, setLoading, register, login, logout, getMyAccount }
+  const updateMyAccount = async (payload: TUpdateAccount) => {
+    try {
+      isLoading.value = true
+
+      return await AccountService.updateMyAccount(payload)
+    } finally {
+      isLoading.value = false
+    }
+  }
+
+  return {
+    isLoading,
+    isLoggedIn,
+    myAccount,
+    setLoading,
+    register,
+    login,
+    logout,
+    getMyAccount,
+    updateMyAccount
+  }
 })

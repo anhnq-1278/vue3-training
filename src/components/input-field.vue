@@ -1,10 +1,11 @@
 <template>
   <div class="flex flex-col">
+    <span class="uppercase text-pink-8 font-bold mb-1 block" v-show="!!title">{{ title }}</span>
     <input
       :class="[
-        `w-full h-[50px] bg-pink-f6 border rounded focus-visible:outline-none px-4 text-lg ${
+        `input-field w-full h-[50px] border rounded focus-visible:outline-none px-4 text-lg ${
           !!errorMessage || isError ? 'border-red-700' : 'border-pink-e4 text-pink-8'
-        }`
+        } ${disable ? '!bg-gray-300 text-gray-700 cursor-not-allowed !border-none' : 'bg-pink-f6'}`
       ]"
       :name="name"
       :id="name"
@@ -12,6 +13,8 @@
       :value="inputValue"
       :placeholder="placeholder"
       @input="handleChange"
+      :disabled="disable"
+      v-bind="$attrs"
     />
     <div class="min-h-[30px]">
       <p v-if="!!errorMessage" class="text-sm ml-3 text-red-700 italic mt-[2px]">
@@ -34,7 +37,9 @@ const props = defineProps({
   name: { type: String, required: true },
   placeholder: { type: String, default: '' },
   isError: { type: Boolean, default: false },
-  errorMsg: { type: String, default: '' }
+  errorMsg: { type: String, default: '' },
+  title: { type: String, default: '' },
+  disable: { type: Boolean, default: false }
 })
 
 const name = toRef(props, 'name')
