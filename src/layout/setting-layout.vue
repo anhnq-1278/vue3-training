@@ -1,6 +1,6 @@
 <template>
   <div class="w-full min-h-screen flex">
-    <div class="w-[30%] bg-white pt-[100px]">
+    <div class="w-[400px] bg-white pt-[100px]">
       <div class="flex flex-col items-center">
         <img
           :src="
@@ -42,7 +42,7 @@
         </router-link>
       </div>
     </div>
-    <div class="w-[70%] bg-pink-f6">
+    <div class="flex-1 bg-pink-f6">
       <router-view />
     </div>
   </div>

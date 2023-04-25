@@ -54,3 +54,12 @@ defineRule('password', (value: string) => {
 
   return true
 })
+
+defineRule('phoneNumber', (value: string) => {
+  const regexExp = /^(\+\d{1,2}\s?)?\(?\d{3}\)?[\s.-]?\d{3}[\s.-]?\d{4}$/
+  if (!regexExp.test(value)) {
+    return 'Phone number must be 10 digit number'
+  }
+
+  return true
+})
