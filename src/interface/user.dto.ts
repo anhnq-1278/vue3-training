@@ -10,3 +10,16 @@ export interface SearchUserDTO {
   _id: string;
   name: string;
 }
+
+
+export interface UserResponse {
+  data: {
+    data: UserDTO[]
+  };
+}
+
+export interface SearchUserResponse {
+  data: {
+    data: SearchUserDTO[]
+  };
+}

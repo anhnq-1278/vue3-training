@@ -59,9 +59,9 @@
 import { Field, Form, ErrorMessage } from 'vee-validate'
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
-import { useUserStore } from '@/store/user'
+import { useAccountStore } from '@/store/account'
 
-const userStore = useUserStore()
+const accountStore = useAccountStore()
 
 const router = useRouter()
 const schema = {
@@ -76,7 +76,7 @@ const isWrong = ref<boolean>(false)
 
 const submit = async () => {
   try {
-    await userStore.register(username.value, email.value, password.value)
+    await accountStore.register(username.value, email.value, password.value)
     router.push('/login')
   } catch (error) {
     email.value = ''

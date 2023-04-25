@@ -14,24 +14,22 @@ interface Account {
 }
 
 interface AccountResponse {
-  data: {
-    data: Account
-  }
+  data: Account
 }
 
 export const useAccountStore = defineStore('account', () => {
   const account = ref<Account>()
   const getAccount = async () => {
     const { data }: AccountResponse = await accountApi.getAccount();
-    account.value = data.data
+    account.value = data
   }
 
   const login = async (email: string, password: string) => {
-    const data: AccountResponse = await accountApi.login({
+    const { data }: AccountResponse = await accountApi.login({
       email,
       password
     })
-    const { token }: { token: string } = data.data.data
+    const { token }: { token: string } = data
     localStorage.setItem('token', token)
   }
 

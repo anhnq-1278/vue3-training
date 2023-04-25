@@ -1,12 +1,16 @@
 import axiosClient from './apiClient'
+import type { UserResponse, SearchUserResponse } from '@/interface/user.dto'
+
 const userApi = {
-  getUsers(page: number, limit: number) {
+  async getUsers(page: number, limit: number) {
     const url = '/users'
-    return axiosClient.get(url, { params: { page, limit } })
+    const { data }: UserResponse = await axiosClient.get(url, { params: { page, limit } })
+    return data
   },
-  searchUser(query: string) {
+  async searchUser(query: string) {
     const url = '/users/search'
-    return axiosClient.get(url, { params: { q: query } })
+    const { data }: SearchUserResponse = await axiosClient.get(url, { params: { q: query } })
+    return data
   }
 
 }

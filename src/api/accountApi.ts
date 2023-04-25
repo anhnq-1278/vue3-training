@@ -8,10 +8,11 @@ const accountApi = {
   },
   async login({ email, password }: UserLogin) {
     const url = '/login'
-    return axiosClient.post(url, {
+    const { data } = await axiosClient.post(url, {
       email,
       password
     })
+    return data
   },
   register({ username, email, password }: UserRegister) {
     const url = '/register'
