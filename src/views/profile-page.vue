@@ -68,14 +68,27 @@
                   title="Full name"
                   :value="myAccount.name"
                 />
-                <input-field type="text" placeholder="Address" name="address" title="Address" />
-                <input-field type="text" placeholder="Phone" name="phone" title="Phone" />
+                <input-field
+                  type="text"
+                  placeholder="Address"
+                  name="address"
+                  title="Address"
+                  :value="myAccount.address"
+                />
+                <input-field
+                  type="text"
+                  placeholder="Phone"
+                  name="phone"
+                  title="Phone"
+                  :value="myAccount.phone"
+                />
                 <input-field
                   type="date"
                   name="birthday"
                   min="1900-01-01"
                   max="2023-01-01"
                   title="Birthday"
+                  :value="formatDate(new Date(myAccount.birthday || ''))"
                 />
               </div>
             </div>
