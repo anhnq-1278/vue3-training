@@ -118,6 +118,7 @@ import EyeSlashIcon from '@/components/icons/EyeSlashIcon.vue'
 import { computed, reactive, ref } from 'vue'
 import ProfileStore from '@/store/Profile'
 import CommonStore from '@/store/Common'
+import type { TChangePassword } from '@/model/Profile'
 
 const schema = {
   currentPassword: 'password',
@@ -125,17 +126,7 @@ const schema = {
   confirmPassword: 'confirmedPassword:newPassword|password'
 }
 
-interface TChangePassword {
-  currentPassword: string
-  newPassword: string
-  confirmPassword: string
-}
-
-interface ErrorMessage {
-  currentPassword: string
-  newPassword: string
-  confirmPassword: string
-}
+interface ErrorMessage extends TChangePassword {}
 
 const errorMessage = reactive<ErrorMessage>({} as ErrorMessage)
 const errorValidate = ref<boolean>(false)
