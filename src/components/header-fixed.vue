@@ -9,35 +9,33 @@
       >
         todos app
       </h1>
-      <Popover class="relative">
-        <PopoverButton class="focus-visible:outline-none"
-          >Hello, {{ myAccount.username }}</PopoverButton
-        >
-
-        <PopoverPanel
-          v-slot="{ close }"
-          class="absolute bg-white right-[-20px] top-[41px] shadow-lg"
-        >
-          <div
-            class="px-10 py-2 cursor-pointer hover:bg-pink-f5 duration-200"
-            @click="handleClickSetting(close)"
-          >
-            Setting
-          </div>
-          <div
-            class="px-10 py-2 cursor-pointer hover:bg-pink-f5 duration-200"
-            @click="emit('logout')"
-          >
-            Logout
-          </div>
-        </PopoverPanel>
-      </Popover>
+      <Menu>
+        <MenuButton class="focus-visible:outline-none">Hello, {{ myAccount.username }}</MenuButton>
+        <MenuItems class="absolute bg-white right-[-15px] top-[60px] shadow-lg flex flex-col">
+          <MenuItem>
+            <div
+              class="px-10 py-2 cursor-pointer hover:bg-pink-f5 duration-200"
+              @click="emit('setting')"
+            >
+              Setting
+            </div>
+          </MenuItem>
+          <MenuItem>
+            <div
+              class="px-10 py-2 cursor-pointer hover:bg-pink-f5 duration-200"
+              @click="emit('logout')"
+            >
+              Logout
+            </div>
+          </MenuItem>
+        </MenuItems>
+      </Menu>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { Popover, PopoverButton, PopoverPanel } from '@headlessui/vue'
+import { Menu, MenuButton, MenuItems, MenuItem } from '@headlessui/vue'
 
 import { storeToRefs } from 'pinia'
 import CommonStore from '@/store/Common'
@@ -54,10 +52,5 @@ const emit = defineEmits<{
 
 const handleClickLogo = () => {
   router.push({ name: RouteName.HOME })
-}
-
-const handleClickSetting = (close: any) => {
-  emit('setting')
-  close()
 }
 </script>
