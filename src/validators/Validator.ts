@@ -1,4 +1,4 @@
-import { type FieldContextKey, defineRule } from 'vee-validate'
+import { defineRule } from 'vee-validate'
 
 defineRule('required', (value: string) => {
   return !!value || 'This field is required'
