@@ -14,6 +14,10 @@ export interface TResAccount {
   refreshToken: string
   isActive: boolean
   avatar: string
+  address: string
+  phone: string
+  name: string
+  birthday: string
 }
 
 export interface IChangePW {
