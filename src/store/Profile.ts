@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia'
 import { profileService } from '@/services'
-import type { TProfile } from '@/model/Profile'
+import type { TChangePassword, TProfile } from '@/model/Profile'
 import { useNotification } from '@kyvg/vue3-notification'
 import { NotificationTypes } from '@/constants'
 
@@ -20,5 +20,14 @@ export default defineStore('profile', () => {
     })
   }
 
-  return { getProfile, updateProfile }
+  async function changePassword(data: TChangePassword) {
+    await profileService.changePassword(data)
+
+      notify({
+        type: NotificationTypes.SUCCESS,
+        title: 'Password successfully updated'
+      })
+  }
+
+  return { getProfile, updateProfile, changePassword }
 })

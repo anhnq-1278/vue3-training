@@ -1,4 +1,4 @@
-import { defineRule } from 'vee-validate'
+import { type FieldContextKey, defineRule } from 'vee-validate'
 
 defineRule('required', (value: string) => {
   return !!value || 'This field is required'
@@ -12,6 +12,8 @@ defineRule('email', (value: string) => {
 })
 
 defineRule('password', (value: string) => {
+  if (!value) return true
+
   const regex = /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[!@#$%])[A-Za-z\d!@#$%]{6,16}$/
   return (
     regex.test(value) ||
@@ -31,3 +33,9 @@ defineRule('phone', (value: string) => {
   const regex = /(84|0[3|5|7|8|9])+([0-9]{8})\b/g
   return regex.test(value) || 'Not Viet Nam phone format, example: 840123456789 '
 })
+
+defineRule('confirmedPassword', (value: string, _, target: any) => {
+  const valueConfirm = target.rule.params[0]
+
+  return value === target.form[valueConfirm] || 'This password not matches'
+})  
