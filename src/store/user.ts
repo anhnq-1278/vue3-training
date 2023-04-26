@@ -1,41 +1,25 @@
 import { defineStore } from 'pinia'
+import { ref } from 'vue'
 import userApi from '../api/userApi'
-
-interface UserResponse {
-  data: {
-    data: {
-      _id: string;
-      email: string;
-      username: string;
-      isActive: boolean;
-      createAt: string;
-      updateAt: string;
-      token: string;
-      refreshToken: string
-    }
-  };
-}
+import type { UserDTO, SearchUserDTO } from '@/interface/user.dto'
 
 export const useUserStore = defineStore('user', () => {
-  const login = async (email: string, password: string) => {
-    const data: UserResponse = await userApi.login({
-      email,
-      password
-    })
-    const { token }: { token: string } = data.data.data
-    localStorage.setItem('token', token)
+  const listUser = ref<Array<UserDTO>>([])
+  const listSearchUser = ref<Array<SearchUserDTO>>([])
+  const getUsers = async (page: number, limit: number) => {
+    const { data }: { data: UserDTO[] } = await userApi.getUsers(page, limit);
+    listUser.value = data
   }
 
-  const register = async (username: string, email: string, password: string) => {
-    await userApi.register({
-      username,
-      email,
-      password
-    })
+  const searchUsers = async (query: string) => {
+    const { data }: { data: SearchUserDTO[] } = await userApi.searchUser(query);
+    listSearchUser.value = data
   }
 
   return {
-    login,
-    register
+    getUsers,
+    listUser,
+    searchUsers,
+    listSearchUser
   }
 })

@@ -9,12 +9,12 @@ export const useTodoStore = defineStore('todo', () => {
 
   const getTodos = async () => {
     const { data } = await todoApi.getTodos();
-    todos.value = data.data
+    todos.value = data
   }
 
   const addTodo = async (title: string) => {
     const { data } = await todoApi.createTodo(title);
-    const newTodo: TodoDTO = data.data
+    const newTodo: TodoDTO = data
     todos.value.push(newTodo)
   }
 
