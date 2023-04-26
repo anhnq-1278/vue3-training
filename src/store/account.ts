@@ -1,13 +1,26 @@
 import { defineStore } from 'pinia'
 import { ref } from 'vue'
 import accountApi from '../api/accountApi'
-import  type { Account } from '@/interface/auth.dto'
+import type { Account } from '@/interface/auth.dto'
 
 
 export const useAccountStore = defineStore('account', () => {
-  const account = ref<Account>()
+  const account = ref<Account>({
+    _id: '',
+    email: '',
+    username: '',
+    createAt: '',
+    updateAt: '',
+    token: '',
+    refreshToken: '',
+    address: '',
+    birthday: '',
+    phone: '',
+    name: '',
+  })
+
   const getAccount = async () => {
-    const {data} : {data: Account} = await accountApi.getAccount();
+    const { data }: { data: Account } = await accountApi.getAccount();
     account.value = data
   }
 
@@ -16,7 +29,7 @@ export const useAccountStore = defineStore('account', () => {
       email,
       password
     })
-    const { token }: { token: string } = data
+    const token: string = data.token || ''
     localStorage.setItem('token', token)
   }
 
@@ -28,10 +41,15 @@ export const useAccountStore = defineStore('account', () => {
     })
   }
 
+  const update = async (data: FormData) => {
+    await accountApi.update(data);
+  }
+
   return {
     getAccount,
     account,
     login,
-    register
+    register,
+    update
   }
 })

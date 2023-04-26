@@ -16,39 +16,57 @@
         <p class="text-white my-[5px] mx-0 font-normal text">web developer</p>
         <span class="text-white text-1xl">{{ account?.email }}</span>
         <button
-          class="block border border-white py-2 px-6 rounded-full text-white mt-[150px] m-auto capitalize hover:bg-white hover:text-[#1abc9c]"
+          type="button"
+          @click="openModal"
+          class="block border border-white py-2 px-6 rounded-full text-white mt-[150px] m-auto capitalize hover:bg-white hover:text-[#1abc9c] outline-none"
         >
           information
         </button>
-      </div>
-      <div class="p-10 flex-1 relative">
-        <div
-          class="w-[400px] flex justify-between items-center h-[50px] border border-gray border-solid px-5 rounded-full mb-5"
-        >
-          <input
-            type="text"
-            class="bg border border-transparent border-solid w-full outline-none"
-            placeholder="Search ...."
-            v-model="query"
-            @input="debounceSearch"
-          />
-          <IconSearch />
-          <ul
-            class="w-[400px] absolute top-[95px] left-[40px] h-[300px] bg-white shadow-todo overflow-y-auto"
-            :class="[isSearch ? 'block' : 'hidden']"
-          >
-            <li
-              v-for="user in listSearchUser"
-              :key="user._id"
-              class="p-4 hover:bg-[#1abc9c] cursor-pointer"
-              @click="showDetailUser"
+        <TransitionRoot appear :show="isOpen" as="template">
+          <Dialog as="div" @close="closeModal" class="relative z-10">
+            <TransitionChild
+              as="template"
+              enter="duration-300 ease-out"
+              enter-from="opacity-0"
+              enter-to="opacity-100"
+              leave="duration-200 ease-in"
+              leave-from="opacity-100"
+              leave-to="opacity-0"
             >
-              {{ user.name }}
-            </li>
-          </ul>
-        </div>
-        <ListUser />
+              <div class="fixed inset-0 bg-black bg-opacity-25" />
+            </TransitionChild>
+
+            <div class="fixed inset-0 overflow-y-auto">
+              <div class="flex min-h-full items-center justify-center p-4 text-center">
+                <TransitionChild
+                  as="template"
+                  enter="duration-300 ease-out"
+                  enter-from="opacity-0 scale-95"
+                  enter-to="opacity-100 scale-100"
+                  leave="duration-200 ease-in"
+                  leave-from="opacity-100 scale-100"
+                  leave-to="opacity-0 scale-95"
+                >
+                  <DialogPanel
+                    class="w-full max-w-md transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all"
+                  >
+                    <DialogTitle
+                      as="h3"
+                      class="text-lg leading-6 text-gray-900 mb-4 capitalize font-semibold"
+                    >
+                      information detail
+                    </DialogTitle>
+                    <div class="mt-2">
+                      <Profile />
+                    </div>
+                  </DialogPanel>
+                </TransitionChild>
+              </div>
+            </div>
+          </Dialog>
+        </TransitionRoot>
       </div>
+      <UserComponent />
     </div>
   </BaseLayout>
 </template>
@@ -58,20 +76,15 @@ import { onMounted, ref } from 'vue'
 import BaseLayout from '@/layout/BaseLayout.vue'
 import LoadingPage from '@/components/LoadingPage.vue'
 import { useAccountStore } from '@/store/account'
-import IconSearch from '@/assets/icons/IconSearch.vue'
-import IconTrash from '@/assets/icons/IconTrash.vue'
-import ListUser from '@/components/users/ListUser.vue'
-import { useUserStore } from '@/store/user'
 import { storeToRefs } from 'pinia'
-import { debounce } from '@/utils/debounce'
+import Profile from '@/components/account/Profile.vue'
+import UserComponent from '@/components/users/UserComponent.vue'
+import { TransitionRoot, TransitionChild, Dialog, DialogPanel, DialogTitle } from '@headlessui/vue'
 
 const accountStore = useAccountStore()
-const userStore = useUserStore()
-const { listSearchUser } = storeToRefs(userStore)
 const { account } = storeToRefs(accountStore)
 const isLoading = ref<boolean>(false)
-const query = ref<string>('')
-const isSearch = ref<boolean>(false)
+const isOpen = ref(false)
 
 onMounted(async () => {
   try {
@@ -84,19 +97,10 @@ onMounted(async () => {
   }
 })
 
-const showDetailUser = () => {
-  query.value = ''
-  isSearch.value = false
+const closeModal = () => {
+  isOpen.value = false
 }
-
-const debounceSearch = () => {
-  debounce(async () => {
-    if (query.value) {
-      await userStore.searchUsers(query.value)
-      isSearch.value = true
-    } else {
-      isSearch.value = false
-    }
-  })
+const openModal = () => {
+  isOpen.value = true
 }
 </script>
