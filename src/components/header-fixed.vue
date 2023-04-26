@@ -9,23 +9,36 @@
       >
         todos app
       </h1>
-      <div class="cursor-pointer" @click="isOpen = true" v-click-outside="onClickOutside">
-        Hello, {{ myAccount.username }}
-      </div>
-    </div>
-    <div class="popover absolute top-[60px] bg-white right-4" v-show="isOpen">
-      <div class="px-10 py-2 cursor-pointer hover:bg-pink-f5 duration-200" @click="emit('setting')">
-        Setting
-      </div>
-      <div class="px-10 py-2 cursor-pointer hover:bg-pink-f5 duration-200" @click="emit('logout')">
-        Logout
-      </div>
+      <Popover class="relative">
+        <PopoverButton class="focus-visible:outline-none"
+          >Hello, {{ myAccount.username }}</PopoverButton
+        >
+
+        <PopoverPanel
+          v-slot="{ close }"
+          class="absolute bg-white right-[-20px] top-[41px] shadow-lg"
+        >
+          <div
+            class="px-10 py-2 cursor-pointer hover:bg-pink-f5 duration-200"
+            @click="handleClickSetting(close)"
+          >
+            Setting
+          </div>
+          <div
+            class="px-10 py-2 cursor-pointer hover:bg-pink-f5 duration-200"
+            @click="emit('logout')"
+          >
+            Logout
+          </div>
+        </PopoverPanel>
+      </Popover>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
+import { Popover, PopoverButton, PopoverPanel } from '@headlessui/vue'
+
 import { storeToRefs } from 'pinia'
 import CommonStore from '@/store/Common'
 import { useRouter } from 'vue-router'
@@ -34,20 +47,17 @@ import { RouteName } from '@/constants'
 const { myAccount } = storeToRefs(CommonStore())
 const router = useRouter()
 
-const isOpen = ref(false)
-
 const emit = defineEmits<{
   (e: 'logout'): void
   (e: 'setting'): void
 }>()
 
-const onClickOutside = () => {
-  if (!isOpen.value) return
-
-  isOpen.value = false
-}
-
 const handleClickLogo = () => {
   router.push({ name: RouteName.HOME })
+}
+
+const handleClickSetting = (close: any) => {
+  emit('setting')
+  close()
 }
 </script>
