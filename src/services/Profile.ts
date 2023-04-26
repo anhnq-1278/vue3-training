@@ -1,4 +1,4 @@
-import type { TProfile } from '@/model/Profile'
+import type { TProfile, TChangePassword } from '@/model/Profile'
 import APIService from './api'
 import type { TLogin, TRegister } from '@/model/Auth'
 
@@ -17,6 +17,10 @@ class ProfileService extends APIService {
         'Content-Type': 'multipart/form-data'
       }
     })
+  }
+
+  async changePassword(data: TChangePassword) {
+    return await this.axios.put('/my-account/change-password', data)
   }
 }
 
