@@ -16,16 +16,26 @@
               }"
             />
 
-            <button
-              :class="[
-                'bg-[#45f3ff] text-[#23242a] font-semibold w-[100px] mt-6 cursor-pointer h-10 flex items-center justify-center rounded',
-                { 'bg-[#dbdbdb] !cursor-not-allowed text-white border-none': !formValid }
-              ]"
-              type="submit"
-              :disabled="!formValid"
-            >
-              Submit
-            </button>
+            <div class="flex gap-2">
+              <button
+                :class="[
+                  'bg-[#45f3ff] text-[#23242a] font-semibold w-[100px] mt-6 cursor-pointer h-10 flex items-center justify-center rounded',
+                  { 'bg-[#dbdbdb] !cursor-not-allowed text-white border-none': !formValid }
+                ]"
+                type="submit"
+                :disabled="!formValid"
+              >
+                Submit
+              </button>
+              <router-link
+                to="/"
+                :class="[
+                  'bg-[#45f3ff] text-[#23242a] font-semibold w-[100px] mt-6 cursor-pointer h-10 flex items-center justify-center rounded'
+                ]"
+              >
+                Back
+              </router-link>
+            </div>
           </div>
         </form>
       </div>
