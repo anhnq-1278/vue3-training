@@ -1,7 +1,9 @@
-import Auth from './Auth';
-import Todo from './Todo';
+import Profile from './Profile'
+import Auth from './Auth'
+import Todo from './Todo'
 
-const authService = new Auth();
-const todoService = new Todo();
+const authService = new Auth()
+const todoService = new Todo()
+const profileService = new Profile()
 
-export { authService, todoService }
+export { authService, todoService, profileService }

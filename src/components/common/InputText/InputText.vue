@@ -22,8 +22,12 @@
 </template>
 
 <script setup lang="ts">
-import { toRef } from 'vue'
+import {type Ref, toRef, watch, computed } from 'vue'
 import { useField } from 'vee-validate'
+
+const emit = defineEmits<{
+  (e: 'hasErrorValidate', data: boolean): void
+}>()
 
 const props = defineProps({
   error: { type: String, default: '' },
@@ -37,6 +41,17 @@ const name = toRef(props, 'name')
 const { handleChange, errorMessage = '' } = useField(name, undefined, {
   initialValue: props.value
 })
+
+watch(
+  () => (<Ref<string | undefined>>errorMessage)?.value,
+  (newErrorMessage) => {
+    if (newErrorMessage) {
+      emit('hasErrorValidate', true)
+    } else {
+      emit('hasErrorValidate', false)
+    }
+  }
+)
 </script>
 
 <style scoped lang="scss"></style>

@@ -3,5 +3,5 @@ export type TProfile = {
     address?: string;
     phone?: string;
     birthday?: string;
-    file?: any;
+    avatar?: any;
 }

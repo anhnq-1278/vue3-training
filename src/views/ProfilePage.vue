@@ -1,5 +1,5 @@
 <template>
-  <div class="px-[10%] h-[500px] w-full mt-[50px] pt-11">
+  <div v-if="!isPerLoading" class="px-[10%] h-[500px] w-full mt-[50px] pt-11">
     <h3 class="mb-4 text-[40px] font-bold leading-8">Your profile</h3>
     <div class="text-base mb-6">
       You can update your personal information below to display on your profile
@@ -10,7 +10,7 @@
       :validation-schema="schema"
     >
       <Avatar
-        :files="formData.file"
+        :avatar="formData.avatar"
         :acceptFileType="['jpeg', 'png', 'jpg']"
         @cropped-image-data="handleGetCropperImage"
       />
@@ -20,7 +20,7 @@
             <Input
               @keydown.enter.prevent
               name="name"
-              class="h-10"
+              class="h-10 bg-white-fb"
               :value="formData.name"
               @input="handleChangeInput($event, 'name')"
             />
@@ -31,9 +31,11 @@
             <Input
               @keydown.enter.prevent
               name="birthday"
-              class="h-10"
+              type="date"
+              class="h-10 bg-white-fb"
               :value="formData.birthday"
               @input="handleChangeInput($event, 'birthday')"
+              @has-error-validate="handleChangeErrorStatus"
             />
           </template>
         </InputLabel>
@@ -44,7 +46,7 @@
             <Input
               @keydown.enter.prevent
               name="address"
-              class="h-10"
+              class="h-10 bg-white-fb"
               :value="formData.address"
               @input="handleChangeInput($event, 'address')"
             />
@@ -57,9 +59,11 @@
             <Input
               @keydown.enter.prevent
               name="phone"
-              class="h-10"
+              class="h-10 bg-white-fb"
               :value="formData.phone"
+              :error="errorPhoneMessage"
               @input="handleChangeInput($event, 'phone')"
+              @has-error-validate="handleChangeErrorStatus"
             />
           </template>
         </InputLabel>
@@ -67,14 +71,9 @@
 
       <div class="mt-6 flex items-center gap-4">
         <button
-          :disabled="isDisabled"
+          @click="handleCancel"
           :class="[
-            'h-10 w-[100px] text-base font-bold text-white rounded-[3px] border border-grey-dc',
-            `${
-              isDisabled
-                ? 'cursor-not-allowed bg-white-fb'
-                : 'cursor-pointer  hover:bg-slate-400 hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)]'
-            }`
+            'h-10 w-[100px] text-base font-bold text-white rounded-[3px] border border-grey-dc'
           ]"
         >
           Cancel
@@ -101,36 +100,115 @@
 import InputLabel from '@/components/common/InputText/InputLabel.vue'
 import Input from '@/components/common/InputText/InputText.vue'
 import Avatar from '@/components/Profile/AvatarImage.vue'
-import { reactive, ref } from 'vue'
+import { computed, onBeforeMount, reactive, ref } from 'vue'
 import type { TProfile } from '@/model/Profile'
 import { Form } from 'vee-validate'
+import ProfileStore from '@/store/Profile'
+import CommonStore from '@/store/Common'
+import { cloneDeep, isEqual } from 'lodash'
+import { formatIsoDate } from '@/utils'
 
-const isDisabled = ref<boolean>(true)
-const formData = reactive<TProfile>({
-  name: '',
-  address: '',
-  birthday: '',
-  phone: '',
-  file: {
-    url: ''
-  }
+const { getProfile, updateProfile } = ProfileStore()
+const { setLoading } = CommonStore()
+const isPerLoading = ref<boolean>(true)
+const avatarFile = ref<File | null>(null)
+const errorValidate = ref<boolean>(false)
+
+const isDisabled = computed(() => {
+  return errorValidate.value || isEqual(oldFormData.value, formData.value)
 })
 
 const schema = {
   birthday: 'date',
   phone: 'phone'
 }
+const oldFormData = ref<TProfile>({} as TProfile)
+
+const formData = ref<TProfile>({
+  name: '',
+  address: '',
+  birthday: '',
+  phone: '',
+  avatar: ''
+})
+
+interface TProfile {
+  name: string
+  address?: string
+  phone?: string
+  birthday?: string
+  avatar?: any
+}
+
+const errorPhoneMessage = ref<string>('')
 
 function handleGetCropperImage(data: any) {
-  formData.file.url = data.imageUrl
+  formData.value.avatar = data.imageUrl
+  avatarFile.value = data.file
 }
 
-function handleChangeInput(event: Event, type: string) {
-  formData[type] = (event.target as HTMLInputElement).value
+function handleChangeInput(event: Event, type: keyof TProfile) {
+  formData.value[type as keyof TProfile] = (event.target as HTMLInputElement).value
 }
 
-function handleSubmit() {
-  console.log('sb')
+function handleChangeErrorStatus(hasError: boolean) {
+  errorValidate.value = hasError
 }
+
+async function handleSubmit() {
+  if (isDisabled.value) return
+
+  errorPhoneMessage.value = ''
+
+  let form: any = new FormData()
+  form.append('name', formData.value.name || '')
+  form.append('address', formData.value.address || '')
+  form.append('birthday', formData.value.birthday || '')
+  form.append('phone', formData.value.phone || '')
+  if (avatarFile) {
+    form.append('avatar', avatarFile.value)
+  }
+
+  try {
+    setLoading(true)
+
+    await updateProfile(form)
+    await getFormProfile()
+  } catch (error: any) {
+    errorPhoneMessage.value = error.data.message
+  } finally {
+    setLoading(false)
+  }
+}
+
+async function getFormProfile() {
+  setLoading(true)
+  try {
+    const { data } = await getProfile()
+    const { name = '', address = '', phone = '', birthday = '', avatar = '' } = data
+
+    formData.value = {
+      name,
+      address,
+      phone,
+      avatar,
+      birthday: formatIsoDate(birthday)
+    }
+
+    oldFormData.value = cloneDeep(formData.value)
+  } finally {
+    setLoading(false)
+  }
+}
+
+function handleCancel() {
+  formData.value = cloneDeep(oldFormData.value)
+}
+
+onBeforeMount(() => {
+  isPerLoading.value = true
+  getFormProfile()
+  isPerLoading.value = false
+})
 </script>
 <style lang="scss" scoped></style>
