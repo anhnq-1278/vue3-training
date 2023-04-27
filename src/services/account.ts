@@ -1,6 +1,6 @@
 import type { TDataAccount } from '@/model/Auth'
 import APIService from './api'
-import type { TFormChangePW, TUpdateAccount } from '@/model/Account'
+import type { TFormChangePW, TParams, TResponse, TUpdateAccount } from '@/model/Account'
 
 class AccountService extends APIService {
   constructor() {
@@ -19,6 +19,10 @@ class AccountService extends APIService {
 
   changePassword(data: TFormChangePW) {
     return this.axios.put('my-account/change-password', data)
+  }
+
+  async getListUsers(data: TParams) {
+    return await this.axios.get<TResponse>('/users', { params: data })
   }
 }
 

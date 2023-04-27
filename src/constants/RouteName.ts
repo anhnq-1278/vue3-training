@@ -5,7 +5,8 @@ const RouteName = {
   PROFILE: 'profile',
   PASSWORD: 'password',
   REGISTER: 'register',
-  LOGIN: 'login'
+  LOGIN: 'login',
+  USERS: 'users'
 }
 
 export default RouteName
