@@ -17,6 +17,17 @@ defineRule('email', (value: string) => {
   return true
 })
 
+defineRule('phone', (value: string) => {
+  if (!value || !value.length) {
+    return false
+  }
+  const MOBILEREG = /^\(?(\d{3})\)?[- ]?(\d{3})[- ]?(\d{4})$/;
+  if (!MOBILEREG.test(value)) {
+    return 'This field must be a valid phone';
+  }
+  return true
+})
+
 defineRule('password', (password: string) => {
   if (password.length < 8) {
     return "Make the password larger 8 char";

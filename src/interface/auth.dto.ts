@@ -13,11 +13,15 @@ export interface Account {
   _id: string;
   email: string;
   username: string;
-  isActive: boolean;
+  isActive?: boolean;
   createAt: string;
   updateAt: string;
   token: string;
-  refreshToken: string
+  refreshToken: string;
+  address: string;
+  birthday: string;
+  phone: string;
+  name: string;
 }
 
 export interface AccountResponse {
