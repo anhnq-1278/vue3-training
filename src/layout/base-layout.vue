@@ -1,6 +1,10 @@
 <template>
   <div class="base-layout">
-    <header-fixed @logout="handleLogout" @setting="handleSetting" />
+    <header-fixed
+      @logout="handleLogout"
+      @setting="handleSetting"
+      @list-users="handleRedirectUserPage"
+    />
 
     <div class="content-wrapper pt-[60px]">
       <router-view />
@@ -16,6 +20,10 @@ import { useRouter } from 'vue-router'
 
 const commonStore = Common()
 const router = useRouter()
+
+const handleRedirectUserPage = () => {
+  router.push({ name: RouteName.USERS })
+}
 
 const handleLogout = () => {
   commonStore.logout()

@@ -1,6 +1,6 @@
 <template>
   <div v-if="!isLoading">
-    <div class="container pb-[30px]">
+    <div class="w-[550px] mx-auto pb-[30px]">
       <h1 class="text-[100px] text-pink-8 font-thin text-center leading-[100px]">todos</h1>
       <to-do-list
         :filter-list="filterList"

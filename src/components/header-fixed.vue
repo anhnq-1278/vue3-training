@@ -15,6 +15,14 @@
           <MenuItem>
             <div
               class="px-10 py-2 cursor-pointer hover:bg-pink-f5 duration-200"
+              @click="emit('list-users')"
+            >
+              List Users
+            </div>
+          </MenuItem>
+          <MenuItem>
+            <div
+              class="px-10 py-2 cursor-pointer hover:bg-pink-f5 duration-200"
               @click="emit('setting')"
             >
               Setting
@@ -48,6 +56,7 @@ const router = useRouter()
 const emit = defineEmits<{
   (e: 'logout'): void
   (e: 'setting'): void
+  (e: 'list-users'): void
 }>()
 
 const handleClickLogo = () => {
