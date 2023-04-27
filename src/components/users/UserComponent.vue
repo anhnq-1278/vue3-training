@@ -30,7 +30,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
 import IconSearch from '@/assets/icons/IconSearch.vue'
 import ListUser from '@/components/users/ListUser.vue'
 import { useUserStore } from '@/store/user'
@@ -40,20 +40,18 @@ import { debounce } from '@/utils/debounce'
 const userStore = useUserStore()
 const { listSearchUser } = storeToRefs(userStore)
 const query = ref<string>('')
-const isSearch = ref<boolean>(false)
+const isSearch = computed(() => {
+  return !!query.value
+})
 
 const showDetailUser = () => {
   query.value = ''
-  isSearch.value = false
 }
 
 const debounceSearch = () => {
   debounce(async () => {
     if (query.value) {
       await userStore.searchUsers(query.value)
-      isSearch.value = true
-    } else {
-      isSearch.value = false
     }
   })
 }
