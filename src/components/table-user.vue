@@ -108,7 +108,7 @@ const props = defineProps({
   },
   dataMeta: {
     type: Object as PropType<TMeta>,
-    default: () => {}
+    default: () => ({})
   }
 })
 
