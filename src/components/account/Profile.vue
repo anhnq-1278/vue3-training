@@ -55,8 +55,6 @@ onMounted(async () => {
 const submit = async () => {
   let formData: FormData = new FormData()
   formData.append('name', account.value.name)
-  formData.append('username', account.value.username)
-  formData.append('email', account.value.email)
   formData.append('address', account.value.address)
   formData.append('birthday', account.value.birthday)
   formData.append('phone', account.value.phone)
