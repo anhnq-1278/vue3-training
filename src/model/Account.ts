@@ -41,3 +41,8 @@ export type TResponse = {
   data: TDataUser[]
   meta: TMeta
 }
+
+export type TResponseSearchUser = {
+  _id: string
+  name: string
+}
