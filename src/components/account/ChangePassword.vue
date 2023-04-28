@@ -1,16 +1,21 @@
 <template>
   <Form @submit="submit" :validation-schema="schema" class="flex flex-col">
     <Field
-      v-model="currentPassword"
+      v-model="changePassword.currentPassword"
       name="currentPassword"
       type="password"
       placeholder="current password"
     />
     <ErrorMessage name="currentPassword" class="text-red-600" />
-    <Field v-model="newPassword" name="newPassword" type="password" placeholder="password" />
-    <ErrorMessage name="password" class="text-red-600" />
     <Field
-      v-model="confirmPassword"
+      v-model="changePassword.newPassword"
+      name="newPassword"
+      type="password"
+      placeholder="password"
+    />
+    <ErrorMessage name="newPassword" class="text-red-600" />
+    <Field
+      v-model="changePassword.confirmPassword"
       name="confirmPassword"
       type="password"
       placeholder="confirm password"
@@ -29,6 +34,7 @@
 import { Field, Form, ErrorMessage } from 'vee-validate'
 import { ref } from 'vue'
 import { useAccountStore } from '@/store/account'
+import type { ChangePassword } from '@/interface/auth.dto'
 
 const accountStore = useAccountStore()
 
@@ -37,18 +43,16 @@ const schema = {
   newPassword: 'required|password',
   confirmPassword: 'required|confirmed:@newPassword'
 }
-const currentPassword = ref<string>('')
-const newPassword = ref<string>('')
-const confirmPassword = ref<string>('')
 const isSuccess = ref<boolean>(false)
+const changePassword = ref<ChangePassword>({
+  currentPassword: '',
+  confirmPassword: '',
+  newPassword: ''
+})
 
 const submit = async (_values: any, actions: any) => {
   try {
-    await accountStore.changePassword(
-      currentPassword.value,
-      newPassword.value,
-      confirmPassword.value
-    )
+    await accountStore.changePassword(changePassword.value)
 
     actions.resetForm()
     isSuccess.value = true
