@@ -5,4 +5,5 @@ export const RouterName = {
     Profile: 'Profile',
     Home: 'home',
     ChangePassword: 'change-password',
+    UserList: 'user-list',
 }

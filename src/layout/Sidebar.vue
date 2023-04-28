@@ -30,6 +30,7 @@
 import Logout from '@/components/icons/Logout.vue'
 import Profile from '@/components/icons/ProfileIcon.vue'
 import ChangePasswordIcon from '@/components/icons/ChangePassword.vue'
+import UserListIcon from '@/components/icons/UserList.vue'
 import YourTodo from '@/components/icons/YourTodo.vue'
 import SidebarItem from '@/components/common/SidebarItem/SidebarItem.vue'
 import CommonStore from '@/store/Common'
@@ -52,13 +53,19 @@ const menus = [
     routerName: RouterName.ChangePassword,
     logo: 'ChangePasswordIcon',
     sidebarName: 'Change Password'
+  },
+  {
+    routerName: RouterName.UserList,
+    logo: 'UserListIcon',
+    sidebarName: 'User List'
   }
 ]
 
 const components = defineComponent({
   Profile,
   YourTodo,
-  ChangePasswordIcon
+  ChangePasswordIcon,
+  UserListIcon
 })
 
 const commonStore = CommonStore()

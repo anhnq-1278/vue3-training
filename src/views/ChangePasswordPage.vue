@@ -46,7 +46,7 @@
             />
             <EyeSlashIcon
               @click="changeTypeInput('newPassword')"
-              v-if="typeInput.currentPassword === 'password'"
+              v-if="typeInput.newPassword === 'password'"
               class="absolute top-2.5 right-2"
             />
             <EyeIcon
