@@ -1,6 +1,12 @@
 import type { TDataAccount } from '@/model/Auth'
 import APIService from './api'
-import type { TFormChangePW, TParams, TResponse, TUpdateAccount } from '@/model/Account'
+import type {
+  TFormChangePW,
+  TParams,
+  TResponse,
+  TResponseSearchUser,
+  TUpdateAccount
+} from '@/model/Account'
 
 class AccountService extends APIService {
   constructor() {
@@ -23,6 +29,12 @@ class AccountService extends APIService {
 
   async getListUsers(data: TParams) {
     return await this.axios.get<TResponse>('/users', { params: data })
+  }
+
+  async getListSearchUsers(data: string) {
+    return await this.axios.get<TResponseSearchUser[]>('/users/search', {
+      params: { q: data }
+    })
   }
 }
 

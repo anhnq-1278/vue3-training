@@ -7,5 +7,9 @@ export default defineStore('account', () => {
     return await AccountService.getListUsers(payload)
   }
 
-  return { getListUsers }
+  const getListSearchUsers = async (payload: string) => {
+    return await AccountService.getListSearchUsers(payload)
+  }
+
+  return { getListUsers, getListSearchUsers }
 })
