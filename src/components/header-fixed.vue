@@ -19,6 +19,7 @@
             v-for="item in dataSearch"
             :key="item._id"
             class="bg-white w-full px-4 h-[45px] flex items-center hover:bg-pink-f6 duration-200 cursor-pointer"
+            @click="handleRedirectDetailUser(item._id)"
           >
             {{ item.name }}
           </div>
@@ -87,5 +88,11 @@ const emit = defineEmits<{
 
 const handleClickLogo = () => {
   router.push({ name: RouteName.HOME })
+}
+
+const handleRedirectDetailUser = (id: string) => {
+  router.push({ name: RouteName.DETAIL_USER, params: { id } })
+
+  emit('change-search', '')
 }
 </script>
