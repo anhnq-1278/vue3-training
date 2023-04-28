@@ -1,6 +1,6 @@
 <template>
   <div class="flex flex-col gap-1 mt-3">
-    <label class="text-[#45f3ff]" :for="name">{{ $attrs.label }}</label>
+    <label v-if="$attrs.label" class="text-[#45f3ff]" :for="name">{{ $attrs.label }}</label>
     <input v-model="inputValue" :name="name" v-bind="$attrs" class="bg-[#45f3ff]" />
     <p class="text-[#c7082e] text-xs" v-if="errorMessage">
       {{ errorMessage }}

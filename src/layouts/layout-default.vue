@@ -9,7 +9,10 @@
       >
         todos app
       </router-link>
-      <div class="">
+      <div class="w-3/5 search-container">
+        <ListSearch />
+      </div>
+      <div>
         <div class="flex justify-end">
           <div class="flex items-center gap-4">
             <p>hi {{ myAccount.username }}</p>
@@ -62,6 +65,17 @@
                         Change Password
                       </div>
                     </MenuItem>
+                    <MenuItem v-slot="{ active }">
+                      <div
+                        @click="goTo('/list-users')"
+                        :class="[
+                          active ? 'bg-violet-500 text-white' : 'text-gray-900',
+                          'group flex w-full items-center rounded-md px-2 py-2 text-sm cursor-pointer'
+                        ]"
+                      >
+                        List Users
+                      </div>
+                    </MenuItem>
                   </div>
                   <div class="px-1 py-1">
                     <MenuItem v-slot="{ active }">
@@ -95,6 +109,8 @@ import { storeToRefs } from 'pinia'
 import { onBeforeMount, ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { Menu, MenuButton, MenuItems, MenuItem } from '@headlessui/vue'
+import ListSearch from '@/components/common/list-search.vue'
+
 const router = useRouter()
 const store = commonStore()
 const { myAccount } = storeToRefs(store)
@@ -126,4 +142,16 @@ function handleLogout() {
 }
 </script>
 
-<style scoped></style>
+<style scoped lang="scss">
+.search-container {
+  :deep() {
+    label {
+      color: #666;
+    }
+
+    input {
+      background: #ddd;
+    }
+  }
+}
+</style>

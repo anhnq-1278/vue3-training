@@ -32,6 +32,12 @@ const router = createRouter({
       name: 'profile',
       component: () => import('@/views/profile-page.vue'),
       meta: { auth: true, layout: 'default' }
+    },
+    {
+      path: '/list-users',
+      name: 'list-users',
+      component: () => import('@/views/list-users.vue'),
+      meta: { auth: true, layout: 'default' }
     }
   ]
 })
