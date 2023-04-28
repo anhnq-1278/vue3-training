@@ -1,6 +1,7 @@
 import type { TDataAccount } from '@/model/Auth'
 import APIService from './api'
 import type {
+  TDataUser,
   TFormChangePW,
   TParams,
   TResponse,
@@ -35,6 +36,10 @@ class AccountService extends APIService {
     return await this.axios.get<TResponseSearchUser[]>('/users/search', {
       params: { q: data }
     })
+  }
+
+  async getDetailUser(id: string) {
+    return await this.axios.get<TDataUser>(`/user/${id}`)
   }
 }
 

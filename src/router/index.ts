@@ -7,6 +7,7 @@ import SettingLayout from '@/layout/setting-layout.vue'
 import ProfileView from '@/views/profile-page.vue'
 import PasswordView from '@/views/password-page.vue'
 import UserPage from '@/views/user-page.vue'
+import DetailUsePage from '@/views/detail-use-page.vue'
 
 import CommonStore from '@/store/Common'
 import { RouteName } from '@/constants'
@@ -29,6 +30,11 @@ const router = createRouter({
           path: '/users',
           name: RouteName.USERS,
           component: UserPage
+        },
+        {
+          path: '/user/:id',
+          name: RouteName.DETAIL_USER,
+          component: DetailUsePage
         },
         {
           path: '/setting',
