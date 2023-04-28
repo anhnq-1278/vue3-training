@@ -6,8 +6,8 @@ class ListUsers extends APIService {
     super()
   }
 
-  async getListUsers(data?: TParams) {
-    return await this.axios.get<TResponse>('/users', { params: data })
+  async getListUsers(params?: TParams) {
+    return await this.axios.get<TResponse>('/users', { params })
   }
 
   async getListSearch(params: TSearch) {
