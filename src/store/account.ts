@@ -17,6 +17,7 @@ export const useAccountStore = defineStore('account', () => {
     birthday: '',
     phone: '',
     name: '',
+    avatar: '',
   })
 
   const getAccount = async () => {
@@ -45,11 +46,16 @@ export const useAccountStore = defineStore('account', () => {
     await accountApi.update(data);
   }
 
+  const changePassword = async (currentPassword: string, newPassword: string, confirmPassword: string) => {
+    await accountApi.changePassword({ currentPassword, newPassword, confirmPassword });
+  }
+
   return {
     getAccount,
     account,
     login,
     register,
-    update
+    update,
+    changePassword
   }
 })

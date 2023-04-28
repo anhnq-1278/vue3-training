@@ -1,4 +1,5 @@
 import { defineRule } from 'vee-validate'
+import { confirmed } from '@vee-validate/rules'
 
 defineRule('required', (value: string) => {
   if (!value || !value.length) {
@@ -47,3 +48,5 @@ defineRule('password', (password: string) => {
 
   return true
 })
+
+defineRule('confirmed', confirmed);
