@@ -30,7 +30,7 @@ export type TMeta = {
   limit: number
 }
 
-export interface IUserListResponse extends AxiosResponse {
+export interface IUserListResponse {
   data: TUser[]
   meta: TMeta
 }

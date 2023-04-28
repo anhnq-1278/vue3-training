@@ -8,14 +8,14 @@
       <SearchUser :userSearchList="userSearchList" />
     </div>
     <div class="flex items-center justify-between mb-4">
-      <span class="font-semibold">User Total: {{metaData.totalItem}}</span>
-    <div class="flex items-center justify-end">
-      <LimitSelect
-        :options="LIMIT_OPTIONS"
-        :selectedValue="params.limit"
-        @change-limit="handleChangeLimit"
-      />
-    </div>
+      <span class="font-semibold">User Total: {{ metaData.totalItem }}</span>
+      <div class="flex items-center justify-end">
+        <LimitSelect
+          :options="LIMIT_OPTIONS"
+          :selectedValue="params.limit"
+          @change-limit="handleChangeLimit"
+        />
+      </div>
     </div>
     <UserListTable :userList="userList" />
     <Pagination
@@ -91,9 +91,12 @@ watch(userListParams, () => {
 })
 
 onBeforeMount(async () => {
-  isPerLoading.value = true
-  await getUsers()
-  isPerLoading.value = false
+  try {
+    isPerLoading.value = true
+    await getUsers()
+  } finally {
+    isPerLoading.value = false
+  }
 })
 
 const userSearchList = [

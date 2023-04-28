@@ -7,7 +7,7 @@ class UserService extends APIService {
   }
 
   async getUserList(params: TUserListParams): Promise<IUserListResponse> {
-    return this.axios.get('/users', { params })
+    return await this.axios.get('/users', { params })
   }
 }
 
