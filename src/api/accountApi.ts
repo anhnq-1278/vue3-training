@@ -25,14 +25,10 @@ const accountApi = {
     })
   },
 
-  changePassword({ currentPassword, newPassword, confirmPassword }: ChangePassword) {
+  changePassword(changePassword: ChangePassword) {
     const url = '/my-account/change-password'
 
-    return axiosClient.put(url, {
-      currentPassword,
-      newPassword,
-      confirmPassword
-    })
+    return axiosClient.put(url, changePassword)
   },
 
   update(data: FormData) {
