@@ -4,7 +4,8 @@ module.exports = {
     extend: {
       colors: {
         grey: {
-          dc: '#dcdcdc'
+          dc: '#dcdcdc',
+          f8: '#F8F8F8'
         },
         red: {
           default: 'rgba(175, 47, 47, 0.15)',
