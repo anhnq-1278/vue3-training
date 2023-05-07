@@ -7,7 +7,7 @@
         <ComboboxInput
           class="w-full border-none pl-3 pr-10 leading-5 text-gray-900 focus:outline-none h-[32px] text-base"
           placeholder="Search user"
-          @change="query = $event.target.value"
+          @change="searchUser($event)"
         />
         <ComboboxButton class="absolute inset-y-0 right-0 flex items-center pr-2">
           <SearchIcon class="h-5 w-5 text-gray-400" />
@@ -23,14 +23,14 @@
           class="bg-grey-f8 z-10 absolute mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm"
         >
           <div
-            v-if="filteredUserList.length === 0 && query !== ''"
+            v-if="userSearchList.length === 0"
             class="relative cursor-default select-none py-2 px-4 text-gray-700"
           >
             Nothing found.
           </div>
 
           <ComboboxOption
-            v-for="person in filteredUserList"
+            v-for="person in userSearchList"
             as="template"
             :key="person._id"
             :value="person"
@@ -47,7 +47,7 @@
                 class="block truncate"
                 :class="{ 'font-medium': selected, 'font-normal': !selected }"
               >
-                {{ person.username }}
+                {{ person.name }}
               </span>
             </li>
           </ComboboxOption>
@@ -65,7 +65,7 @@ import {
   ComboboxOption,
   TransitionRoot
 } from '@headlessui/vue'
-import { computed, ref } from 'vue'
+import { ref } from 'vue'
 import SearchIcon from '@/components/icons/SearchIcon.vue'
 import type { TSearchUser } from '@/model/User'
 
@@ -76,18 +76,16 @@ const props = defineProps({
   }
 })
 
+const emit = defineEmits<{
+  (e: 'searchUser', q: string): void
+}>()
+
 let selected = ref<any>({})
 let query = ref<string>('')
 
-let filteredUserList = computed(() =>
-  query.value === ''
-    ? props.userSearchList
-    : props.userSearchList.filter((person) =>
-        person.username
-          .toLowerCase()
-          .replace(/\s+/g, '')
-          .includes(query.value.toLowerCase().replace(/\s+/g, ''))
-      )
-)
+function searchUser(e: Event) {
+  query.value = (e.target as HTMLInputElement).value
+  emit('searchUser', query.value)
+}
 </script>
 <style lang="scss" scoped></style>

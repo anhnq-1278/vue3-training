@@ -1,11 +1,15 @@
 import { defineStore } from 'pinia'
 import { userService } from '@/services'
-import type { TUserListParams } from '@/model/User'
+import type { TSearchUser, TSearchUserParams, TUserListParams } from '@/model/User'
 
 export default defineStore('user', () => {
   async function getUserList(params: TUserListParams) {
     return await userService.getUserList(params)
   }
 
-  return { getUserList }
+  async function getSearchUser(params: TSearchUserParams) {
+    return await userService.searchUser(params)
+  }
+
+  return { getUserList, getSearchUser }
 })
