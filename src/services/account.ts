@@ -28,8 +28,8 @@ class AccountService extends APIService {
     return this.axios.put('my-account/change-password', data)
   }
 
-  async getListUsers(data: TParams) {
-    return await this.axios.get<TResponse>('/users', { params: data })
+  async getListUsers(data: TParams): Promise<TResponse> {
+    return await this.axios.get('/users', { params: data })
   }
 
   async getListSearchUsers(data: string) {
