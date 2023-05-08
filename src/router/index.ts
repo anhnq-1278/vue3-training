@@ -22,6 +22,11 @@ const routes = [
         path: '/user-list',
         name: RouterName.UserList,
         component: () => import('@/views/UserList.vue')
+      },
+      {
+        path: '/user-detail/:id',
+        name: RouterName.UserDetail,
+        component: () => import('@/views/UserDetail.vue')
       }
     ]
   },

@@ -10,6 +10,9 @@ export default defineStore('user', () => {
   async function getSearchUser(params: TSearchUserParams) {
     return await userService.searchUser(params)
   }
+  async function getUserDetail(id: string) {
+    return await userService.getUserDetail(id)
+  }
 
-  return { getUserList, getSearchUser }
+  return { getUserList, getSearchUser, getUserDetail }
 })

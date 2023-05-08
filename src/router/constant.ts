@@ -6,4 +6,5 @@ export const RouterName = {
     Home: 'home',
     ChangePassword: 'change-password',
     UserList: 'user-list',
+    UserDetail: 'user-detail'
 }

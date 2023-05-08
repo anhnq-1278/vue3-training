@@ -10,7 +10,8 @@
     <div
       v-for="user in userList"
       :key="user._id"
-      class="flex border-b items-center font-bold text-base"
+      class="flex border-b items-center font-bold text-base cursor-pointer"
+      @click="getUserDetail(user._id)"
     >
       <div class="px-2 flex items-center h-[50px] w-[200px] truncate">{{ user.username }}</div>
       <div class="px-2 flex items-center h-[50px] flex-1" truncate>{{ user.email }}</div>
@@ -30,6 +31,10 @@
 import { ref } from 'vue'
 import type { TUser } from '@/model/User'
 import { formatIsoDate } from '@/utils/'
+import { useRouter } from 'vue-router'
+import { RouterName } from '@/router/constant'
+
+const router = useRouter()
 
 defineProps({
   userList: {
@@ -37,5 +42,10 @@ defineProps({
     default: () => []
   }
 })
+
+function getUserDetail(id: string) {
+  const routerData = router.resolve({ name: RouterName.UserDetail, params: { id } })
+  window.open(routerData.href, '_blank')
+}
 </script>
 <style lang="scss" scoped></style>
