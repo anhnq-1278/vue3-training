@@ -1,5 +1,5 @@
 <template>
-  <tr>
+  <tr class="cursor-pointer" @click="showDetailUser(user._id)">
     <td>{{ user.username }}</td>
     <td>{{ user.email }}</td>
     <td>
@@ -17,4 +17,10 @@ import type { UserDTO } from '@/interface/user.dto'
 defineProps<{
   user: UserDTO
 }>()
+
+const emit = defineEmits(['showDetailUser'])
+
+const showDetailUser = (id: string) => {
+  emit('showDetailUser', id)
+}
 </script>
