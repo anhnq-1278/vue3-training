@@ -38,6 +38,12 @@ const router = createRouter({
       name: 'list-users',
       component: () => import('@/views/list-users.vue'),
       meta: { auth: true, layout: 'default' }
+    },
+    {
+      path: '/user/:id',
+      name: 'user-detail',
+      component: () => import('@/views/user-detail.vue'),
+      meta: { auth: true, layout: 'default' }
     }
   ]
 })

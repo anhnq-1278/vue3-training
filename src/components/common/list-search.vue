@@ -16,7 +16,12 @@
       v-if="listUser.length && !isLoading && isDisplay"
       class="absolute w-full top-[50px] bg-[#f4fafe] border flex-1 z-10"
     >
-      <div v-for="(item, i) in listUser" :key="i" class="cursor-pointer p-2.5 hover:bg-[#e8f3ff]">
+      <div
+        v-for="(item, i) in listUser"
+        :key="i"
+        class="cursor-pointer p-2.5 hover:bg-[#e8f3ff]"
+        @click="openDetail(item._id)"
+      >
         {{ item.name }}
       </div>
     </div>
@@ -35,8 +40,10 @@ import InputText from '@/components/common/text-input.vue'
 import Loading from '@/assets/images/loading.gif'
 import { ref } from 'vue'
 import type { TDataUser } from '@/type/ListUsers'
+import { useRouter } from 'vue-router'
 
 const store = listStore()
+const router = useRouter()
 
 const searchValue = ref<string>('')
 const isLoading = ref(false)
@@ -87,6 +94,11 @@ const handleSearch = debounce((e: Event) => {
 
   getUser()
 }, 500)
+
+function openDetail(id: string) {
+  isDisplay.value = false
+  router.push({ name: 'user-detail', params: { id: id } })
+}
 </script>
 
 <style scoped></style>

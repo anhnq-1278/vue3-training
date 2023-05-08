@@ -12,8 +12,10 @@
     "format": "prettier --write src/"
   },
   "dependencies": {
+    "@headlessui/vue": "^1.7.13",
     "@kyvg/vue3-notification": "^2.9.0",
     "axios": "^1.3.5",
+    "moment": "^2.29.4",
     "pinia": "^2.0.32",
     "vee-validate": "^4.5.8",
     "vue": "^3.2.47",
