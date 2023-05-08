@@ -2,6 +2,7 @@ import { defineStore } from 'pinia'
 import { ref } from 'vue'
 import accountApi from '../api/accountApi'
 import type { Account } from '@/interface/auth.dto'
+import type { ChangePassword } from '@/interface/auth.dto'
 
 
 export const useAccountStore = defineStore('account', () => {
@@ -17,6 +18,7 @@ export const useAccountStore = defineStore('account', () => {
     birthday: '',
     phone: '',
     name: '',
+    avatar: '',
   })
 
   const getAccount = async () => {
@@ -45,11 +47,16 @@ export const useAccountStore = defineStore('account', () => {
     await accountApi.update(data);
   }
 
+  const changePassword = async (changePassword: ChangePassword) => {
+    await accountApi.changePassword(changePassword);
+  }
+
   return {
     getAccount,
     account,
     login,
     register,
-    update
+    update,
+    changePassword
   }
 })

@@ -9,6 +9,12 @@ export interface UserLogin {
   password: string
 }
 
+export interface ChangePassword {
+  currentPassword: string
+  newPassword: string
+  confirmPassword: string
+}
+
 export interface Account {
   _id: string;
   email: string;
@@ -22,6 +28,7 @@ export interface Account {
   birthday: string;
   phone: string;
   name: string;
+  avatar: string;
 }
 
 export interface AccountResponse {

@@ -1,5 +1,5 @@
 import axiosClient from './apiClient'
-import type { UserRegister, UserLogin, AccountResponse } from '@/interface/auth.dto'
+import type { UserRegister, UserLogin, AccountResponse, ChangePassword } from '@/interface/auth.dto'
 
 const accountApi = {
   async getAccount() {
@@ -24,6 +24,13 @@ const accountApi = {
       password
     })
   },
+
+  changePassword(changePassword: ChangePassword) {
+    const url = '/my-account/change-password'
+
+    return axiosClient.put(url, changePassword)
+  },
+
   update(data: FormData) {
     const url = '/my-account/update'
 
