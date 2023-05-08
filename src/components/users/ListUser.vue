@@ -91,33 +91,36 @@ const showDetailUser = async (id: string) => {
   }
 }
 </script>
-<style>
-.pagination .pagination-container {
-  column-gap: 10px;
-}
-.pagination .paginate-buttons {
-  width: 50px;
-  height: 40px;
-  cursor: pointer;
-  background-color: #1abc9c;
-  border: none;
-  color: white;
-  border-radius: 2px;
-}
-.pagination .back-button,
-.pagination .next-button {
-  width: 100px;
-  height: 40px;
-}
-.pagination .paginate-buttons:hover,
-.pagination .active-page:hover {
-  background-color: #1abc9c;
-}
-.pagination .active-page {
-  background-color: #d35400;
-}
-.pagination .back-button:active,
-.pagination .next-button:active {
-  background-color: #1abc9c;
+<style lang="scss">
+.pagination {
+  &-container {
+    column-gap: 10px;
+  }
+  .paginate-buttons {
+    width: 50px;
+    height: 40px;
+    cursor: pointer;
+    background-color: #1abc9c;
+    border: none;
+    color: white;
+    border-radius: 2px;
+    &:hover {
+      background-color: #1abc9c;
+    }
+  }
+  .active-page {
+    background-color: #d35400;
+    &:hover {
+      background-color: #1abc9c;
+    }
+  }
+  .back-button,
+  .next-button {
+    width: 100px;
+    height: 40px;
+    &:active {
+      background-color: #1abc9c;
+    }
+  }
 }
 </style>
