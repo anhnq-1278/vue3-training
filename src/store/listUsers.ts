@@ -11,5 +11,9 @@ export default defineStore('listUsers', () => {
     return await listUsersService.getListSearch(payload)
   }
 
-  return { getListUsers, getListSearch }
+  const getDetailUser = async (id: string) => {
+    return await listUsersService.getDetailUser(id)
+  }
+
+  return { getListUsers, getListSearch, getDetailUser }
 })

@@ -5,6 +5,7 @@ export type TDataUser = {
   address: string
   birthday: string
   avatar: string
+  _id: string
 }
 
 export type TMeta = {
