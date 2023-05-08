@@ -1,5 +1,10 @@
 import APIService from './api'
-import type { IUserListResponse, TUserListParams, TUser, TMeta } from '@/model/User'
+import type {
+  IUserListResponse,
+  TUserListParams,
+  TSearchUserParams,
+  TSearchUser
+} from '@/model/User'
 
 class UserService extends APIService {
   constructor() {
@@ -8,6 +13,10 @@ class UserService extends APIService {
 
   async getUserList(params: TUserListParams): Promise<IUserListResponse> {
     return await this.axios.get('/users', { params })
+  }
+
+  async searchUser(params: TSearchUserParams) {
+    return await this.axios.get<TSearchUser[]>('/users/search', { params })
   }
 }
 

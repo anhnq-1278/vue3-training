@@ -5,7 +5,7 @@
       Follow the list of users, you can search for users by name
     </div>
     <div class="relative w-[50%] mb-10 border rounded">
-      <SearchUser :userSearchList="userSearchList" />
+      <SearchUser :userSearchList="userSearchList" @searchUser="handleSearchUser" />
     </div>
     <div class="flex items-center justify-between mb-4">
       <span class="font-semibold">User Total: {{ metaData.totalItem }}</span>
@@ -45,10 +45,11 @@ import SearchUser from '@/components/UserList/SearchUser.vue'
 import UserListTable from '@/components/UserList/UserListTable.vue'
 import Pagination from '@/components/common/Pagination/Pagination.vue'
 import { LIMIT_OPTIONS } from '@/constants'
-import type { TMeta, TSearchUser } from '@/model/User'
+import type { TMeta, TSearchUser, TSearchUserParams } from '@/model/User'
 import type { TUser, TUserListParams } from '@/model/User'
 import UserStore from '@/store/User'
 import CommonStore from '@/store/Common'
+import { debounce } from 'lodash'
 
 const isPerLoading = ref(false)
 
@@ -60,7 +61,7 @@ const params = reactive<TUserListParams>({
 const userList = ref<TUser[]>([] as TUser[])
 const metaData = ref<TMeta>({} as TMeta)
 
-const { getUserList } = UserStore()
+const { getUserList, getSearchUser } = UserStore()
 const { setLoading } = CommonStore()
 
 const userListParams = computed(() => {
@@ -86,6 +87,20 @@ async function getUsers() {
   }
 }
 
+const handleSearchUser = debounce(async function (q: string) {
+  const param: TSearchUserParams = {
+    q
+  }
+
+  try {
+    setLoading(true)
+    const { data } = await getSearchUser(param)
+    userSearchList.value = data
+  } finally {
+    setLoading(false)
+  }
+}, 300)
+
 watch(userListParams, () => {
   getUsers()
 })
@@ -99,15 +114,6 @@ onBeforeMount(async () => {
   }
 })
 
-const userSearchList = [
-  {
-    _id: '1',
-    username: 'user1'
-  },
-  {
-    _id: '2',
-    username: 'user2'
-  }
-]
+const userSearchList = ref<TSearchUser[]>([])
 </script>
 <style lang="scss" scoped></style>

@@ -1,8 +1,6 @@
-import type { AxiosResponse } from 'axios'
-
 export type TSearchUser = {
   _id: string
-  username: string
+  name: string
 }
 
 export type TUserListParams = {
@@ -33,4 +31,8 @@ export type TMeta = {
 export interface IUserListResponse {
   data: TUser[]
   meta: TMeta
+}
+
+export type TSearchUserParams = {
+  q?: string
 }
