@@ -1,5 +1,5 @@
 let handleClickedOutside: EventListener;
-const vClickOutsite = {
+const vClickOutside = {
   mounted(el: any, binding: any, vnode: any) {
     handleClickedOutside = function (event: any) {
       if (!el.contains(event.target)) {
@@ -13,4 +13,4 @@ const vClickOutsite = {
   }
 }
 
-export default vClickOutsite;
+export default vClickOutside;

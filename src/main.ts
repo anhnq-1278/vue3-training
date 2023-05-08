@@ -10,13 +10,13 @@ import VueAwesomePaginate from 'vue-awesome-paginate';
 
 // import the necessary css file
 import 'vue-awesome-paginate/dist/style.css';
-import vClickOutsite from './directives/vClickOutsite'
+import vClickOutside from './directives/ClickOutside'
 
 const app = createApp(App)
 
 app.use(createPinia())
 app.use(router)
 app.use(VueAwesomePaginate)
-app.directive('clickOutside', vClickOutsite);
+app.directive('clickOutside', vClickOutside);
 
 app.mount('#app')

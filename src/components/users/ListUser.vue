@@ -91,35 +91,37 @@ const showDetailUser = async (id: string) => {
   }
 }
 </script>
-<style lang="scss">
-.pagination {
-  &-container {
-    column-gap: 10px;
-  }
-  .paginate-buttons {
-    width: 50px;
-    height: 40px;
-    cursor: pointer;
-    background-color: #1abc9c;
-    border: none;
-    color: white;
-    border-radius: 2px;
-    &:hover {
-      background-color: #1abc9c;
+<style lang="scss" scoped>
+:deep() {
+  .pagination {
+    &-container {
+      column-gap: 10px;
     }
-  }
-  .active-page {
-    background-color: #d35400;
-    &:hover {
+    .paginate-buttons {
+      width: 50px;
+      height: 40px;
+      cursor: pointer;
       background-color: #1abc9c;
+      border: none;
+      color: white;
+      border-radius: 2px;
+      &:hover {
+        background-color: #1abc9c;
+      }
     }
-  }
-  .back-button,
-  .next-button {
-    width: 100px;
-    height: 40px;
-    &:active {
-      background-color: #1abc9c;
+    .active-page {
+      background-color: #d35400;
+      &:hover {
+        background-color: #1abc9c;
+      }
+    }
+    .back-button,
+    .next-button {
+      width: 100px;
+      height: 40px;
+      &:active {
+        background-color: #1abc9c;
+      }
     }
   }
 }
