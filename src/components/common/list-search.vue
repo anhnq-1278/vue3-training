@@ -97,7 +97,7 @@ const handleSearch = debounce((e: Event) => {
 
 function openDetail(id: string) {
   isDisplay.value = false
-  router.push({ name: 'user-detail', params: { id: id } })
+  router.push({ name: 'user-detail', params: { id } })
 }
 </script>
 
