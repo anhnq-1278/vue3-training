@@ -42,6 +42,7 @@
                 'bg-blue-e8 text-white': active,
                 'text-gray-900': !active
               }"
+              @click="getUserDetail(person._id)"
             >
               <span
                 class="block truncate"
@@ -68,6 +69,8 @@ import {
 import { ref } from 'vue'
 import SearchIcon from '@/components/icons/SearchIcon.vue'
 import type { TSearchUser } from '@/model/User'
+import { useRouter } from 'vue-router'
+import { RouterName } from '@/router/constant'
 
 const props = defineProps({
   userSearchList: {
@@ -75,6 +78,8 @@ const props = defineProps({
     default: () => []
   }
 })
+
+const router = useRouter()
 
 const emit = defineEmits<{
   (e: 'searchUser', q: string): void
@@ -86,6 +91,11 @@ let query = ref<string>('')
 function searchUser(e: Event) {
   query.value = (e.target as HTMLInputElement).value
   emit('searchUser', query.value)
+}
+
+function getUserDetail(id: string) {
+  const routerData = router.resolve({ name: RouterName.UserDetail, params: { id } })
+  window.open(routerData.href, '_blank')
 }
 </script>
 <style lang="scss" scoped></style>
