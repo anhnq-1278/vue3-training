@@ -1,9 +1,9 @@
 <template>
   <div class="flex items-center">
-    <div v-if="!img" :class="[avatarPlaceholderWrapperClasses]">
+    <div v-if="!img" :style="getSize" :class="[avatarPlaceholderWrapperClasses]">
       <div class="w-full h-full text-gray-400 flex items-center justify-center">No image</div>
     </div>
-    <img v-else :class="[avatarClasses]" :src="img" :alt="alt" />
+    <img v-else :style="getSize" :class="[avatarClasses]" :src="img" :alt="alt" />
   </div>
 </template>
 <script lang="ts" setup>
@@ -43,21 +43,22 @@ const avatarTypeClasses = {
 const avatarPlaceholderWrapperDefaultClasses = 'overflow-hidden bg-gray-100'
 
 const avatarClasses = computed<string>(() => {
-  const size = `w-[${props.size}] h-[${props.size}]`
-
   return classNames(
-    size,
     avatarTypeClasses[props.rounded ? 'rounded' : 'default'],
     props.bordered ? avatarBorderedClasses : ''
   )
 })
 
-const avatarPlaceholderWrapperClasses = computed<string>(() => {
-  const size = `w-[${props.size}] h-[${props.size}]`
+const getSize = computed<{ width: string; height: string }>(() => {
+  return {
+    width: props.size,
+    height: props.size
+  }
+})
 
+const avatarPlaceholderWrapperClasses = computed<string>(() => {
   return classNames(
     avatarPlaceholderWrapperDefaultClasses,
-    size,
     avatarTypeClasses[props.rounded ? 'rounded' : 'default']
   )
 })
