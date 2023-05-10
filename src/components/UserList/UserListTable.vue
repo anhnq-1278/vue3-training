@@ -15,8 +15,17 @@
       @click="getUserDetail(user._id)"
     >
       <div class="px-2 flex items-center h-[50px] w-[180px] truncate">{{ user.username }}</div>
-      <div class="px-2 flex items-center h-[50px] w-[200px] truncate">
-        {{ user.name ? user.name : '-' }}
+      <div class="px-2 flex items-center h-[50px] w-[200px]">
+        <ToolTip fitContent>
+          <div class="truncate-2-line">
+            {{ user.name ? user.name : '-' }}
+          </div>
+          <template #description>
+            <div class="break-words">
+              {{ user.name ? user.name : '-' }}
+            </div>
+          </template>
+        </ToolTip>
       </div>
       <div class="px-2 flex items-center h-[50px] flex-1 truncate">{{ user.email }}</div>
       <div class="px-2 flex items-center h-[50px] w-[200px]">
@@ -37,6 +46,7 @@ import type { TUser } from '@/model/User'
 import { formatIsoDate } from '@/utils/'
 import { useRouter } from 'vue-router'
 import { RouterName } from '@/router/constant'
+import ToolTip from '@/components/common/Tooltip/Tooltip.vue'
 
 const router = useRouter()
 
