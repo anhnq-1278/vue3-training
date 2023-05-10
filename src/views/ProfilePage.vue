@@ -1,5 +1,6 @@
 <template>
-  <div v-if="!isPerLoading" class="px-[10%] h-[500px] w-full mt-[50px] pt-11">
+
+  <div v-if="!isPerLoading" class="px-[10%] h-[500px] w-full pt-11">
     <h3 class="mb-4 text-[40px] font-bold leading-8">Your profile</h3>
     <div class="text-base mb-6">
       You can update your personal information below to display on your profile
