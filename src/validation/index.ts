@@ -49,4 +49,11 @@ defineRule('password', (password: string) => {
   return true
 })
 
+defineRule('radio', (value: boolean) => {
+  if (!value) {
+    return 'we need to choose one piece'
+  }
+  return true
+})
+
 defineRule('confirmed', confirmed);

@@ -29,19 +29,24 @@ const router = createRouter({
       name: 'register',
       component: () => import('../views/RegisterPage.vue')
     },
+    {
+      path: '/learn',
+      name: 'learn',
+      component: () => import('../views/LearnVue.vue')
+    },
   ]
 })
 
-router.beforeEach((to, from, next) => {
-  const isLogined = localStorage.getItem('token')
-  if (to.meta?.requiresAuth) {
-    console.log('isrequiresAuth');
-    if (!isLogined) next({ name: 'login' })
-    else next()
-  } else {
-    if (!isLogined) next()
-    else next({ name: 'home' })
-  }
-})
+// router.beforeEach((to, from, next) => {
+//   const isLogined = localStorage.getItem('token')
+//   if (to.meta?.requiresAuth) {
+//     console.log('isrequiresAuth');
+//     if (!isLogined) next({ name: 'login' })
+//     else next()
+//   } else {
+//     if (!isLogined) next()
+//     else next({ name: 'home' })
+//   }
+// })
 
 export default router
