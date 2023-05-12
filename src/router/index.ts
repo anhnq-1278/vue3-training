@@ -8,6 +8,7 @@ import ProfileView from '@/views/profile-page.vue'
 import PasswordView from '@/views/password-page.vue'
 import UserPage from '@/views/user-page.vue'
 import UserProfilePage from '@/views/user-profile-page.vue'
+import ComponentPage from '@/views/component-page.vue'
 
 import CommonStore from '@/store/Common'
 import { RouteName } from '@/constants'
@@ -30,6 +31,11 @@ const router = createRouter({
           path: '/users',
           name: RouteName.USERS,
           component: UserPage
+        },
+        {
+          path: '/components',
+          name: RouteName.COMPONENT,
+          component: ComponentPage
         },
         {
           path: '/user/:id',
