@@ -3,7 +3,8 @@ export const RouterName = {
     Login: 'Login',
     Register: 'Register',
     Profile: 'Profile',
-    Home: 'home',
+    Home: 'Home',
+    Todo: 'Todo',
     ChangePassword: 'change-password',
     UserList: 'user-list',
     UserDetail: 'user-detail'

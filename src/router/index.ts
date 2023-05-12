@@ -5,28 +5,43 @@ const routes = [
     path: '/',
     name: 'Layout',
     component: () => import('@/layout/index.vue'),
-    meta: { auth: true },
+    meta: { auth: true, breadcrumb: 'Home', routerName: RouterName.Home },
+    beforeEnter: async (to: any, _from: any, next: any) => {
+      if (to.path === '/') {
+        next('/todo')
+      }
+      next()
+    },
     children: [
-      { path: '/', name: RouterName.Home, component: () => import('@/views/home-page.vue') },
       {
-        path: '/profile',
+        path: 'todo',
+        name: RouterName.Home,
+        component: () => import('@/views/home-page.vue'),
+        meta: { breadcrumb: 'Todo', routerName: RouterName.Todo }
+      },
+      {
+        path: 'profile',
         name: RouterName.Profile,
-        component: () => import('@/views/ProfilePage.vue')
+        component: () => import('@/views/ProfilePage.vue'),
+        meta: { breadcrumb: 'Profile', routerName: RouterName.Profile }
       },
       {
-        path: '/change-password',
+        path: 'change-password',
         name: RouterName.ChangePassword,
-        component: () => import('@/views/ChangePasswordPage.vue')
+        component: () => import('@/views/ChangePasswordPage.vue'),
+        meta: { breadcrumb: 'Change Password', routerName: RouterName.ChangePassword }
       },
       {
-        path: '/user-list',
+        path: 'user-list',
         name: RouterName.UserList,
-        component: () => import('@/views/UserList.vue')
+        component: () => import('@/views/UserList.vue'),
+        meta: { breadcrumb: 'User List', routerName: RouterName.UserList }
       },
       {
         path: '/user-detail/:id',
         name: RouterName.UserDetail,
-        component: () => import('@/views/UserDetail.vue')
+        component: () => import('@/views/UserDetail.vue'),
+        meta: { breadcrumb: 'User Detail', routerName: RouterName.UserDetail }
       }
     ]
   },
