@@ -101,17 +101,12 @@ const setListMonth = () => {
   let totalMonth = 12
 
   for (let i = 1; i <= totalMonth; i++) {
-    if (i < 10) {
-      listMonth.value.push({
-        name: i,
-        label: '0' + i
-      })
-    } else {
-      listMonth.value.push({
-        name: i,
-        label: '' + i
-      })
-    }
+    const label = i < 10 ? `0${i}` : `${i}`
+
+    listMonth.value.push({
+      name: i,
+      label
+    })
   }
 }
 
@@ -120,17 +115,12 @@ const setListDay = () => {
   let totalDay = new Date(birthdayValue.year, birthdayValue.month, 0).getDate()
 
   for (let i = 1; i <= totalDay; i++) {
-    if (i < 10) {
-      listDay.value.push({
-        name: i,
-        label: '0' + i
-      })
-    } else {
-      listDay.value.push({
-        name: i,
-        label: '' + i
-      })
-    }
+    const label = i < 10 ? `0${i}` : `${i}`
+
+    listMonth.value.push({
+      name: i,
+      label
+    })
   }
 }
 
