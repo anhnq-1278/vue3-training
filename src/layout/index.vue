@@ -53,7 +53,7 @@ const crumbs = computed<IBreadCrumb[]>(() => {
       const crumb: IBreadCrumb = {
         text: route.matched[idx].meta.breadcrumb as string,
         name: route.matched[idx].meta.routerName as string,
-        home: path === '' ? true : false,
+        home: path === '',
         isClick: idx !== pathArray.length - 1
       }
       breadcrumbArray.push(crumb)

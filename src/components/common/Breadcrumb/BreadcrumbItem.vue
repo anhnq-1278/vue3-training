@@ -3,15 +3,14 @@
     <slot name="arrow-icon">
       <ArrowIcon v-if="!home" class="mx-[23px]" />
     </slot>
-    <component
-      :is="breadcrumbElementType"
+    <span
       :class="['flex', `${props.isClick ? 'cursor-pointer text-[#374151]' : 'text-[#6B7280]'}`]"
     >
       <slot name="home-icon">
         <HomeIcon v-if="home" class="mr-[18px]" />
       </slot>
       <slot name="default" />
-    </component>
+    </span>
   </li>
 </template>
 <script lang="ts" setup>
@@ -28,10 +27,6 @@ const props = defineProps({
     type: Boolean,
     default: false
   }
-})
-
-const breadcrumbElementType = computed<string>(() => {
-  return props.isClick ? 'a' : 'span'
 })
 </script>
 <style lang="scss" scoped></style>
