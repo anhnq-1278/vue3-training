@@ -5,12 +5,9 @@
       :ref="functionRef"
     />
   </div>
-
-  <div>
-
-  </div>
 </template>
 <script lang="ts" setup>
 import { useDimension } from '@/utils/useDimension'
+
 const functionRef = useDimension()
 </script>
