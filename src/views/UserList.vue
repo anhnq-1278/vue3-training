@@ -131,20 +131,23 @@ const userSearchList = ref<TSearchUser[]>([])
     display: flex;
     justify-items: center;
     align-items: center;
-    margin-bottom: 10px;
+    margin-top: 16px;
+    margin-bottom: 80px;
     border: 1px solid #e5e7eb;
+    border-radius: 4px;
+    overflow: hidden;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 21px;
 
     .back-button {
       width: 44px;
-      border-top-left-radius: 1px;
-      border-bottom-left-radius: 1px;
+      border-right: 0.5px solid #e5e7eb;
     }
 
     .next-button {
       width: 44px;
-      border-top-right-radius: 1px;
-      border-bottom-right-radius: 1px;
-      border-right-width: 0.5px;
+      border: none;
     }
   }
 
@@ -157,7 +160,6 @@ const userSearchList = ref<TSearchUser[]>([])
       background-color: #ffffff;
       color: #6b7280;
       border-right: 0.5px solid #e5e7eb;
-      border-left: 0.5px solid #e5e7eb;
     }
 
     &:hover {
@@ -167,7 +169,6 @@ const userSearchList = ref<TSearchUser[]>([])
 
   .active-page {
     background-color: #e1effe;
-    border: 1px solid #3498db;
     color: #1c64f2;
   }
 }
