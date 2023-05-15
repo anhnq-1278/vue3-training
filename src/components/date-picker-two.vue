@@ -80,6 +80,13 @@ const onChangeYear = (value: any) => {
 const onChangeMonth = (value: any) => {
   birthdayValue.month = value.name
 
+  if (value.name === 2) {
+    let totalDay = new Date(birthdayValue.year, birthdayValue.month, 0).getDate()
+
+    birthdayValue.day = totalDay
+    day.value = new Date(birthdayValue.year, birthdayValue.month, birthdayValue.day)
+  }
+
   setListDay()
 }
 
@@ -117,7 +124,7 @@ const setListDay = () => {
   for (let i = 1; i <= totalDay; i++) {
     const label = i < 10 ? `0${i}` : `${i}`
 
-    listMonth.value.push({
+    listDay.value.push({
       name: i,
       label
     })
@@ -148,5 +155,10 @@ watch(birthdayValue, (value) => {
 
 :deep(.dp__theme_light) {
   margin-top: 20px;
+  width: fit-content;
+}
+
+:deep(.dp__menu_transitioned) {
+  left: -112px !important;
 }
 </style>
