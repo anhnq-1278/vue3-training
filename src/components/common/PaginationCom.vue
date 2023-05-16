@@ -32,7 +32,7 @@
       </button>
     </li>
 
-    <li v-for="(page, index) in paginate.pages" :key="index">
+    <li v-for="(page, index) in paginate" :key="index">
       <button
         @click.prevent="() => onClickHandler(page)"
         :class="[
@@ -180,25 +180,23 @@ const paginate = computed(() => {
   }
 
   pages = Array.from(Array(endPage + 1 - startPage).keys()).map((i) => startPage + i)
-  return {
-    pages
-  }
+  return pages
 })
 
 const startingBreakPointButtonIfCondition = computed(() => {
-  return paginate.value.pages[0] >= 3
+  return paginate.value[0] >= 3
 })
 
 const endingBreakPointButtonIfCondition = computed(() => {
-  return paginate.value.pages[paginate.value.pages.length - 1] < totalPages.value - 1
+  return paginate.value[paginate.value.length - 1] < totalPages.value - 1
 })
 
 const firstButtonIfCondition = computed(() => {
-  return paginate.value.pages[0] >= 2
+  return paginate.value[0] >= 2
 })
 
 const lastButtonIfCondition = computed(() => {
-  return paginate.value.pages[paginate.value.pages.length - 1] < totalPages.value
+  return paginate.value[paginate.value.length - 1] < totalPages.value
 })
 
 const onClickHandler = (number: number) => {
