@@ -3,6 +3,7 @@
     <date-picker-one />
     <date-picker-two />
     <radio-option :options="options" @change="onChange" />
+    <radio-option-headless :options="options" @change="onChange" />
   </div>
 </template>
 
@@ -11,6 +12,7 @@ import { ref } from 'vue'
 import DatePickerOne from '@/components/date-picker-one.vue'
 import DatePickerTwo from '@/components/date-picker-two.vue'
 import radioOption from '@/components/radio-option.vue'
+import radioOptionHeadless from '@/components/radio-option-headless.vue'
 
 const options = ref([
   {
