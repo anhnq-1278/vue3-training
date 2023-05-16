@@ -132,10 +132,6 @@ const props = defineProps({
       return true
     }
   },
-  onClick: {
-    type: Function,
-    default: () => {}
-  },
   showBreakpointButtons: {
     type: Boolean,
     default: true
@@ -146,7 +142,7 @@ const props = defineProps({
   }
 })
 
-const emit = defineEmits(['update:modelValue'])
+const emit = defineEmits(['onClick'])
 const currentPageRef = toRef(props, 'modelValue')
 
 const totalPages = computed(() => Math.ceil(props.totalItems / props.itemsPerPage))
@@ -205,7 +201,7 @@ const onClickHandler = (number: number) => {
   if (number < 1) return
   if (props.disablePagination) return
 
-  emit('update:modelValue', number)
+  emit('onClick', number)
 }
 </script>
 <style scoped lang="scss">

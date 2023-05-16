@@ -33,6 +33,7 @@
         v-model="currentPage"
         :items-per-page="10"
         :max-pages-shown="5"
+        @on-click="handlePaginate"
         :disable-pagination="isLoading"
       >
       </PaginationCom>
@@ -41,7 +42,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, watch } from 'vue'
+import { ref } from 'vue'
 import UserItem from './UserItem.vue'
 import LoadingPage from '@/components/LoadingPage.vue'
 import { useUserStore } from '@/store/user'
@@ -54,21 +55,13 @@ import PaginationCom from '@/components/common/PaginationCom.vue'
 const userStore = useUserStore()
 const { listUser, metaData, userDetail } = storeToRefs(userStore)
 
-const page = ref<number>(1)
+const currentPage = ref<number>(1)
 const limit = ref<number>(10)
 const isLoading = ref<boolean>(false)
-const currentPage = ref<number>(1)
 const openUserDetail = ref<boolean>(false)
 
 onMounted(async () => {
-  try {
-    isLoading.value = true
-    await userStore.getUsers(page.value, limit.value)
-  } catch (error) {
-    console.log(error)
-  } finally {
-    isLoading.value = false
-  }
+  await getListUser(currentPage.value)
 })
 
 const getListUser = async (page: number) => {
@@ -82,6 +75,11 @@ const getListUser = async (page: number) => {
   }
 }
 
+const handlePaginate = async (page: number) => {
+  currentPage.value = page
+  await getListUser(page)
+}
+
 const showDetailUser = async (id: string) => {
   try {
     await userStore.getUserDetail(id)
@@ -91,8 +89,4 @@ const showDetailUser = async (id: string) => {
     openUserDetail.value = false
   }
 }
-
-watch(currentPage, async () => {
-  await getListUser(currentPage.value)
-})
 </script>
