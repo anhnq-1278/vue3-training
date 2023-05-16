@@ -1,37 +1,12 @@
 <template>
   <div class="example-drag">
-    <Transition name="slide-fade" mode="out-in">
-      <img
-        :key="previewImg"
-        style="width: 430px; height: 284px"
-        :src="previewImg"
-        alt="preview"
-        class="object-cover"
-      />
-    </Transition>
     <div class="upload">
-      <TransitionGroup
-        name="list"
-        tag="ul"
-        class="flex flex-wrap gap-2 justify-center mt-4 max-w-[430px]"
-      >
-        <li v-for="file in files" :key="file.id">
-          <img
-            @click="previewImg = file.blob"
-            style="width: 100px; height: 100px"
-            class="object-cover cursor-pointer"
-            :class="previewImg === file.blob ? 'border-2 border-blue-600 rounded' : ''"
-            :src="file.blob"
-            alt="preview"
-          />
-        </li>
-        <li>
-          <div class="text-center px-2 py-3 border-dashed border-2 border-gray-200 rounded">
-            <h4>Drop files to upload<br />or</h4>
-            <label for="file" class="cursor-pointer">Select Files</label>
-          </div>
-        </li>
-      </TransitionGroup>
+      <div class="max-w-[200px]">
+        <div class="text-center px-2 py-3 border-dashed border-2 border-gray-200 rounded">
+          <h4 v-if="drop">Drop files to upload<br />or</h4>
+          <label for="file" class="cursor-pointer">Select Files</label>
+        </div>
+      </div>
 
       <div v-show="$refs.upload && $refs.upload.dropActive" class="drop-active">
         <h3>Drop files to upload</h3>
@@ -57,23 +32,33 @@
 <script setup lang="ts">
 import VueUploadComponent from 'vue-upload-component'
 import type { VueUploadItem } from 'vue-upload-component'
-import { ref } from 'vue'
+import { computed, ref, watchEffect } from 'vue'
 import { getBytesSize } from '@/utils/getBytesSize'
 
 const props = defineProps({
   accept: { type: String, default: 'image/png,image/jpeg,image/jpg,image/webp' },
   multiple: { type: Boolean, default: true },
   drop: { type: Boolean, default: true },
-  maxSize: { type: String, default: '2MB' }
+  maxSize: { type: String, default: '2MB' },
+  modelValue: { type: Array<VueUploadItem>, default: [] }
 })
+
+const emit = defineEmits(['change'])
 
 const accept = ref(props.accept)
 const multiple = ref(props.multiple)
 const drop = ref(props.drop)
 const maxSize = ref(props.maxSize)
 const errorMesssage = ref('')
-const files = ref<VueUploadItem[]>([])
-const previewImg = ref('../../public/images/default.svg')
+
+const files = computed({
+  get() {
+    return props.modelValue
+  },
+  set(value) {
+    emit('change', value)
+  }
+})
 
 const inputFilter = (newFile: VueUploadItem, oldFile: VueUploadItem, prevent: () => void) => {
   if (newFile && !oldFile) {
@@ -86,8 +71,6 @@ const inputFilter = (newFile: VueUploadItem, oldFile: VueUploadItem, prevent: ()
 
       return prevent()
     }
-
-    console.log(newFile.size, getBytesSize(maxSize.value))
 
     if (newFile.size && newFile.size > getBytesSize(maxSize.value)!) {
       errorMesssage.value = `Image should be less than ${maxSize.value}`
