@@ -33,7 +33,6 @@
         v-model="currentPage"
         :items-per-page="10"
         :max-pages-shown="5"
-        :on-click="getListUser"
         :disable-pagination="isLoading"
       >
       </PaginationCom>
@@ -42,7 +41,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref, watch } from 'vue'
 import UserItem from './UserItem.vue'
 import LoadingPage from '@/components/LoadingPage.vue'
 import { useUserStore } from '@/store/user'
@@ -92,4 +91,8 @@ const showDetailUser = async (id: string) => {
     openUserDetail.value = false
   }
 }
+
+watch(currentPage, async () => {
+  await getListUser(currentPage.value)
+})
 </script>

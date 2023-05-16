@@ -206,7 +206,6 @@ const onClickHandler = (number: number) => {
   if (props.disablePagination) return
 
   emit('update:modelValue', number)
-  props.onClick(number)
 }
 </script>
 <style scoped lang="scss">
