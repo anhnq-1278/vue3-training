@@ -32,7 +32,7 @@ const onChangeRadio = (value: string) => {
   listOptions.value = props.options.map((option) => {
     return {
       ...option,
-      isChecked: option.value === value ? true : false
+      isChecked: option.value === value
     }
   })
 
