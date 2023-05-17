@@ -61,13 +61,13 @@ const isLoading = ref<boolean>(false)
 const openUserDetail = ref<boolean>(false)
 
 onMounted(async () => {
-  await getListUser(currentPage.value)
+  await getListUser()
 })
 
-const getListUser = async (page: number) => {
+const getListUser = async () => {
   try {
     isLoading.value = true
-    await userStore.getUsers(page, limit.value)
+    await userStore.getUsers(currentPage.value, limit.value)
   } catch (error) {
     console.log(error)
   } finally {
@@ -77,7 +77,7 @@ const getListUser = async (page: number) => {
 
 const handlePaginate = async (page: number) => {
   currentPage.value = page
-  await getListUser(page)
+  await getListUser()
 }
 
 const showDetailUser = async (id: string) => {
