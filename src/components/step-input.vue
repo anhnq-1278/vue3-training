@@ -38,7 +38,7 @@
 import { ref } from 'vue'
 import { Form } from 'vee-validate'
 import InputField from '@/components/input-field.vue'
-import ScrollBack from '@/utils/ScrollBack'
+import ScrollTo from '@/utils/ScrollTo'
 
 const email = ref('')
 const name = ref('')
@@ -59,10 +59,10 @@ const onBack = (value: any) => {
 
   switch (value) {
     case 'block1':
-      ScrollBack(block1, 20)
+      ScrollTo(block1, 20)
       break
     case 'block2':
-      ScrollBack(block2, 20)
+      ScrollTo(block2, 20)
       break
   }
 }
