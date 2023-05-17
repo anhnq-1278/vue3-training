@@ -60,8 +60,8 @@ const limit = ref<number>(10)
 const isLoading = ref<boolean>(false)
 const openUserDetail = ref<boolean>(false)
 
-onMounted(async () => {
-  await getListUser()
+onMounted(() => {
+  getListUser()
 })
 
 const getListUser = async () => {
@@ -75,9 +75,9 @@ const getListUser = async () => {
   }
 }
 
-const handlePaginate = async (page: number) => {
+const handlePaginate = (page: number) => {
   currentPage.value = page
-  await getListUser()
+  getListUser()
 }
 
 const showDetailUser = async (id: string) => {
