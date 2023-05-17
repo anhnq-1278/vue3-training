@@ -35,9 +35,10 @@
 </template>
 
 <script setup lang="ts">
-import { nextTick, ref } from 'vue'
+import { ref } from 'vue'
 import { Form } from 'vee-validate'
 import InputField from '@/components/input-field.vue'
+import ScrollTo from '@/utils/ScrollTo'
 
 const email = ref('')
 const name = ref('')
@@ -56,25 +57,13 @@ const handleSubmit = async (value: any) => {
 const onBack = (value: any) => {
   isHidden.value = false
 
-  //Padding of fixed header
-  const PADDING_TOP = 60
-
-  //Distance from element to header
-  const DISTANCE = 20
-
-  nextTick(() => {
-    let top = 0
-
-    switch (value) {
-      case 'block1':
-        top = block1.value.getBoundingClientRect().y - PADDING_TOP - DISTANCE
-        break
-      case 'block2':
-        top = block2.value.getBoundingClientRect().y - PADDING_TOP - DISTANCE
-        break
-    }
-
-    window.scrollTo({ top, behavior: 'smooth' })
-  })
+  switch (value) {
+    case 'block1':
+      ScrollTo(block1, 20)
+      break
+    case 'block2':
+      ScrollTo(block2, 20)
+      break
+  }
 }
 </script>
