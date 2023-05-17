@@ -28,21 +28,15 @@
       <UserDetail :user="userDetail" />
     </Modal>
     <div class="pagination mt-10 m-auto w-[550px]">
-      <vue-awesome-paginate
-        :total-items="metaData?.totalItem || 10"
+      <PaginationCom
+        :total-items="80"
         v-model="currentPage"
         :items-per-page="10"
         :max-pages-shown="5"
-        :show-breakpoint-buttons="false"
-        :on-click="getListUser"
+        @on-click="handlePaginate"
+        :disable-pagination="isLoading"
       >
-        <template #prev-button>
-          <span> Previous </span>
-        </template>
-        <template #next-button>
-          <span> Next </span>
-        </template>
-      </vue-awesome-paginate>
+      </PaginationCom>
     </div>
   </div>
 </template>
@@ -56,29 +50,34 @@ import { onMounted } from 'vue'
 import { storeToRefs } from 'pinia'
 import Modal from '@/components/Modal.vue'
 import UserDetail from './UserDetail.vue'
+import PaginationCom from '@/components/common/PaginationCom.vue'
 
 const userStore = useUserStore()
 const { listUser, metaData, userDetail } = storeToRefs(userStore)
 
-const page = ref<number>(1)
+const currentPage = ref<number>(1)
 const limit = ref<number>(10)
 const isLoading = ref<boolean>(false)
-const currentPage = ref<number>(1)
 const openUserDetail = ref<boolean>(false)
 
-onMounted(async () => {
+onMounted(() => {
+  getListUser()
+})
+
+const getListUser = async () => {
   try {
     isLoading.value = true
-    await userStore.getUsers(page.value, limit.value)
+    await userStore.getUsers(currentPage.value, limit.value)
   } catch (error) {
     console.log(error)
   } finally {
     isLoading.value = false
   }
-})
+}
 
-const getListUser = async (page: number) => {
-  await userStore.getUsers(page, limit.value)
+const handlePaginate = (page: number) => {
+  currentPage.value = page
+  getListUser()
 }
 
 const showDetailUser = async (id: string) => {
@@ -91,38 +90,3 @@ const showDetailUser = async (id: string) => {
   }
 }
 </script>
-<style lang="scss" scoped>
-:deep() {
-  .pagination {
-    &-container {
-      column-gap: 10px;
-    }
-    .paginate-buttons {
-      width: 50px;
-      height: 40px;
-      cursor: pointer;
-      background-color: #1abc9c;
-      border: none;
-      color: white;
-      border-radius: 2px;
-      &:hover {
-        background-color: #1abc9c;
-      }
-    }
-    .active-page {
-      background-color: #d35400;
-      &:hover {
-        background-color: #1abc9c;
-      }
-    }
-    .back-button,
-    .next-button {
-      width: 100px;
-      height: 40px;
-      &:active {
-        background-color: #1abc9c;
-      }
-    }
-  }
-}
-</style>
