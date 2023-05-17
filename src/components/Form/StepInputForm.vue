@@ -134,11 +134,22 @@
       確認画面へ進む
     </button>
   </div>
+  <div>
+    <SectionForm
+      title="対象者特定有無"
+      class="border bg-[#ffff] border-[#E5E7EB] rounded-lg px-8 py-8 shadow-form-shadow"
+    >
+      <template #content>
+        <RadioOption :options="options" />
+      </template>
+    </SectionForm>
+  </div>
 </template>
 <script setup lang="ts">
 import SectionForm from '@/components/Form/SectionForm.vue'
 import ItemForm from '@/components/Form/ItemForm.vue'
 import InputText from '@/components/common/InputText/InputText.vue'
+import RadioOption from '@/components/common/Radio/RadioOption.vue'
 import { onMounted, ref, type PropType } from 'vue'
 
 interface IData {
@@ -147,6 +158,18 @@ interface IData {
   email1: string
   email2: string
 }
+
+const options = [
+  {
+    value: 'option1',
+    lable: '1'
+  },
+  {
+    value: 'option2',
+    lable: '2'
+  }
+]
+
 const scrollToElement1 = ref<HTMLDivElement | null>(null)
 const scrollToElement2 = ref<HTMLDivElement | null>(null)
 const props = defineProps({
