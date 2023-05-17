@@ -12,7 +12,12 @@
         </div>
       </template>
     </SectionForm>
-    <button class="px-2 py-2 border border-grey-d9 rounded-lg mb-10">申請内容入力画面へ戻る</button>
+    <button
+      class="px-2 py-2 border border-grey-d9 rounded-lg mb-10"
+      @click="backTo('scrollToElement1')"
+    >
+      申請内容入力画面へ戻る
+    </button>
     <SectionForm title="世帯主">
       <template #content>
         <div class="flex">
@@ -25,7 +30,10 @@
         </div>
       </template>
     </SectionForm>
-    <button class="px-2 py-2 border border-grey-d9 rounded-lg mb-10" @click="backTo">
+    <button
+      class="px-2 py-2 border border-grey-d9 rounded-lg mb-10"
+      @click="backTo('scrollToElement2')"
+    >
       申請内容入力画面へ戻る
     </button>
   </div>
@@ -42,11 +50,11 @@ const props = defineProps({
 })
 
 const emit = defineEmits<{
-  (e: 'back'): void
+  (e: 'back', refSectionName: string): void
 }>()
 
-function backTo() {
-    emit('back')
+function backTo(refSectionName: string) {
+  emit('back', refSectionName)
 }
 </script>
 <style lang="scss" scoped>

@@ -8,6 +8,7 @@
           @preview="handlePreview"
           @change-input="handleChangeInput"
           :dataForm="dataForm"
+          ref="sectionRef"
         />
         <StepPreview v-if="step === 2" :dataForm="dataForm" @back="handleBack" />
       </div>
@@ -21,7 +22,7 @@ import StepNavigation from '@/components/Form/StepNavigation.vue'
 import StepInputForm from '@/components/Form/StepInputForm.vue'
 import StepPreview from '@/components/Form/StepPreview.vue'
 import InputText from '@/components/common/InputText/InputText.vue'
-import { nextTick, onMounted, reactive, ref } from 'vue'
+import { nextTick, reactive, ref } from 'vue'
 
 const step = ref<number>(1)
 interface IData {
@@ -31,7 +32,7 @@ interface IData {
   email2: string
 }
 
-const scrollToElement = ref<HTMLInputElement | null>(null)
+const sectionRef = ref<HTMLDivElement | null>(null)
 
 const dataForm = reactive<IData>({
   name1: '',
@@ -44,16 +45,12 @@ function handlePreview() {
   step.value = 2
 }
 
-function handleBack() {
+function handleBack(sectionRefName: string) {
   step.value = 1
   nextTick(() => {
-    scrollToElement.value?.scrollIntoView({ block: 'center', behavior: 'smooth' })
+    sectionRef.value?.[sectionRefName].scrollIntoView({ block: 'start', behavior: 'smooth' })
   })
 }
-onMounted(() => {
-
-  scrollToElement.value?.scrollIntoView({ block: 'center', behavior: 'smooth' })
-})
 
 function handleChangeInput(data: string, type: string) {
   dataForm[type] = data

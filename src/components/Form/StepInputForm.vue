@@ -1,132 +1,134 @@
 <template>
-  <SectionForm
-    title="世帯主"
-    class="border bg-[#ffff] border-[#E5E7EB] rounded-lg px-8 py-8 shadow-form-shadow mb-10"
-  >
-    <template #content>
-      <ItemForm title="世帯関係者（世帯主も含む）">
-        <template #content>
-          <div class="mt-2">
-            <span class="mb-2">住所（都道府県）</span>
-            <InputText
-              class="h-[37px] bg-[#F9FAFB] rounded-lg px-4 py-2"
-              :value="dataForm.name1"
-              @input="changeInput($event, 'name1')"
-              name="name1"
-            />
-          </div>
-          <div class="mt-2">
-            <span class="mb-2">住所（都道府県）</span>
-            <InputText
-              class="h-[37px] bg-[#F9FAFB] rounded-lg px-4 py-2"
-              :value="dataForm.name2"
-              @input="changeInput($event, 'name2')"
-              name="name2"
-            />
-          </div>
-          <div>
-            Lorem ipsum dolor sit amet consectetur, adipisicing elit. Vel odit nisi temporibus.
-            Recusandae enim id placeat voluptatibus modi minima, est repellendus facere accusamus
-            dolorem quas consectetur beatae labore omnis excepturi? Lorem ipsum dolor sit amet
-            consectetur adipisicing elit. Est harum voluptate vel provident soluta cum ratione
-            magnam quam exercitationem, voluptatibus dolorum minima deleniti enim, sit quos ipsam
-            placeat aperiam doloribus! Lorem ipsum dolor sit amet consectetur, adipisicing elit.
-            Consectetur excepturi, totam saepe minima et quas asperiores aut molestias, quod nam
-            nihil vero. Mollitia recusandae beatae quam dolor atque laudantium eaque. Lorem ipsum
-            dolor sit amet consectetur, adipisicing elit. Vel odit nisi temporibus. Recusandae enim
-            id placeat voluptatibus modi minima, est repellendus facere accusamus dolorem quas
-            consectetur beatae labore omnis excepturi? Lorem ipsum dolor sit amet consectetur
-            adipisicing elit. Est harum voluptate vel provident soluta cum ratione magnam quam
-            exercitationem, voluptatibus dolorum minima deleniti enim, sit quos ipsam placeat
-            aperiam doloribus! Lorem ipsum dolor sit amet consectetur, adipisicing elit. Consectetur
-            excepturi, totam saepe minima et quas asperiores aut molestias, quod nam nihil vero.
-            Mollitia recusandae beatae quam dolor atque laudantium eaque. Lorem ipsum dolor sit amet
-            consectetur, adipisicing elit. Vel odit nisi temporibus. Recusandae enim id placeat
-            voluptatibus modi minima, est repellendus facere accusamus dolorem quas consectetur
-            beatae labore omnis excepturi? Lorem ipsum dolor sit amet consectetur adipisicing elit.
-            Est harum voluptate vel provident soluta cum ratione magnam quam exercitationem,
-            voluptatibus dolorum minima deleniti enim, sit quos ipsam placeat aperiam doloribus!
-            Lorem ipsum dolor sit amet consectetur, adipisicing elit. Consectetur excepturi, totam
-            saepe minima et quas asperiores aut molestias, quod nam nihil vero. Mollitia recusandae
-            beatae quam dolor atque laudantium eaque. Lorem ipsum dolor sit amet consectetur,
-            adipisicing elit. Vel odit nisi temporibus. Recusandae enim id placeat voluptatibus modi
-            minima, est repellendus facere accusamus dolorem quas consectetur beatae labore omnis
-            excepturi? Lorem ipsum dolor sit amet consectetur adipisicing elit. Est harum voluptate
-            vel provident soluta cum ratione magnam quam exercitationem, voluptatibus dolorum minima
-            deleniti enim, sit quos ipsam placeat aperiam doloribus! Lorem ipsum dolor sit amet
-            consectetur, adipisicing elit. Consectetur excepturi, totam saepe minima et quas
-            asperiores aut molestias, quod nam nihil vero. Mollitia recusandae beatae quam dolor
-            atque laudantium eaque.
-          </div>
-        </template>
-      </ItemForm>
-    </template>
-  </SectionForm>
-
-  <SectionForm
-    title="世帯主"
-    class="border bg-[#ffff] border-[#E5E7EB] rounded-lg px-8 py-8 shadow-form-shadow"
-    ref="scrollToElement"
-  >
-    <template #content>
-      <ItemForm title="世帯関係者（世帯主も含む）">
-        <template #content>
-          <div class="mt-2">
-            <span class="mb-2">住所（都道府県）</span>
-            <InputText
-              class="h-[37px] bg-[#F9FAFB] rounded-lg px-4 py-2"
-              :value="dataForm.email1"
-              name="email1"
-              @input="changeInput($event, 'email1')"
-            />
-          </div>
-          <div class="mt-2">
-            <span class="mb-2">住所（都道府県）</span>
-            <InputText
-              class="h-[37px] bg-[#F9FAFB] rounded-lg px-4 py-2"
-              :value="dataForm.email2"
-              @input="changeInput($event, 'email2')"
-              name="email2"
-            />
-          </div>
-          <div>
-            Lorem ipsum dolor sit amet consectetur, adipisicing elit. Vel odit nisi temporibus.
-            Recusandae enim id placeat voluptatibus modi minima, est repellendus facere accusamus
-            dolorem quas consectetur beatae labore omnis excepturi? Lorem ipsum dolor sit amet
-            consectetur adipisicing elit. Est harum voluptate vel provident soluta cum ratione
-            magnam quam exercitationem, voluptatibus dolorum minima deleniti enim, sit quos ipsam
-            placeat aperiam doloribus! Lorem ipsum dolor sit amet consectetur, adipisicing elit.
-            Consectetur excepturi, totam saepe minima et quas asperiores aut molestias, quod nam
-            nihil vero. Mollitia recusandae beatae quam dolor atque laudantium eaque. Lorem ipsum
-            dolor sit amet consectetur, adipisicing elit. Vel odit nisi temporibus. Recusandae enim
-            id placeat voluptatibus modi minima, est repellendus facere accusamus dolorem quas
-            consectetur beatae labore omnis excepturi? Lorem ipsum dolor sit amet consectetur
-            adipisicing elit. Est harum voluptate vel provident soluta cum ratione magnam quam
-            exercitationem, voluptatibus dolorum minima deleniti enim, sit quos ipsam placeat
-            aperiam doloribus! Lorem ipsum dolor sit amet consectetur, adipisicing elit. Consectetur
-            excepturi, totam saepe minima et quas asperiores aut molestias, quod nam nihil vero.
-            Mollitia recusandae beatae quam dolor atque laudantium eaque. Lorem ipsum dolor sit amet
-            consectetur, adipisicing elit. Vel odit nisi temporibus. Recusandae enim id placeat
-            voluptatibus modi minima, est repellendus facere accusamus dolorem quas consectetur
-            beatae labore omnis excepturi? Lorem ipsum dolor sit amet consectetur adipisicing elit.
-            Est harum voluptate vel provident soluta cum ratione magnam quam exercitationem,
-            voluptatibus dolorum minima deleniti enim, sit quos ipsam placeat aperiam doloribus!
-            Lorem ipsum dolor sit amet consectetur, adipisicing elit. Consectetur excepturi, totam
-            saepe minima et quas asperiores aut molestias, quod nam nihil vero. Mollitia recusandae
-            beatae quam dolor atque laudantium eaque. Lorem ipsum dolor sit amet consectetur,
-            adipisicing elit. Vel odit nisi temporibus. Recusandae enim id placeat voluptatibus modi
-            minima, est repellendus facere accusamus dolorem quas consectetur beatae labore omnis
-            excepturi? Lorem ipsum dolor sit amet consectetur adipisicing elit. Est harum voluptate
-            vel provident soluta cum ratione magnam quam exercitationem, voluptatibus dolorum minima
-            deleniti enim, sit quos ipsam placeat aperiam doloribus! Lorem ipsum dolor sit amet
-            consectetur, adipisicing elit. Consectetur excepturi, totam saepe minima et quas
-            asperiores aut molestias, quod nam nihil vero. Mollitia recusandae beatae quam dolor
-            atque laudantium eaque.
-          </div>
-        </template>
-      </ItemForm>
-    </template>
-  </SectionForm>
+  <div ref="scrollToElement1">
+    <SectionForm
+      title="世帯主"
+      class="border bg-[#ffff] border-[#E5E7EB] rounded-lg px-8 py-8 shadow-form-shadow mb-10"
+    >
+      <template #content>
+        <ItemForm title="世帯関係者（世帯主も含む）">
+          <template #content>
+            <div class="mt-2">
+              <span class="mb-2">住所（都道府県）</span>
+              <InputText
+                class="h-[37px] bg-[#F9FAFB] rounded-lg px-4 py-2"
+                :value="dataForm.name1"
+                @input="changeInput($event, 'name1')"
+                name="name1"
+              />
+            </div>
+            <div class="mt-2">
+              <span class="mb-2">住所（都道府県）</span>
+              <InputText
+                class="h-[37px] bg-[#F9FAFB] rounded-lg px-4 py-2"
+                :value="dataForm.name2"
+                @input="changeInput($event, 'name2')"
+                name="name2"
+              />
+            </div>
+            <div>
+              Lorem ipsum dolor sit amet consectetur, adipisicing elit. Vel odit nisi temporibus.
+              Recusandae enim id placeat voluptatibus modi minima, est repellendus facere accusamus
+              dolorem quas consectetur beatae labore omnis excepturi? Lorem ipsum dolor sit amet
+              consectetur adipisicing elit. Est harum voluptate vel provident soluta cum ratione
+              magnam quam exercitationem, voluptatibus dolorum minima deleniti enim, sit quos ipsam
+              placeat aperiam doloribus! Lorem ipsum dolor sit amet consectetur, adipisicing elit.
+              Consectetur excepturi, totam saepe minima et quas asperiores aut molestias, quod nam
+              nihil vero. Mollitia recusandae beatae quam dolor atque laudantium eaque. Lorem ipsum
+              dolor sit amet consectetur, adipisicing elit. Vel odit nisi temporibus. Recusandae
+              enim id placeat voluptatibus modi minima, est repellendus facere accusamus dolorem
+              quas consectetur beatae labore omnis excepturi? Lorem ipsum dolor sit amet consectetur
+              adipisicing elit. Est harum voluptate vel provident soluta cum ratione magnam quam
+              exercitationem, voluptatibus dolorum minima deleniti enim, sit quos ipsam placeat
+              aperiam doloribus! Lorem ipsum dolor sit amet consectetur, adipisicing elit.
+              Consectetur excepturi, totam saepe minima et quas asperiores aut molestias, quod nam
+              nihil vero. Mollitia recusandae beatae quam dolor atque laudantium eaque. Lorem ipsum
+              dolor sit amet consectetur, adipisicing elit. Vel odit nisi temporibus. Recusandae
+              enim id placeat voluptatibus modi minima, est repellendus facere accusamus dolorem
+              quas consectetur beatae labore omnis excepturi? Lorem ipsum dolor sit amet consectetur
+              adipisicing elit. Est harum voluptate vel provident soluta cum ratione magnam quam
+              exercitationem, voluptatibus dolorum minima deleniti enim, sit quos ipsam placeat
+              aperiam doloribus! Lorem ipsum dolor sit amet consectetur, adipisicing elit.
+              Consectetur excepturi, totam saepe minima et quas asperiores aut molestias, quod nam
+              nihil vero. Mollitia recusandae beatae quam dolor atque laudantium eaque. Lorem ipsum
+              dolor sit amet consectetur, adipisicing elit. Vel odit nisi temporibus. Recusandae
+              enim id placeat voluptatibus modi minima, est repellendus facere accusamus dolorem
+              quas consectetur beatae labore omnis excepturi? Lorem ipsum dolor sit amet consectetur
+              adipisicing elit. Est harum voluptate vel provident soluta cum ratione magnam quam
+              exercitationem, voluptatibus dolorum minima deleniti enim, sit quos ipsam placeat
+              aperiam doloribus! Lorem ipsum dolor sit amet consectetur, adipisicing elit.
+              Consectetur excepturi, totam saepe minima et quas asperiores aut molestias, quod nam
+              nihil vero. Mollitia recusandae beatae quam dolor atque laudantium eaque.
+            </div>
+          </template>
+        </ItemForm>
+      </template>
+    </SectionForm>
+  </div>
+  <div ref="scrollToElement2">
+    <SectionForm
+      title="世帯主"
+      class="border bg-[#ffff] border-[#E5E7EB] rounded-lg px-8 py-8 shadow-form-shadow"
+    >
+      <template #content>
+        <ItemForm title="世帯関係者（世帯主も含む）">
+          <template #content>
+            <div class="mt-2">
+              <span class="mb-2">住所（都道府県）</span>
+              <InputText
+                class="h-[37px] bg-[#F9FAFB] rounded-lg px-4 py-2"
+                :value="dataForm.email1"
+                name="email1"
+                @input="changeInput($event, 'email1')"
+              />
+            </div>
+            <div class="mt-2">
+              <span class="mb-2">住所（都道府県）</span>
+              <InputText
+                class="h-[37px] bg-[#F9FAFB] rounded-lg px-4 py-2"
+                :value="dataForm.email2"
+                @input="changeInput($event, 'email2')"
+                name="email2"
+              />
+            </div>
+            <div>
+              Lorem ipsum dolor sit amet consectetur, adipisicing elit. Vel odit nisi temporibus.
+              Recusandae enim id placeat voluptatibus modi minima, est repellendus facere accusamus
+              dolorem quas consectetur beatae labore omnis excepturi? Lorem ipsum dolor sit amet
+              consectetur adipisicing elit. Est harum voluptate vel provident soluta cum ratione
+              magnam quam exercitationem, voluptatibus dolorum minima deleniti enim, sit quos ipsam
+              placeat aperiam doloribus! Lorem ipsum dolor sit amet consectetur, adipisicing elit.
+              Consectetur excepturi, totam saepe minima et quas asperiores aut molestias, quod nam
+              nihil vero. Mollitia recusandae beatae quam dolor atque laudantium eaque. Lorem ipsum
+              dolor sit amet consectetur, adipisicing elit. Vel odit nisi temporibus. Recusandae
+              enim id placeat voluptatibus modi minima, est repellendus facere accusamus dolorem
+              quas consectetur beatae labore omnis excepturi? Lorem ipsum dolor sit amet consectetur
+              adipisicing elit. Est harum voluptate vel provident soluta cum ratione magnam quam
+              exercitationem, voluptatibus dolorum minima deleniti enim, sit quos ipsam placeat
+              aperiam doloribus! Lorem ipsum dolor sit amet consectetur, adipisicing elit.
+              Consectetur excepturi, totam saepe minima et quas asperiores aut molestias, quod nam
+              nihil vero. Mollitia recusandae beatae quam dolor atque laudantium eaque. Lorem ipsum
+              dolor sit amet consectetur, adipisicing elit. Vel odit nisi temporibus. Recusandae
+              enim id placeat voluptatibus modi minima, est repellendus facere accusamus dolorem
+              quas consectetur beatae labore omnis excepturi? Lorem ipsum dolor sit amet consectetur
+              adipisicing elit. Est harum voluptate vel provident soluta cum ratione magnam quam
+              exercitationem, voluptatibus dolorum minima deleniti enim, sit quos ipsam placeat
+              aperiam doloribus! Lorem ipsum dolor sit amet consectetur, adipisicing elit.
+              Consectetur excepturi, totam saepe minima et quas asperiores aut molestias, quod nam
+              nihil vero. Mollitia recusandae beatae quam dolor atque laudantium eaque. Lorem ipsum
+              dolor sit amet consectetur, adipisicing elit. Vel odit nisi temporibus. Recusandae
+              enim id placeat voluptatibus modi minima, est repellendus facere accusamus dolorem
+              quas consectetur beatae labore omnis excepturi? Lorem ipsum dolor sit amet consectetur
+              adipisicing elit. Est harum voluptate vel provident soluta cum ratione magnam quam
+              exercitationem, voluptatibus dolorum minima deleniti enim, sit quos ipsam placeat
+              aperiam doloribus! Lorem ipsum dolor sit amet consectetur, adipisicing elit.
+              Consectetur excepturi, totam saepe minima et quas asperiores aut molestias, quod nam
+              nihil vero. Mollitia recusandae beatae quam dolor atque laudantium eaque.
+            </div>
+          </template>
+        </ItemForm>
+      </template>
+    </SectionForm>
+  </div>
   <div>
     <button @click="handlePreview" class="px-4 py-2 border border-grey-d9 my-2 rounded-lg mx-auto">
       確認画面へ進む
@@ -145,7 +147,8 @@ interface IData {
   email1: string
   email2: string
 }
-const scrollToElement = ref<HTMLInputElement | null>(null)
+const scrollToElement1 = ref<HTMLDivElement | null>(null)
+const scrollToElement2 = ref<HTMLDivElement | null>(null)
 const props = defineProps({
   dataForm: {
     type: Object as PropType<IData>,
@@ -165,9 +168,10 @@ function handlePreview() {
 function changeInput(e: Event, type: string) {
   emit('change-input', (e.target as HTMLInputElement).value, type)
 }
-onMounted(() => {
-  console.log(scrollToElement.value)
-  scrollToElement.value?.scrollIntoView({ behavior: 'smooth' })
+
+defineExpose({
+  scrollToElement1,
+  scrollToElement2
 })
 </script>
 <style lang="scss" scoped>
