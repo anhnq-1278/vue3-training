@@ -1,12 +1,12 @@
 <template>
   <div v-if="!isHidden">
     <Form @submit="handleSubmit">
-      <div class="bg-white p-4" id="block1" ref="block1">
+      <div class="bg-white p-4" ref="block1">
         <div>Email</div>
         <input-field type="text" placeholder="Email" name="email" :value="email" />
       </div>
 
-      <div class="bg-white p-4 mt-[100px]" id="block2" ref="block2">
+      <div class="bg-white p-4 mt-[100px]" ref="block2">
         <div>Name</div>
         <input-field type="text" placeholder="name" name="name" :value="name" />
       </div>
