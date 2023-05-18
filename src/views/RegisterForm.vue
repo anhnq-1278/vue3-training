@@ -48,12 +48,15 @@ function handlePreview() {
 function handleBack(sectionRefName: string) {
   step.value = 1
   nextTick(() => {
-    sectionRef.value?.[sectionRefName].scrollIntoView({ block: 'start', behavior: 'smooth' })
+    (sectionRef.value as any)?.[sectionRefName].scrollIntoView({
+      block: 'start',
+      behavior: 'smooth'
+    })
   })
 }
 
 function handleChangeInput(data: string, type: string) {
-  dataForm[type] = data
+  dataForm[type as keyof IData] = data
 }
 </script>
 <style lang="scss" scoped>

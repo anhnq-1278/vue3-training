@@ -1,8 +1,8 @@
 <template>
   <div class="radio-input-container flex gap-6">
-    <div v-for="(option, index) of listOptions" :key="index" class="flex gap-1 items-center">
+    <div v-for="(option, index) of listOptions" :key="index" class="flex gap-3 items-center">
       <radio-input :checked="option.isChecked" @change="onChangeRadio(option.value)" />
-      <span>{{ option.label }}</span>
+      <span class="text-sm leading-[21px] text-black-11]">{{ option.label }}</span>
     </div>
   </div>
 </template>

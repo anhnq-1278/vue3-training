@@ -134,13 +134,35 @@
       確認画面へ進む
     </button>
   </div>
-  <div>
+  <div class="mb-10">
     <SectionForm
       title="対象者特定有無"
-      class="border bg-[#ffff] border-[#E5E7EB] rounded-lg px-8 py-8 shadow-form-shadow"
+      class="border bg-[#ffff] border-[#E5E7EB] rounded-lg px-[24px] py-[24px] shadow-form-shadow"
     >
       <template #content>
-        <RadioOption :options="options" />
+        <div class="h-[40px] flex items-center mt-[16px]">
+          <RadioOption :options="options" />
+        </div>
+      </template>
+    </SectionForm>
+  </div>
+  <div class="mb-10">
+    <SectionForm
+      title="対象者特定有無"
+      class="border bg-[#ffff] border-[#E5E7EB] rounded-lg px-[24px] py-[24px] shadow-form-shadow"
+    >
+      <template #content>
+        <div class="h-[40px]">
+          <template v-for="option in options" :key="option.label">
+            <Checkbox
+              :checked="selectedValue.includes(option.value)"
+              :value="option.value"
+              :label="option.label"
+              @change="handleChangeCheckbox"
+            />
+          </template>
+          <Checkbox :checked="isAgree" @change="isAgree = !isAgree" />
+        </div>
       </template>
     </SectionForm>
   </div>
@@ -150,6 +172,7 @@ import SectionForm from '@/components/Form/SectionForm.vue'
 import ItemForm from '@/components/Form/ItemForm.vue'
 import InputText from '@/components/common/InputText/InputText.vue'
 import RadioOption from '@/components/common/Radio/RadioOption.vue'
+import Checkbox from '@/components/common/Checkbox/CheckboxComponent.vue'
 import { onMounted, ref, type PropType } from 'vue'
 
 interface IData {
@@ -159,14 +182,17 @@ interface IData {
   email2: string
 }
 
-const options = [
+const selectedValue = ref<string[]>([])
+const isAgree = ref<boolean>(false)
+
+const options: { value: string; label: string }[] = [
   {
     value: 'option1',
-    lable: '1'
+    label: '1'
   },
   {
     value: 'option2',
-    lable: '2'
+    label: '2'
   }
 ]
 
@@ -183,6 +209,15 @@ const emit = defineEmits<{
   (e: 'preview'): void
   (e: 'change-input', data: string, type: string): void
 }>()
+
+function handleChangeCheckbox(value: any) {
+  if (selectedValue.value.includes(value)) {
+    const index = selectedValue.value.indexOf(value)
+    selectedValue.value.splice(index, 1)
+  } else {
+    selectedValue.value.push(value)
+  }
+}
 
 function handlePreview() {
   emit('preview')
