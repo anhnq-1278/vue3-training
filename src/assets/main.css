@@ -1,3 +1,20 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+:root {
+  /* font-size  */
+  --fs-text-xs: 12px;
+  --fs-text-sm: 14px;
+  --fs-text-base: 16px;
+  --fs-text-l: 18px;
+  --fs-text-xl: 20px;
+  --fs-text-2xl: 24px;
+
+  /* line height  */
+  --lh-18: 18px;
+  --lh-21: 21px;
+  --lh-24: 24px;
+  --lh-30: 30px;
+  --lh-36: 36px;
+}

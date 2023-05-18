@@ -32,7 +32,7 @@
 <script setup lang="ts">
 import VueUploadComponent from 'vue-upload-component'
 import type { VueUploadItem } from 'vue-upload-component'
-import { computed, ref, watchEffect } from 'vue'
+import { computed, ref } from 'vue'
 import { getBytesSize } from '@/utils/getBytesSize'
 
 const props = defineProps({
