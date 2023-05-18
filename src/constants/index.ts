@@ -16,3 +16,9 @@ export const LIMIT_OPTIONS = [
     label: '50 items'
   }
 ]
+
+export enum STATUS {
+  Cancel = 10,
+  Waiting = 15,
+  Completion = 20,
+}
