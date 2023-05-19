@@ -5,7 +5,7 @@
         sign in
       </h1>
       <div class="mt-8 flex flex-col">
-        <Form @submit="handleSubmit" :validation-schema="schema">
+        <Form :on-submit="handleSubmit" :validation-schema="schema">
           <input-field
             type="text"
             placeholder="Email"
@@ -61,7 +61,7 @@ const password = ref('')
 const errorMessage = ref('')
 const keyError = ref('')
 
-const handleSubmit = async (value: any) => {
+const handleSubmit = async (value: any, actions: any) => {
   try {
     commonStore.setLoading(true)
 
@@ -75,8 +75,7 @@ const handleSubmit = async (value: any) => {
     })
   } catch (error: any) {
     if (error.status === 403) {
-      errorMessage.value = error.data.message
-      keyError.value = 'password'
+      actions.setErrors({ password: error.data.message })
     }
   } finally {
     commonStore.setLoading(false)

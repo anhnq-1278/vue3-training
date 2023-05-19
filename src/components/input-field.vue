@@ -19,9 +19,6 @@
       <p v-if="!!errorMessage" class="text-sm ml-3 text-red-700 italic mt-[2px]">
         {{ errorMessage }}
       </p>
-      <p v-if="!errorMessage && isError" class="text-sm ml-3 text-red-700 italic mt-[2px]">
-        {{ errorMsg }}
-      </p>
     </div>
   </div>
 </template>
@@ -48,11 +45,7 @@ const emit = defineEmits<{
 
 watchEffect(() => nextTick(() => emit('update:modelValue', inputValue.value)))
 
-const {
-  value: inputValue,
-  errorMessage,
-  meta
-} = useField(props.name, undefined, {
+const { value: inputValue, errorMessage } = useField(props.name, undefined, {
   initialValue: props.value,
   validateOnValueUpdate: false
 })
