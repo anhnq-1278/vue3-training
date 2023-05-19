@@ -12,6 +12,7 @@
             name="email"
             :is-error="keyError === 'email'"
             :error-msg="errorMessage"
+            v-model="email"
           />
           <input-field
             type="password"
@@ -19,6 +20,7 @@
             name="password"
             :is-error="keyError === 'password'"
             :error-msg="errorMessage"
+            v-model="password"
           />
           <button
             class="bg-pink-d5 hover:bg-pink-8 duration-200 w-full text-white px-6 py-2 mt-2 rounded text-lg"
@@ -52,6 +54,9 @@ const schema = {
   email: 'required|email',
   password: 'required|min:6|max:16|password'
 }
+
+const email = ref('')
+const password = ref('')
 
 const errorMessage = ref('')
 const keyError = ref('')

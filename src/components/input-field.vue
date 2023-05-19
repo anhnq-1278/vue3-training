@@ -12,15 +12,14 @@
       :type="type"
       :value="inputValue"
       :placeholder="placeholder"
-      @input="handleChange"
+      v-model="inputValue"
       :disabled="disable"
-      v-bind="$attrs"
     />
     <div class="min-h-[30px]">
       <p v-if="!!errorMessage" class="text-sm ml-3 text-red-700 italic mt-[2px]">
         {{ errorMessage }}
       </p>
-      <p v-if="meta.valid && isError" class="text-sm ml-3 text-red-700 italic mt-[2px]">
+      <p v-if="!errorMessage && isError" class="text-sm ml-3 text-red-700 italic mt-[2px]">
         {{ errorMsg }}
       </p>
     </div>
@@ -28,7 +27,7 @@
 </template>
 
 <script setup lang="ts">
-import { toRef } from 'vue'
+import { nextTick, watchEffect } from 'vue'
 import { useField } from 'vee-validate'
 
 const props = defineProps({
@@ -39,17 +38,22 @@ const props = defineProps({
   isError: { type: Boolean, default: false },
   errorMsg: { type: String, default: '' },
   title: { type: String, default: '' },
-  disable: { type: Boolean, default: false }
+  disable: { type: Boolean, default: false },
+  modelValue: { type: String, default: '' }
 })
 
-const name = toRef(props, 'name')
+const emit = defineEmits<{
+  (e: 'update:modelValue', value: String): void
+}>()
+
+watchEffect(() => nextTick(() => emit('update:modelValue', inputValue.value)))
 
 const {
   value: inputValue,
   errorMessage,
-  handleChange,
   meta
-} = useField(name, undefined, {
-  initialValue: props.value
+} = useField(props.name, undefined, {
+  initialValue: props.value,
+  validateOnValueUpdate: false
 })
 </script>
