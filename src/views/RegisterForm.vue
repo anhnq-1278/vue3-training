@@ -23,6 +23,8 @@ import StepInputForm from '@/components/Form/StepInputForm.vue'
 import StepPreview from '@/components/Form/StepPreview.vue'
 import InputText from '@/components/common/InputText/InputText.vue'
 import { nextTick, reactive, ref } from 'vue'
+import  dayjs from 'dayjs'
+import 'dayjs/locale/ja'  // Import the language plugin
 
 const step = ref<number>(1)
 interface IData {
