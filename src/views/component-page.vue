@@ -2,6 +2,7 @@
   <div class="w-[839px] mx-auto pt-10 flex flex-col gap-10">
     <date-picker-one />
     <date-picker-two />
+    <checkbox-component />
     <radio-option :options="options" @change="onChange" />
     <radio-option-headless :options="options" @change="onChange" />
     <step-input />
@@ -15,6 +16,7 @@ import DatePickerTwo from '@/components/date-picker-two.vue'
 import radioOption from '@/components/radio-option.vue'
 import radioOptionHeadless from '@/components/radio-option-headless.vue'
 import stepInput from '@/components/step-input.vue'
+import checkboxComponent from '@/components/checkbox-component.vue'
 
 const options = ref([
   {
