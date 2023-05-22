@@ -2,6 +2,12 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer components {
+  .error-message {
+    @apply text-red-700;
+  }
+}
+
 :root {
   /* font-size  */
   --fs-text-xs: 12px;

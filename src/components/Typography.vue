@@ -4,7 +4,7 @@ import { h } from 'vue'
 type TypographyVariants = 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' | 'p' | 'span' | 'div'
 type TypographyAligns = 'center' | 'left' | 'right' | 'justify'
 type TypographyWeights = 'light' | 'regular' | 'medium' | 'semibold' | 'bold'
-type TypographyFontSizes = 'text-xs' | 'text-sm' | 'text-base' | 'text-l' | 'text-xl' | 'text-2xl'
+type TypographyFontSizes = 'xs' | 'sm' | 'base' | 'l' | 'xl' | '2xl'
 type TypographyTransforms = 'none' | 'lowercase' | 'uppercase' | 'capitalize'
 
 interface ITypographyProps {
@@ -13,21 +13,26 @@ interface ITypographyProps {
   weight?: TypographyWeights
   size?: TypographyFontSizes
   transform?: TypographyTransforms
+  text: string
+  class?: string
 }
 
 const props = withDefaults(defineProps<ITypographyProps>(), {
+  text: '',
   variant: 'p',
   align: 'left',
   weight: 'regular',
-  size: 'text-base',
+  size: 'base',
   transform: 'none'
 })
 
 const component = () =>
   h(
     props.variant,
-    { class: `text-${props.align} font-${props.weight} ${props.size} ${props.transform}` },
-    'from render function'
+    {
+      class: `text-${props.align} font-${props.weight} text-${props.size} ${props.transform} ${props.class}`
+    },
+    `${props.text}`
   )
 </script>
 

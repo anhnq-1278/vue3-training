@@ -21,10 +21,10 @@
                 v-for="(header, index) in headers"
                 :key="index"
                 scope="col"
-                class="px-6 py-3 text-xs font-bold text-left text-gray-500 uppercase"
+                class="px-6 py-4 text-left uppercase bg-gray-50"
               >
                 <div :class="header.class">
-                  {{ header.name }}
+                  <Typography size="base" weight="bold" :text="header.name" class="text-gray-500" />
                 </div>
               </th>
             </tr>
@@ -41,13 +41,14 @@
                   <label for="checkbox" class="sr-only"> Checkbox </label>
                 </div>
               </td>
-              <td
-                v-for="(data, index) in row.data"
-                :key="index"
-                class="px-6 py-4 text-sm font-medium text-gray-800"
-              >
+              <td v-for="(data, index) in row.data" :key="index" class="px-6 py-4">
                 <div :class="data.class">
-                  {{ data.content }}
+                  <Typography
+                    size="base"
+                    weight="regular"
+                    :text="data.content"
+                    class="text-[#111928]"
+                  />
                 </div>
               </td>
             </tr>
@@ -60,6 +61,7 @@
 
 <script setup lang="ts">
 import { computed, ref, watchEffect } from 'vue'
+import Typography from './Typography.vue'
 
 export interface ITableRowProps {
   id: number
