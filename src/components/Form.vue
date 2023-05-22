@@ -1,16 +1,16 @@
 <template>
   <div class="flex flex-col">
     <form @submit="onSubmit">
-      <input v-model="value" placeholder="Type something" />
-      <span class="text-red-700">{{ errorMessage }}</span>
-      <input v-model="value2" placeholder="Type something" />
-      <span class="text-red-700">{{ errorMessage2 }}</span>
+      <input-number v-model="modelInput" @change="handleChangeInput" />
       <button type="submit">Sumit</button>
     </form>
   </div>
 </template>
 <script setup lang="ts">
 import { useField, useForm } from 'vee-validate'
+import { ref } from 'vue'
+
+const modelInput = ref('')
 
 const validateField = (value: string) => {
   if (!value?.trim()) {
@@ -24,6 +24,10 @@ const validateField = (value: string) => {
   return true
 }
 
+const handleChangeInput = (value: string) => {
+  modelInput.value = value
+}
+
 const { handleSubmit, resetForm } = useForm({
   initialValues: {
     value: '',
@@ -35,6 +39,5 @@ const onSubmit = handleSubmit((values) => {
   console.log(values)
 })
 
-const { value, errorMessage } = useField('value', validateField)
-const { value: value2, errorMessage: errorMessage2 } = useField('value2', validateField)
+const { value: inputValue, errorMessage } = useField('value', validateField)
 </script>

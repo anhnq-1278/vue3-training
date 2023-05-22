@@ -56,14 +56,24 @@
       Typography
       <typography :weight="'bold'" :size="'text-2xl'" />
     </div>
-    <div>
+    <!-- <div>
       InputNumber
-      <input-number :modelValue="modelInput" @change="handleChangeInput" />
-    </div>
+      <input-number v-model="modelInput" @change="handleChangeInput" />
+    </div> -->
     <div>
       Form
-      <Form />
+      <div class="flex flex-col">
+        <form @submit="onSubmit">
+          <input-number v-model="modelValue" name="input-number" rules="required" />
+          <input-number v-model="modelValue2" name="input-number2" />
+          <button type="submit">Sumit</button>
+        </form>
+      </div>
     </div>
+    <!-- <div>
+      SelectBox
+      <SelectBox />
+    </div> -->
   </div>
 </template>
 
@@ -73,25 +83,51 @@ import Table from '@/components/Table.vue'
 import Typography from '@/components/Typography.vue'
 import InputNumber from '@/components/InputNumber.vue'
 import Form from '@/components/Form.vue'
+import SelectBox from '@/components/SelectBox.vue'
 import { ref } from 'vue'
 import type { ITableRowData, ITableRowProps } from '@/components/Table.vue'
 import type { VueUploadItem } from 'vue-upload-component'
+import { useForm } from 'vee-validate'
+import { defineRule } from 'vee-validate'
+import AllRules from '@vee-validate/rules'
+
+defineRule('required', (value: any) => {
+  if (!value || !value.length) {
+    return 'This field is required'
+  }
+  return true
+})
+
 const files = ref<VueUploadItem[]>([])
 const previewImg = ref('../../public/images/default.svg')
-const modelInput = ref('')
+const { handleSubmit } = useForm({
+  // initialValues: {
+  //   value: '',
+  //   value2: ''
+  // }
+})
 
-const handleChange = (file: VueUploadItem[]) => {
-  files.value = file
-}
+const modelValue = ref('1111111111111111111111')
+const modelValue2 = ref('22222222222222')
+
+const onSubmit = handleSubmit((values) => {
+  console.log(values)
+})
 
 const handleDelete = (id: string) => {
   files.value = files.value.filter((file) => file.id !== id)
 }
 
-const handleChangeInput = (value: string) => {
-  console.log(value)
+const validateField = (value: string) => {
+  if (!value?.trim()) {
+    return 'this field is required'
+  }
 
-  modelInput.value = value
+  if (value.length < 8) {
+    return 'this field must contain at least 8 characters'
+  }
+
+  return true
 }
 
 const headers = [
