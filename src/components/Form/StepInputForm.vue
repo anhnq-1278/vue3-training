@@ -166,14 +166,31 @@
       </template>
     </SectionForm>
   </div>
+  <div class="mt-8 flex flex-col">
+    <Form @submit="handleSubmit" :validation-schema="schema">
+      <text-area
+        name="introduce"
+        :autoresize="true"
+        v-model="introduce"
+      />
+
+      <button
+        class="bg-pink-d5 hover:bg-pink-8 duration-200 w-full text-white px-6 py-2 mt-2 rounded text-lg"
+      >
+        Sign in
+      </button>
+    </Form>
+  </div>
 </template>
 <script setup lang="ts">
 import SectionForm from '@/components/Form/SectionForm.vue'
 import ItemForm from '@/components/Form/ItemForm.vue'
 import InputText from '@/components/common/InputText/InputText.vue'
 import RadioOption from '@/components/common/Radio/RadioOption.vue'
+import TextArea from '@/components/common/TextArea/TextArea.vue'
 import Checkbox from '@/components/common/Checkbox/CheckboxComponent.vue'
 import { onMounted, ref, type PropType } from 'vue'
+import { Form } from 'vee-validate'
 
 interface IData {
   name1: string
@@ -181,6 +198,12 @@ interface IData {
   email1: string
   email2: string
 }
+
+const schema = {
+  introduce: 'required|email'
+}
+
+const introduce = ref<string>('')
 
 const selectedValue = ref<string[]>([])
 const isAgree = ref<boolean>(false)
@@ -195,6 +218,10 @@ const options: { value: string; label: string }[] = [
     label: '2'
   }
 ]
+
+function handleSubmit() {
+  console.log(introduce.value)
+}
 
 const scrollToElement1 = ref<HTMLDivElement | null>(null)
 const scrollToElement2 = ref<HTMLDivElement | null>(null)
