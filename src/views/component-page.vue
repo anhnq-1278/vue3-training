@@ -5,6 +5,7 @@
     <checkbox-component />
     <radio-option :options="options" @change="onChange" />
     <radio-option-headless :options="options" @change="onChange" />
+    <business-flow />
     <step-input />
   </div>
 </template>
@@ -17,6 +18,7 @@ import radioOption from '@/components/radio-option.vue'
 import radioOptionHeadless from '@/components/radio-option-headless.vue'
 import stepInput from '@/components/step-input.vue'
 import checkboxComponent from '@/components/checkbox-component.vue'
+import businessFlow from '@/components/business-flow.vue'
 
 const options = ref([
   {
