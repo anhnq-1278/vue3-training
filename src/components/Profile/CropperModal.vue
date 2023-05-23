@@ -94,6 +94,7 @@ const props = defineProps({
 function getUploadedImage(e: Event) {
   const { files } = e.target as HTMLInputElement
   if (validateFileUpload(files)) {
+
     return
   }
 
