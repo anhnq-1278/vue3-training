@@ -11,12 +11,14 @@ import FilterPopup from '@/components/FilterPopup.vue'
 :deep() {
   .ct-scrollbar {
     &::-webkit-scrollbar {
-      width: 7px;
-      background: #f4f7fb;
+      width: 4px;
+    }
+    &::-webkit-scrollbar-track {
+      background: #fff;
     }
     &::-webkit-scrollbar-thumb {
-      background: #c4c4c4;
-      border-radius: 26px;
+      background: #6b7280;
+      border-radius: 3px;
     }
   }
 }

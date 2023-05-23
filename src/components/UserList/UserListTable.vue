@@ -4,7 +4,7 @@
       <div class="flex items-center h-[32px] w-[180px] px-2">Username</div>
       <div class="flex items-center h-[32px] w-[200px] px-2">Name</div>
       <div class="flex items-center h-[32px] flex-1 px-2">Email</div>
-      <div class="flex items-center h-[32px] w-[200px] px-2">Active Status</div>
+      <div class="flex items-center justify-center h-[32px] w-[200px] px-2">ステータス</div>
       <div class="flex items-center h-[32px] w-[200px] px-2">Created Date</div>
       <div class="flex items-center h-[32px] w-[180px] px-2">Action</div>
     </div>
@@ -28,10 +28,8 @@
         </ToolTip>
       </div>
       <div class="px-2 flex items-center h-[50px] flex-1 truncate">{{ user.email }}</div>
-      <div class="px-2 flex items-center h-[50px] w-[200px]">
-        <span class="rounded-[5px] bg-green-300 px-3">
-          {{ user.isActive ? 'active' : 'inactive' }}
-        </span>
+      <div class="px-2 flex items-center justify-center h-[50px] w-[200px]">
+        <Tag :status="+20" />
       </div>
       <div class="px-2 flex items-center h-[50px] w-[200px]">
         {{ formatIsoDate(user.createdAt) }}
@@ -47,6 +45,7 @@ import { formatIsoDate } from '@/utils/'
 import { useRouter } from 'vue-router'
 import { RouterName } from '@/router/constant'
 import ToolTip from '@/components/common/Tooltip/Tooltip.vue'
+import Tag from '@/components/common/Tag/Tag.vue'
 
 const router = useRouter()
 

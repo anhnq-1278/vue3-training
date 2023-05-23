@@ -7,5 +7,6 @@ export const RouterName = {
     Todo: 'Todo',
     ChangePassword: 'change-password',
     UserList: 'user-list',
-    UserDetail: 'user-detail'
+    UserDetail: 'user-detail',
+    RegisterForm: 'register-form'
 }

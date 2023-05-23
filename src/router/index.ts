@@ -46,6 +46,12 @@ const routes = [
     ]
   },
   {
+    path: '/register-form',
+    name: RouterName.RegisterForm,
+    component: () => import('@/views/RegisterForm.vue'),
+    meta: { auth: true }
+  },
+  {
     path: '/component-test',
     name: RouterName.ComponentTest,
     meta: { auth: true },
