@@ -28,12 +28,17 @@
             />
           </li>
         </TransitionGroup>
-        <FileUpload @change="handleChange" :modelValue="files" />
+        <FileUpload
+          @change="handleChangeFiles"
+          :modelValue="files"
+          accept="image/png"
+          max-size="2mb"
+        />
       </div>
     </div>
     <div>
       Form upload 2
-      <FileUpload :drop="false" @change="handleChange" :modelValue="files" />
+      <FileUpload :drop="false" @change="handleChangeFiles" :modelValue="files" />
       <ul>
         <li v-for="file in files" :key="file.id">
           {{ file.name }}
@@ -64,13 +69,20 @@
       Form
       <div class="flex flex-col">
         <form @submit="onSubmit">
-          <input-number v-model="password" name="input1" />
-          <!-- <input-number v-model="modelValue2" name="input-number2" /> -->
+          <InputNumber v-model="password" name="name" rules="required" />
           <button type="submit">Sumit</button>
         </form>
       </div>
     </div>
-    <!-- <Input v-model="modelValue3" name="input-number-222" /> -->
+    <SelectBox />
+    <div v-lazy-container="{ selector: 'img' }">
+      <img
+        v-for="i in 20"
+        :key="i"
+        style="width: 200px; height: 200px"
+        data-src="../../public/images/10mb.jpg"
+      />
+    </div>
   </div>
 </template>
 
@@ -79,9 +91,9 @@ import FileUpload from '@/components/FileUpload.vue'
 import Table from '@/components/Table.vue'
 import Typography from '@/components/Typography.vue'
 import InputNumber from '@/components/InputNumber.vue'
-import Form from '@/components/Form.vue'
-import Input from '@/components/Input.vue'
-import { ref } from 'vue'
+import SelectBox from '@/components/SelectBox.vue'
+import TextArea from '@/components/TextArea.vue'
+import { onMounted, ref, watchEffect } from 'vue'
 import type { ITableRowData, ITableRowProps } from '@/components/Table.vue'
 import type { VueUploadItem } from 'vue-upload-component'
 import { useForm } from 'vee-validate'
@@ -96,33 +108,34 @@ defineRule('required', (value: any) => {
 
 const files = ref<VueUploadItem[]>([])
 const previewImg = ref('../../public/images/default.svg')
-const { handleSubmit } = useForm({
-  // initialValues: {
-  //   value: '',
-  //   value2: ''
-  // }
+const { handleSubmit, setErrors } = useForm()
+// const { handleSubmit: handleSubmit2 } = useForm()
+watchEffect(() => console.log(files.value))
+
+const handleChangeFiles = (values: VueUploadItem[]) => {
+  files.value = values
+}
+
+onMounted(() => {
+  setErrors({
+    input: 'inpout',
+    textarea: 'textarea'
+  })
 })
 
-const password = ref('111')
+const password = ref('')
+const textarea = ref('')
 
 const onSubmit = handleSubmit((values) => {
   console.log(values)
 })
 
+const onSubmit2 = handleSubmit((values) => {
+  console.log(values)
+})
+
 const handleDelete = (id: string) => {
   files.value = files.value.filter((file) => file.id !== id)
-}
-
-const validateField = (value: string) => {
-  if (!value?.trim()) {
-    return 'this field is required'
-  }
-
-  if (value.length < 8) {
-    return 'this field must contain at least 8 characters'
-  }
-
-  return true
 }
 
 const headers = [

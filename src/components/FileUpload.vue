@@ -8,13 +8,13 @@
         </div>
       </div>
 
-      <div v-show="$refs.upload && $refs.upload.dropActive" class="drop-active">
+      <div v-show="uploadRef && uploadRef.dropActive" class="drop-active">
         <h3>Drop files to upload</h3>
       </div>
 
       <div class="example-btn">
         <vue-upload-component
-          ref="upload"
+          ref="uploadRef"
           v-model="files"
           :accept="accept"
           :multiple="multiple"
@@ -42,7 +42,7 @@ const props = defineProps({
   maxSize: { type: String, default: '2MB' },
   modelValue: { type: Array<VueUploadItem>, default: [] }
 })
-
+const uploadRef = ref<InstanceType<typeof VueUploadComponent> | null>(null)
 const emit = defineEmits(['change'])
 
 const accept = ref(props.accept)
