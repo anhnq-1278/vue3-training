@@ -4,7 +4,7 @@
       :class="[
         'w-10 h-10 flex items-center justify-center text-[#111928] text-base font-bold bg-gray-200 rounded-full border-2 border-gray-200',
         { '!bg-[#1c64f2] !text-white !border-[#1c64f2]': value === stepNumber },
-        { '!bg-white !text-[#1c64f2] !border-[#1c64f2]': value < stepNumber }
+        { '!bg-white !text-[#1c64f2] !border-[#1c64f2]': maxStep < stepNumber }
       ]"
     >
       {{ stepNumber }}
@@ -66,7 +66,7 @@ const emit = defineEmits<{
 }>()
 
 const onChange = (value: number) => {
-  if (value > props.maxStep) return
+  if (value > props.maxStep || value === props.value) return
 
   emit('change', value)
 }
