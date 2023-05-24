@@ -7,7 +7,7 @@
     </h3>
     <div class="flex gap-10">
       <div class="flex-1 flex items-center justify-center flex-col">
-        <div class="p-2.5 w-full text-white-f1 bg-[#596476] ct-scrollbar">Available columns</div>
+        <div class="p-2.5 w-full text-white bg-[#596476] ct-scrollbar">Available columns</div>
         <div class="flex flex-col w-full overflow-y-auto h-[500px] ct-scrollbar">
           <CheckBox
             v-for="(item, index) in data"
@@ -22,7 +22,7 @@
         </div>
       </div>
       <div class="flex-1 items-center justify-center">
-        <div class="p-2.5 w-full text-white-f1 bg-[#596476]">Selected columns</div>
+        <div class="p-2.5 w-full text-white bg-[#596476]">Selected columns</div>
         <div class="max-h-[500px] overflow-y-auto ct-scrollbar">
           <div
             class="flex items-center justify-between h-[60px] border mb-2 rounded-xl"

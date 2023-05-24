@@ -1,6 +1,6 @@
 <template>
   <div
-    class="relative w-full bg-white-fb mt-8 shadow-default before:contents-[''] before:absolute before:right-0 before:bottom-0 before:left-0 before:h-[50px] before:shadow-3xl before:overflow-hidden"
+    class="relative w-full bg-white mt-8 shadow-default before:contents-[''] before:absolute before:right-0 before:bottom-0 before:left-0 before:h-[50px] before:shadow-3xl before:overflow-hidden"
   >
     <div class="flex items-center ml-4">
       <CaretDown class="hover:text-red-300 hover:cursor-pointer" @click="handleToggleStatus" />

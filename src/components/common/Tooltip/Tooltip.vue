@@ -10,7 +10,7 @@
     <div
       v-if="isShowToolTip"
       :style="tooltipStyle"
-      class="block fixed w-max right-0 bg-[#666] translate-x-[-50%] text-white-fb rounded-[3px] px-2 py-[6px] z-[2] after:content-[''] after:absolute after:block after:h-2 after:w-2 after:bg-[#666] after:-bottom-1 after:left-1/2 after:translate-x-[-50%] after:rotate-45 before:content-[''] before:absolute before:-bottom-1 before:inset-x-0 before:h-1"
+      class="block fixed w-max right-0 bg-[#666] translate-x-[-50%] text-whiteCt-fb rounded-[3px] px-2 py-[6px] z-[2] after:content-[''] after:absolute after:block after:h-2 after:w-2 after:bg-[#666] after:-bottom-1 after:left-1/2 after:translate-x-[-50%] after:rotate-45 before:content-[''] before:absolute before:-bottom-1 before:inset-x-0 before:h-1"
     >
       <slot name="description">{{ $attrs.description }}</slot>
     </div>

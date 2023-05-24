@@ -1,5 +1,4 @@
 <template>
-
   <div v-if="!isPerLoading" class="px-[10%] h-[500px] w-full pt-11">
     <h3 class="mb-4 text-[40px] font-bold leading-8">Your profile</h3>
     <div class="text-base mb-6">
@@ -21,7 +20,7 @@
             <Input
               @keydown.enter.prevent
               name="name"
-              class="h-10 bg-white-fb"
+              class="h-10 bg-white"
               :value="formData.name"
               @input="handleChangeInput($event, 'name')"
             />
@@ -33,7 +32,7 @@
               @keydown.enter.prevent
               name="birthday"
               type="date"
-              class="h-10 bg-white-fb"
+              class="h-10 bg-white"
               :value="formData.birthday"
               @input="handleChangeInput($event, 'birthday')"
               @has-error-validate="handleChangeErrorStatus"
@@ -47,7 +46,7 @@
             <Input
               @keydown.enter.prevent
               name="address"
-              class="h-10 bg-white-fb"
+              class="h-10 bg-white"
               :value="formData.address"
               @input="handleChangeInput($event, 'address')"
             />
@@ -60,7 +59,7 @@
             <Input
               @keydown.enter.prevent
               name="phone"
-              class="h-10 bg-white-fb"
+              class="h-10 bg-white"
               :value="formData.phone"
               :error="errorPhoneMessage"
               @input="handleChangeInput($event, 'phone')"
@@ -86,7 +85,7 @@
             'h-10 w-[100px] text-base font-bold text-white rounded-[3px] border border-grey-dc',
             `${
               isDisabled
-                ? 'cursor-not-allowed bg-white-fb'
+                ? 'cursor-not-allowed bg-white'
                 : 'cursor-pointer  hover:bg-slate-400  hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)]'
             }`
           ]"

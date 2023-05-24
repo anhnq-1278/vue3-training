@@ -7,7 +7,7 @@
           <Sidebar />
         </div>
         <div class="flex-1 ml-[290px] overflow-hidden">
-          <div class="h-full bg-white-fb">
+          <div class="h-full bg-white">
             <Breadcrumb class="mt-[50px] ml-[26px] py-5">
               <template v-for="(crumb, index) in crumbs" :key="index">
                 <BreadcrumbItem
@@ -54,13 +54,21 @@ const crumbs = computed<IBreadCrumb[]>(() => {
         text: route.matched[idx].meta.breadcrumb as string,
         name: route.matched[idx].meta.routerName as string,
         home: path === '',
-        isClick: idx !== pathArray.length - 1
+        isClick: Object.keys(route.params).length > 0 || idx !== pathArray.length - 1
       }
       breadcrumbArray.push(crumb)
     }
     return breadcrumbArray as IBreadCrumb[]
   }, [])
 
+  if (Object.keys(route.params).length > 0) {
+    breadcrumbs.push({
+      text: route.params.id as string,
+      name: route.params.id as string,
+      home: false,
+      isClick: false
+    })
+  }
   return breadcrumbs
 })
 

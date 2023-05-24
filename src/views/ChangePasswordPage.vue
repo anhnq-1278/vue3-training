@@ -11,7 +11,7 @@
         <template #input>
           <div class="relative">
             <Input
-              class="h-12 text-xl bg-white-fb"
+              class="h-12 text-xl bg-white"
               :type="typeInput.currentPassword"
               name="currentPassword"
               :value="formData.currentPassword"
@@ -36,7 +36,7 @@
         <template #input>
           <div>
             <Input
-              class="h-12 text-xl bg-white-fb"
+              class="h-12 text-xl bg-white"
               :type="typeInput.newPassword"
               name="newPassword"
               :value="formData.newPassword"
@@ -61,7 +61,7 @@
         <template #input>
           <div>
             <Input
-              class="h-12 text-xl bg-white-fb"
+              class="h-12 text-xl bg-white"
               :type="typeInput.confirmPassword"
               name="confirmPassword"
               :value="formData.confirmPassword"
@@ -98,7 +98,7 @@
             'h-12 w-[150px] text-base font-bold text-white rounded-[3px] border border-grey-dc',
             `${
               isDisabled
-                ? 'cursor-not-allowed bg-white-fb text-gray-400'
+                ? 'cursor-not-allowed bg-white text-gray-400'
                 : 'cursor-pointer  hover:bg-slate-400  hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)]'
             }`
           ]"

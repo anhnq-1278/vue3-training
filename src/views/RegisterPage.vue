@@ -52,7 +52,7 @@
                   type="submit"
                   :disabled="isDisabled"
                   :class="[
-                    'inline-block rounded bg-[#3B71CA] px-7 pb-2.5 pt-3 text-sm font-medium uppercase leading-normal text-white-fb shadow-[0_4px_9px_-4px_#3b71ca] transition duration-150 ease-in-out',
+                    'inline-block rounded bg-[#3B71CA] px-7 pb-2.5 pt-3 text-sm font-medium uppercase leading-normal text-whiteCt-fb shadow-[0_4px_9px_-4px_#3b71ca] transition duration-150 ease-in-out',
                     `${
                       isDisabled
                         ? 'cursor-not-allowed bg-slate-500'

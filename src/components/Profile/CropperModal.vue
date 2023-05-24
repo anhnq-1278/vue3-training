@@ -1,6 +1,6 @@
 <template>
   <BaseModal :show="showModal" :width="width" v-bind="$attrs">
-    <div class="p-4 pt-6 pr-8 pb-[14px] pl-6 border-t-[6px] border-blue-e8 rounded-t bg-white-fb">
+    <div class="p-4 pt-6 pr-8 pb-[14px] pl-6 border-t-[6px] border-blue-e8 rounded-t bg-white">
       <div class="text-lg mb-8">Please choice your image!</div>
       <div class="flex flex-wrap my-4">
         <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
@@ -30,7 +30,7 @@
       <div class="flex justify-end gap-x-4">
         <button
           type="button"
-          class="bg-indigo-200 px-3 py-1 font-medium rounded hover:bg-slate-400 hover:text-white-fb transition-all duration-1000"
+          class="bg-indigo-200 px-3 py-1 font-medium rounded hover:bg-slate-400 hover:text-whiteCt-fb transition-all duration-1000"
           @click="closeModal"
         >
           Close
@@ -38,7 +38,7 @@
         <button
           v-if="uploadedImage && !errorLocalValidate"
           type="button"
-          class="bg-indigo-200 px-3 py-1 font-medium rounded hover:bg-slate-400 hover:text-white-fb transition-all duration-1000"
+          class="bg-indigo-200 px-3 py-1 font-medium rounded hover:bg-slate-400 hover:text-whiteCt-fb transition-all duration-1000"
           @click="crop"
         >
           Crop Image
@@ -94,7 +94,6 @@ const props = defineProps({
 function getUploadedImage(e: Event) {
   const { files } = e.target as HTMLInputElement
   if (validateFileUpload(files)) {
-
     return
   }
 

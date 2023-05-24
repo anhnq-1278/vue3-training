@@ -16,7 +16,7 @@ module.exports = {
           b8: '#b83f45',
           fd: '#fddfe2'
         },
-        white: {
+        whiteCt: {
           fb: '#fbfbfb',
           f5: '#f5f5f5',
           f1: '#f1f1f1'

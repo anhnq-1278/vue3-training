@@ -41,7 +41,7 @@ const routes = [
         path: '/user-detail/:id',
         name: RouterName.UserDetail,
         component: () => import('@/views/UserDetail.vue'),
-        meta: { breadcrumb: 'User Detail', routerName: RouterName.UserDetail }
+        meta: { breadcrumb: 'User List', routerName: RouterName.UserList }
       }
     ]
   },

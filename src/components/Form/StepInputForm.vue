@@ -168,18 +168,17 @@
   </div>
   <div class="mt-8 flex flex-col">
     <Form @submit="handleSubmit" :validation-schema="schema">
-      <text-area
-        name="introduce"
-        :autoresize="true"
-        v-model="introduce"
-      />
+      <text-area name="introduce" :autoresize="true" v-model="introduce" />
 
       <button
-        class="bg-pink-d5 hover:bg-pink-8 duration-200 w-full text-white px-6 py-2 mt-2 rounded text-lg"
+        class="bg-pink-d5 hover:bg-pink-8 duration-200 w-full text-black-11 px-6 py-2 mt-2 rounded text-lg"
       >
         Sign in
       </button>
     </Form>
+  </div>
+  <div class="mt-8 mb-[1000px] rounded-lg border shadow-form-shadow p-8 bg-[#FFFFFF]">
+    <SearchText />
   </div>
 </template>
 <script setup lang="ts">
@@ -189,6 +188,7 @@ import InputText from '@/components/common/InputText/InputText.vue'
 import RadioOption from '@/components/common/Radio/RadioOption.vue'
 import TextArea from '@/components/common/TextArea/TextArea.vue'
 import Checkbox from '@/components/common/Checkbox/CheckboxComponent.vue'
+import SearchText from '@/components/Form/SearchComponent.vue'
 import { onMounted, ref, type PropType } from 'vue'
 import { Form } from 'vee-validate'
 
