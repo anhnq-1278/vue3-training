@@ -1,0 +1,31 @@
+workspace: true
+
+stages:
+  - build
+  - test
+
+jobs:
+  - name: build:fontend-build
+    stage: build
+    image: node:16-alpine
+    only:
+      branches:
+        - develop
+    script:
+      - yarn
+      - yarn build
+    cache:
+      - key: frontend_node_modules_$CI_BRANCH
+        paths:
+          - node_modules
+
+  - name: test:fontend-test
+    stage: test
+    image: node:16-alpine
+    only:
+      branches:
+        - develop
+    script:
+      - yarn test
+    depends_on:
+      - build:fontend-build
