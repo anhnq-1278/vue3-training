@@ -18,7 +18,7 @@ app.use(VueLazyload, {
   observer: true,
   observerOptions: {
     rootMargin: '0px',
-    threshold: 0.5
+    threshold: 1
   }
 })
 

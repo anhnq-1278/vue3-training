@@ -69,7 +69,7 @@
       Form
       <div class="flex flex-col">
         <form @submit="onSubmit">
-          <InputNumber v-model="password" name="name" rules="required" />
+          <InputNumber v-model="password" name="name" rules="required" @click="handleClick" />
           <button type="submit">Sumit</button>
         </form>
       </div>
@@ -98,12 +98,22 @@ import type { ITableRowData, ITableRowProps } from '@/components/Table.vue'
 import type { VueUploadItem } from 'vue-upload-component'
 import { useForm } from 'vee-validate'
 import { defineRule } from 'vee-validate'
+import { useRoute } from 'vue-router'
 
 defineRule('required', (value: any) => {
   if (!value || !value.length) {
     return 'This field is required'
   }
   return true
+})
+
+const handleClick = () => {
+  console.log('handle click')
+}
+
+onMounted(() => {
+  const route = useRoute()
+  console.log(route.meta)
 })
 
 const files = ref<VueUploadItem[]>([])

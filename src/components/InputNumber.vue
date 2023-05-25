@@ -6,9 +6,7 @@
     @keypress="handleKeyPress"
     v-bind="$attrs"
   />
-  <span class="error-message">
-    {{ errorMessage }}
-  </span>
+  <span class="error-message"> {{ errorMessage }} dasda </span>
 </template>
 
 <script lang="ts" setup>
